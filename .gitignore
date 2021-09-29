@@ -2,3 +2,5 @@ xmonad-x86_64-linux
 *.errors
 *.o
 *.hi
+*.yml.swp
+*.conf.old
