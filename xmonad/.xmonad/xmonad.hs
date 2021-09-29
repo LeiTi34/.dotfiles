@@ -99,6 +99,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
+    -- launch slock
+    , ((modm .|. shiftMask, xK_l     ), spawn "slock")
+
+    -- create screenshot
+    , ((modm,               xK_s     ), spawn "scrot -se 'xclip -selection clipboard -t image/png -i $f'")
+
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
 

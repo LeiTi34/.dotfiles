@@ -448,7 +448,7 @@ ramp-2 = 󰃠
 [module/wlan]
 type = internal/network
 
-interface = wlan0
+interface = ${env:WLAN_INTERFACE:wlan0}
 
 interval = 5
 
@@ -467,17 +467,17 @@ label = 󰍛 %gb_used%
 
 [module/network-lan]
 type = internal/network
-interface = enp0s31f6
+interface = ${env:NETWORK_INTERFACE:eth0}
 label-connected = 󰜮 %downspeed% 󰜷 %upspeed%
 
 [module/network]
 type = internal/network
-interface = wlan0
+interface = ${env:WLAN_INTERFACE:wlan0}
 label-connected = 󰜮 %downspeed% 󰜷 %upspeed%
 
 [module/player-mpris-simple]
 type = custom/script
-exec = ~/git/polybar-scripts/polybar-scripts/player-mpris-simple/player-mpris-simple.sh
+exec = ~/.config/polybar/polybar-scripts/polybar-scripts/player-mpris-simple/player-mpris-simple.sh
 interval = 3
 click-left = playerctl previous &
 click-right = playerctl next &
@@ -485,19 +485,19 @@ click-middle = playerctl play-pause &
 
 [module/player-mpris-tail]
 type = custom/script
-exec = ~/git/polybar-scripts/polybar-scripts/player-mpris-tail/player-mpris-tail.py -f '{icon} {artist} - {title}' --icon-playing  --icon-paused  --icon-stopped  --icon-none ''
+exec = ~/.config/polybar/polybar-scripts/polybar-scripts/player-mpris-tail/player-mpris-tail.py -f '{icon} {artist} - {title}' --icon-playing  --icon-paused  --icon-stopped  --icon-none ''
 tail = true
 
 [module/updates-arch-combined]
 type = custom/script
-exec = ~/git/polybar-scripts/polybar-scripts/updates-arch-combined/updates-arch-combined.sh
+exec = ~/.config/polybar/polybar-scripts/polybar-scripts/updates-arch-combined/updates-arch-combined.sh
 interval = 600
 
 [module/system-bluetooth-bluetoothctl]
 type = custom/script
-exec = ~/git/polybar-scripts/polybar-scripts/system-bluetooth-bluetoothctl/system-bluetooth-bluetoothctl.sh
+exec = ~/.config/polybar/polybar-scripts/polybar-scripts/system-bluetooth-bluetoothctl/system-bluetooth-bluetoothctl.sh
 tail = true
-click-left = ~/git/polybar-scripts/polybar-scripts/system-bluetooth-bluetoothctl/system-bluetooth-bluetoothctl.sh --toggle &
+click-left = ~/.config/polybar/polybar-scripts/polybar-scripts/system-bluetooth-bluetoothctl/system-bluetooth-bluetoothctl.sh --toggle &
 
 [module/pulseaudio-control]
 type = custom/script

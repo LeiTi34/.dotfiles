@@ -22,13 +22,6 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # Alacritty no DPI scale
 export WINIT_X11_SCALE_FACTOR=1
 
-# XDG Dirs
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
-
-export EDITOR=/usr/bin/nvim
-
 # auto mount disks
 exec udiskie &
 
@@ -41,9 +34,6 @@ exec picom &
 
 # background
 feh --bg-scale $HOME/.wallpaper.png
-
-# Github Web Login
-export GCM_CREDENTIAL_STORE=secretservice
 
 exec nextcloud &
 exec nm-applet &
