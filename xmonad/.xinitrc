@@ -42,6 +42,9 @@ exec picom &
 # background
 feh --bg-scale $HOME/.wallpaper.png
 
+# Github Web Login
+export GCM_CREDENTIAL_STORE=secretservice
+
 exec nextcloud &
 exec nm-applet &
 
