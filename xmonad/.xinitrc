@@ -40,7 +40,7 @@ exec picom &
 #exec /home/alex/.config/polybar/launch.sh
 
 # background
-feh --bg-scale /home/alex/Bilder/Wallpaper.png &
+feh --bg-scale $HOME/.wallpaper.png
 
 exec nextcloud &
 exec nm-applet &
