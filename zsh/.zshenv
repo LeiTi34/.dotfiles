@@ -17,8 +17,8 @@ elif [ $(</etc/hostname) =  "840G6" ]; then
     export WLAN_INTERFACE="wlan0"
     export NETWORK_INTERFACE="enp0s31f6"
 elif [ $(</etc/hostname) =  "TR" ]; then
-    export WLAN_INTERFACE="tbd"
-    export NETWORK_INTERFACE="tbd"
+    export WLAN_INTERFACE="wlp5s0"
+    export NETWORK_INTERFACE="enp8s0"
 else
     export WLAN_INTERFACE="wlan0"
     export NETWORK_INTERFACE="eth0"
