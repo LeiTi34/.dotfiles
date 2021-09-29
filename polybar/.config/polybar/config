@@ -1,0 +1,517 @@
+[colors]
+fg = ${xrdb:foreground}
+bg = #dd483c6c 
+;${xrdb:background}
+1a = ${xrdb:color0}
+1b = ${xrdb:color8}
+2a = ${xrdb:color1}
+2b = ${xrdb:color9}
+3a = ${xrdb:color2}
+3b = ${xrdb:color10}
+4a = ${xrdb:color3}
+4b = ${xrdb:color11}
+5a = ${xrdb:color4}
+5b = ${xrdb:color12}
+6a = ${xrdb:color5}
+6b = ${xrdb:color13}
+7a = ${xrdb:color6}
+7b = ${xrdb:color14}
+8a = ${xrdb:color7}
+8b = ${xrdb:color15}
+
+[vars]
+size = 30
+spacer = 24
+offset = 5
+
+[bar/xmonad]
+monitor = ${env:MONITOR:}
+padding-left=2
+padding-right=2
+foreground=#ffffff
+background=${colors.bg}
+height = ${vars.spacer}
+width=100%
+offset-x= 0
+offset-y = ${vars.offset}
+module-margin-left=2
+modules-left = time date wlan system-bluetooth-bluetoothctl backlight battery0 player-mpris-simple updates-arch-combined 
+modules-center = xmonad
+modules-right = network-lan network pulseaudio-control cpu memory
+font-0 = Hack:size=10;3
+font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=11;3"
+font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=11;3"
+font-3 = "Font Awesome 5 Brands:pixelsize=11;3"
+font-4 = "MaterialDesignIcons-Regular:pixelsize=11;2"
+font-5 = "MaterialDesignIcons-Regular:pixelsize=10;3"
+
+; Position of the system tray window
+; If empty or undefined, tray support will be disabled
+; NOTE: A center aligned tray will cover center aligned modules
+;
+; Available positions:
+;   left
+;   center
+;   right
+;   none
+tray-position = right
+
+; If true, the bar will not shift its
+; contents when the tray changes
+tray-detached = false
+
+; Tray icon max size
+tray-maxsize = 16
+
+; DEPRECATED! Since 3.3.0 the tray always uses pseudo-transparency
+; Enable pseudo transparency
+; Will automatically be enabled if a fully transparent
+; background color is defined using `tray-background`
+;tray-transparent = false
+
+; Background color for the tray container 
+; ARGB color (e.g. #f00, #ff992a, #ddff1023)
+; By default the tray container will use the bar
+; background color.
+tray-background = ${colors.bg}
+
+; Tray offset defined as pixel value (e.g. 35) or percentage (e.g. 50%)
+tray-offset-x = 0
+tray-offset-y = 0
+; Pad the sides of each tray icon
+tray-padding = 0
+; Scale factor for tray clients
+tray-scale = 1.0
+;wm-restack = bspwm
+override-redirect=true
+
+[bar/datetime]
+monitor = ${env:MONITOR:}
+background=#0cffe1
+foreground=${colors.bg}
+height = ${vars.spacer}
+width=160
+offset-x= 5
+offset-y = ${vars.offset}
+module-margin-right=2
+modules-center=time date
+font-0 = Hack:size=10;3
+font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=11;3"
+font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=11;3"
+font-3 = "Font Awesome 5 Brands:pixelsize=11;3"
+font-4 = "MaterialDesignIcons-Regular:pixelsize=11;2"
+font-5 = "MaterialDesignIcons-Regular:pixelsize=10;3"
+
+[bar/settings]
+monitor = ${env:MONITOR:}
+background=#ff217c
+foreground=${colors.bg}
+height = ${vars.spacer}
+width=300
+offset-x= 175
+offset-y = ${vars.offset}
+module-margin-right=2
+modules-center=pulseaudio-control backlight battery0 
+;player-mpris-simple
+font-0 = Hack:size=10;3
+font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=11;3"
+font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=11;3"
+font-3 = "Font Awesome 5 Brands:pixelsize=11;3"
+font-4 = "MaterialDesignIcons-Regular:pixelsize=11;2"
+font-5 = "MaterialDesignIcons-Regular:pixelsize=10;3"
+
+[bar/ws]
+monitor = ${env:MONITOR:}
+background=#ffd486
+foreground=${colors.bg}
+height = ${vars.spacer}
+width=700
+offset-x= 50%:-350
+offset-y = ${vars.offset}
+module-margin-right=2
+modules-center=xmonad
+font-0 = Hack:size=10;3
+font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=11;3"
+font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=11;3"
+font-3 = "Font Awesome 5 Brands:pixelsize=11;3"
+font-4 = "MaterialDesignIcons-Regular:pixelsize=11;2"
+font-5 = "MaterialDesignIcons-Regular:pixelsize=10;3"
+
+[bar/stats]
+monitor = ${env:MONITOR:}
+background=#ffffff
+foreground=${colors.bg}
+height = ${vars.spacer}
+width=470
+offset-x= 100%:-475
+offset-y = ${vars.offset}
+module-margin-right=2
+modules-center=system-bluetooth-bluetoothctl wlan network updates-arch-combined cpu memory
+font-0 = Hack:size=10;3
+font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=11;3"
+font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=11;3"
+font-3 = "Font Awesome 5 Brands:pixelsize=11;3"
+font-4 = "MaterialDesignIcons-Regular:pixelsize=11;2"
+font-5 = "MaterialDesignIcons-Regular:pixelsize=10;3"
+
+
+[bar/white]
+polybar-msg = true
+enable-ipc = true
+
+;------------;
+; DIMENSIONS ;
+;------------;
+
+width = 100%
+height = 20
+offset-y = 0
+offset-x = 0
+
+border-top-size = 10
+border-bottom-size = 0
+border-right-size = 10
+border-left-size = 10
+
+;----------;
+; LOCATION ;
+;----------;
+
+bottom = false
+;monitor = eDP-1
+monitor = ${env:MONITOR:}
+screenchange-reload = true
+;wm-restack = none
+;override-redirect = false
+
+;-------;
+; FONTS ;
+;-------;
+
+font-0 = Hack:size=10;3
+font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=11;3"
+font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=11;3"
+font-3 = "Font Awesome 5 Brands:pixelsize=11;3"
+font-4 = "MaterialDesignIcons-Regular:pixelsize=11;2"
+font-5 = "MaterialDesignIcons-Regular:pixelsize=10;3"
+
+;--------;
+; COLORS ;
+;--------;
+
+background = #002d2d2d
+foreground = #d3d0c8
+;foreground = #d3d0c8
+border-color = 0
+
+;---------------;
+; MISCELLANEOUS ;
+;---------------;
+
+line-size=1
+fixed-center = true
+padding-left = 2 
+padding-right = 2
+module-margin = 1.5
+
+modules-left = time date pulseaudio-control backlight battery0 player-mpris-simple
+modules-center = bspwm
+modules-right = system-bluetooth-bluetoothctl wlan network updates-arch-combined cpu memory
+
+;tray-position = none
+;tray-detached = true
+
+;enable-ipc = true
+
+;---------;
+; MODULES ;
+;---------;
+
+[module/xmonad]
+type = custom/script
+exec = xmonad-log
+
+tail = true
+
+[module/bspwm]
+type = internal/bspwm
+
+; Only show workspaces defined on the same output as the bar
+; NOTE: The bspwm and XRandR monitor names must match, which they do by default.
+; But if you rename your bspwm monitors with bspc -n this option will no longer
+; behave correctly.
+; Default: true
+pin-workspaces = true
+
+; Output mode flags after focused state label
+; Default: false
+inline-mode = false
+
+; Create click handler used to focus workspace
+; Default: true
+enable-click = false
+
+; Create scroll handlers used to cycle workspaces
+; Default: true
+enable-scroll = false
+
+; Set the scroll cycle direction 
+; Default: true
+reverse-scroll = false
+
+; Use fuzzy (partial) matching on labels when assigning 
+; icons to workspaces
+; Example: code;♚ will apply the icon to all workspaces 
+; containing 'code' in the label
+; Default: false
+fuzzy-match = true
+label-mode = %name%
+;label-mode-padding = 1
+
+;format= <label-monitor> <label-state>
+
+
+label-monitor = %name%
+
+label-occupied-foreground =${colors.bg}
+label-occupied-padding = 1
+label-occupied = %name%
+
+label-focused = %name%
+label-focused-padding = 1
+label-focused-background =#0cffe1
+label-focused-foreground =${colors.bg}
+;label-focused-overline =  f2777a
+label-focused-overline = #
+
+label-visible = %name%
+;label-visible-padding = 1
+;label-visible-underline = #555555
+label-visible-background = #2d2d2d
+
+label-urgent-foreground =${colors.bg}
+label-urgent-background =#ff217c
+label-urgent-padding = 1
+label-urgent = %name%
+
+;label-separator = |
+;label-separator-padding = 1
+label-separator-foreground = #d3d0c8
+
+label-empty =
+
+[module/i3]
+type = internal/i3
+
+pin-workspaces = true
+strip-wsnumbers = true
+enable-scroll = false
+
+fuzzy-match = true
+ws-icon-default = ♟
+label-mode = %name%
+label-mode-padding = 1
+
+label-unfocused-foreground = #d3d0c8
+label-unfocused-padding = 1
+label-unfocused = %name%
+
+label-focused = %name%
+label-focused-padding = 1
+label-focused-background = #2d2d2d
+label-focused-foreground = ${colors.bg}
+label-focused-overline =  f2777a
+
+label-visible = %name%
+label-visible-padding = 1
+;label-visible-underline = #555555
+label-visible-background = #2d2d2d
+
+label-urgent-foreground = #2d2d2d
+label-urgent-background = #ffcc66
+label-urgent-padding = 1
+label-urgent = %name%
+
+;label-separator = |
+label-separator-padding = 1
+label-separator-foreground = #d3d0c8
+
+[module/time]
+type = internal/date
+
+interval = 1.0
+
+date = 󰅐 %H:%M
+;date = 󰅐 %H:%M
+
+[module/date]
+type = internal/date
+date =󰸗 %d.%m
+;date =  %e %B - %A
+label = %date%
+
+
+[module/battery0]
+type = internal/battery
+
+battery = BAT0
+
+poll-interval = 1
+
+full-at = 95
+
+label-discharging = %percentage%%
+label-charging = %percentage%%
+label-full = %percentage%%
+
+format-discharging = <ramp-capacity> <label-discharging>
+format-full = <ramp-capacity> <label-full>
+format-charging = 󰊘 <label-charging>
+
+ramp-capacity-0 = 󰂎
+ramp-capacity-1 = 󰁻
+ramp-capacity-2 = 󰁾
+ramp-capacity-3 = 󰂁
+ramp-capacity-4 = 󰁹
+
+[module/battery1]
+type = internal/battery
+
+battery = BAT1
+
+poll-interval = 1
+
+full-at = 95
+
+label-discharging = %percentage%%
+label-charging = %percentage%%
+label-full = %percentage%%
+
+format-discharging = <ramp-capacity> <label-discharging>
+format-full = <ramp-capacity> <label-full>
+format-charging =  <label-charging>
+
+ramp-capacity-0 = 󰂎
+ramp-capacity-1 = 󰁻
+ramp-capacity-2 = 󰁾
+ramp-capacity-3 = 󰂁
+ramp-capacity-4 = 󰁹
+
+[module/volume]
+type = internal/alsa
+
+
+format-volume = <ramp-volume> <label-volume>
+format-muted =  0%
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+[module/mpd]
+type = internal/mpd
+
+label-offline = mpd is offline
+format-online = <icon-prev> <toggle> <icon-next> <label-song>
+format-offline = <label-offline>
+host = 127.0.0.1
+port = 6600
+icon-prev = 
+icon-stop = 
+icon-play = 
+icon-pause = 
+icon-next = 
+
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+bar-progress-width = 10
+bar-progress-indicator = |
+bar-progress-fill = ─
+bar-progress-empty = ─
+
+[module/backlight]
+type = internal/backlight
+
+; Use the following command to list available cards:
+; $ ls -1 /sys/class/backlight/
+card = intel_backlight 
+
+format = <ramp> <label>
+
+label = %percentage%%
+
+ramp-0 = 󰃞
+ramp-1 = 󰃟
+ramp-2 = 󰃠
+
+[module/wlan]
+type = internal/network
+
+interface = wlan0
+
+interval = 5
+
+label-connected = 󰤥
+label-disconnected = 󰤭
+;label-disconnected-overline = f2777a
+
+[module/cpu]
+type = internal/cpu
+label = 󰓅 %percentage%%
+
+
+[module/memory]
+type = internal/memory
+label = 󰍛 %gb_used%
+
+[module/network-lan]
+type = internal/network
+interface = enp0s31f6
+label-connected = 󰜮 %downspeed% 󰜷 %upspeed%
+
+[module/network]
+type = internal/network
+interface = wlan0
+label-connected = 󰜮 %downspeed% 󰜷 %upspeed%
+
+[module/player-mpris-simple]
+type = custom/script
+exec = ~/git/polybar-scripts/polybar-scripts/player-mpris-simple/player-mpris-simple.sh
+interval = 3
+click-left = playerctl previous &
+click-right = playerctl next &
+click-middle = playerctl play-pause &
+
+[module/player-mpris-tail]
+type = custom/script
+exec = ~/git/polybar-scripts/polybar-scripts/player-mpris-tail/player-mpris-tail.py -f '{icon} {artist} - {title}' --icon-playing  --icon-paused  --icon-stopped  --icon-none ''
+tail = true
+
+[module/updates-arch-combined]
+type = custom/script
+exec = ~/git/polybar-scripts/polybar-scripts/updates-arch-combined/updates-arch-combined.sh
+interval = 600
+
+[module/system-bluetooth-bluetoothctl]
+type = custom/script
+exec = ~/git/polybar-scripts/polybar-scripts/system-bluetooth-bluetoothctl/system-bluetooth-bluetoothctl.sh
+tail = true
+click-left = ~/git/polybar-scripts/polybar-scripts/system-bluetooth-bluetoothctl/system-bluetooth-bluetoothctl.sh --toggle &
+
+[module/pulseaudio-control]
+type = custom/script
+tail = true
+label=%output%
+;format-underline = ${colors.blue}
+
+exec = pulseaudio-control --color-muted ff217c listen
+click-right = exec alacritty -e pulsemixer &
+click-left = pulseaudio-control togmute
+click-middle = pulseaudio-control next-sink
+scroll-up = pulseaudio-control up
+scroll-down = pulseaudio-control down
+;label-padding = 2
+;label-foreground = ${colors.fg}
+
+
