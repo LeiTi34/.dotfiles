@@ -22,6 +22,18 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # Alacritty no DPI scale
 export WINIT_X11_SCALE_FACTOR=1
 
+
+# Device specific config
+if [ $(</etc/hostname) =  "TR" ]; then
+    # sreen orientation
+    xrandr --output DP-2 --right-of HDMI-0 --auto --primary &
+    # RGB
+    liquidctl set led color fixed "rgb(0, 255, 255)"
+    # Keymap
+    exec setxkbmap de &
+fi
+
+
 # auto mount disks
 exec udiskie &
 
