@@ -8,12 +8,3 @@ dofile(config..'settings.lua')
 
 -- Plugin Shenanigans
 dofile(config..'plugins.lua')
-
-dofile(config..'pluginSettings/treesitter.lua')
-dofile(config..'pluginSettings/feline.lua')
-dofile(config..'pluginSettings/bufferline.lua')
-dofile(config..'pluginSettings/github-theme.lua')
-dofile(config..'pluginSettings/coq.lua')
-dofile(config..'pluginSettings/lspconfig.lua')
-dofile(config..'pluginSettings/toggleterm.lua')
--- dofile(config..'pluginSettings/focus.lua')
