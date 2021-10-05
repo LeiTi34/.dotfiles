@@ -1,6 +1,7 @@
 require("toggleterm").setup{
   -- size can be a number or function which is passed the current terminal
   open_mapping = '<Leader>tt',
+  insert_mappings = false,
   start_in_insert = false,
   direction = 'horizontal'
 }

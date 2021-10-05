@@ -79,6 +79,9 @@ return require('packer').startup({function()
           'nvim-telescope/telescope.nvim',
           requires = { {'nvim-lua/plenary.nvim'} }
         }
+
+        -- FZF
+        -- use 'junegunn/fzf.vim'
       
         -- Treesitter
         use {
@@ -131,16 +134,31 @@ return require('packer').startup({function()
             end
         }
 
+        -- Dadbod
         use {
             'kristijanhusak/vim-dadbod-ui',
             requires = {'tpope/vim-dadbod'}
         }
-      
+
+        -- Neorg
+        use { 
+            'nvim-neorg/neorg',
+            requires = {
+                {'nvim-lua/plenary.nvim'},
+                {'vhyrro/neorg-telescope'}
+            },
+            after = 'nvim-treesitter',
+            config = function()
+                dofile(pluginSettings..'neorg.lua')
+            end
+        }
+
     end,
     config = {
-      display = {
-        open_fn = function()
-          return require('packer.util').float({ border = 'single' })
-        end
+        display = {
+            open_fn = function()
+                return require('packer.util').float({ border = 'single' })
+            end
+        }
     }
-}})
+})
