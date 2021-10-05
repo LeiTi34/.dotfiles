@@ -130,6 +130,11 @@ return require('packer').startup({function()
                 dofile(pluginSettings..'toggleterm.lua')
             end
         }
+
+        use {
+            'kristijanhusak/vim-dadbod-ui',
+            requires = {'tpope/vim-dadbod'}
+        }
       
     end,
     config = {

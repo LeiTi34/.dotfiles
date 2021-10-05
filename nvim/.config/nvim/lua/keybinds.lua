@@ -69,3 +69,9 @@ map('n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', { noremap = true,
 
 -- Code Action Menu
 map('n', '<Leader>ca', '<cmd>CodeActionMenu<CR>', { noremap = true, silent = true})
+
+-- Dadbod UI
+map('n', '<Leader>du', '<cmd>:DBUIToggle<CR>', { noremap = true, silent = true})
+map('n', '<Leader>df', '<cmd>:DBUIFindBuffer<CR>', { noremap = true, silent = true})
+map('n', '<Leader>dr', '<cmd>:DBUIRenameBuffer<CR>', { noremap = true, silent = true})
+map('n', '<Leader>dl', '<cmd>:DBUILastQueryInfo<CR>', { noremap = true, silent = true})
