@@ -92,6 +92,13 @@ return require('packer').startup({function()
             end
         }
         use 'nvim-treesitter/playground'
+
+        use {
+            'nvim-treesitter/nvim-treesitter-textobjects',
+            config = function()
+                dofile(pluginSettings..'treesitter-textobjects.lua')
+            end
+        }
       
         -- Fugitive
         use 'tpope/vim-fugitive'
