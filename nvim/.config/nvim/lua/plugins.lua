@@ -91,6 +91,7 @@ return require('packer').startup({function()
                 dofile(pluginSettings..'treesitter.lua')
             end
         }
+        use 'nvim-treesitter/playground'
       
         -- Fugitive
         use 'tpope/vim-fugitive'
