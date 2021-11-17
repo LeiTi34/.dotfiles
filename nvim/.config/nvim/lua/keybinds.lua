@@ -6,6 +6,10 @@ options = { noremap = true, silent = true }
 map('n', '<Space>', '<NOP>', options)
 vim.g.mapleader = ' '
 
+-- Remaps
+map('v', 'J', ':m \'>+1<CR>gv=gv', options)
+map('v', 'K', ':m \'<-2<CR>gv=gv', options)
+
 -- Terminal
 map('t', '<esc>', [[<C-\><C-n>]], options)
 map('t', [[<C-v><esc>]], '<esc>', options)
@@ -23,9 +27,9 @@ map('n', '<Leader>fh', '<Cmd>lua require(\'telescope.builtin\').help_tags()<CR>'
 map('n', '<Leader>n', '<Cmd>CHADopen<CR>', options)
 
 -- Fugitive
-map('n', '<Leader>gl', '<Cmd>:diffget //3<CR>', { noremap = true })
-map('n', '<Leader>gh', '<Cmd>:diffget //2<CR>', { noremap = true })
-map('n', '<Leader>gs', '<Cmd>:G<CR>', { noremap = true })
+map('n', '<Leader>gl', '<Cmd>:diffget //3<CR>', options)
+map('n', '<Leader>gh', '<Cmd>:diffget //2<CR>', options)
+map('n', '<Leader>gs', '<Cmd>:G<CR>', options)
  
 -- Focus
 map('n', '<Leader>h', ':FocusSplitLeft<CR>', { silent = true })
@@ -69,6 +73,10 @@ map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', options)
 map('n', '<Leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', options)
 map('n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', options)
 
+-- Navigate quick fix list
+map('n', '[q', '<cmd>cprev<CR>', options)
+map('n', ']q', '<cmd>cnext<CR>', options)
+
 -- Code Action Menu
 map('n', '<Leader>ca', '<cmd>CodeActionMenu<CR>', options)
 
@@ -77,3 +85,22 @@ map('n', '<Leader>du', '<cmd>:DBUIToggle<CR>', options)
 map('n', '<Leader>df', '<cmd>:DBUIFindBuffer<CR>', options)
 map('n', '<Leader>dr', '<cmd>:DBUIRenameBuffer<CR>', options)
 map('n', '<Leader>dl', '<cmd>:DBUILastQueryInfo<CR>', options)
+
+-- Harpoon
+map('n', '<leader>ha', ':lua require("harpoon.mark").add_file()<CR>', options)
+map('n', '<leader>hm', ':lua require("harpoon.ui").toggle_quick_menu()<CR>', options)
+map('n', '<leader>tm', ':lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>', options)
+
+map('n', '<C-h>', ':lua require("harpoon.ui").nav_file(1)<CR>', options)
+map('n', '<C-j>', ':lua require("harpoon.ui").nav_file(2)<CR>', options)
+map('n', '<C-k>', ':lua require("harpoon.ui").nav_file(3)<CR>', options)
+map('n', '<C-l>', ':lua require("harpoon.ui").nav_file(4)<CR>', options)
+
+map('n', '<leader>th', ':lua require("harpoon.term").gotoTerminal(1)<CR>', options)
+map('n', '<leader>tj', ':lua require("harpoon.term").gotoTerminal(2)<CR>', options)
+map('n', '<leader>tk', ':lua require("harpoon.term").gotoTerminal(3)<CR>', options)
+map('n', '<leader>tl', ':lua require("harpoon.term").gotoTerminal(4)<CR>', options)
+map('n', '<leader>ch', ':lua require("harpoon.term").sendCommand(1, 1)<CR>', options)
+map('n', '<leader>cj', ':lua require("harpoon.term").sendCommand(1, 2)<CR>', options)
+map('n', '<leader>ck', ':lua require("harpoon.term").sendCommand(1, 3)<CR>', options)
+map('n', '<leader>cl', ':lua require("harpoon.term").sendCommand(1, 3)<CR>', options)

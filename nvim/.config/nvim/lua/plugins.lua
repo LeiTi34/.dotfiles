@@ -48,25 +48,25 @@ return require('packer').startup({function()
             end
         }
         -- use 'sainnhe/sonokai'
+
       
-        -- COQ
-        use { 
-            'ms-jpq/coq_nvim', 
-            branch = 'coq',
-            run = ':COQdeps',
-            config = function()
-                dofile(pluginSettings..'coq.lua')
-            end
-        }
-        use { 
-          'ms-jpq/coq.artifacts', 
-          branch = 'artifacts'
-        }
-        use { 
-          'ms-jpq/coq.thirdparty', 
-          branch= '3p'
-        }
-      
+        ---- COQ
+        --use { 
+        --    'ms-jpq/coq_nvim', 
+        --    branch = 'coq',
+        --    run = ':COQdeps',
+        --    config = function()
+        --        dofile(pluginSettings..'coq.lua')
+        --    end
+        --}
+        --use { 
+        --  'ms-jpq/coq.artifacts', 
+        --  branch = 'artifacts'
+        --}
+        --use { 
+        --  'ms-jpq/coq.thirdparty', 
+        --  branch= '3p'
+        --}
         -- CHADTree
         use {
           'ms-jpq/chadtree',
@@ -106,19 +106,36 @@ return require('packer').startup({function()
         -- -- LSP
         -- use 'neovim/nvim-lspconfig'
       
-        -- LSP TS Utils
+        ---- LSP TS Utils
+        --use {
+        --    'jose-elias-alvarez/nvim-lsp-ts-utils',
+        --    requires = {
+        --        {'neovim/nvim-lspconfig'},
+        --        {'nvim-lua/plenary.nvim'},
+        --        {'jose-elias-alvarez/null-ls.nvim'}
+        --    },
+        --    config = function()
+        --        dofile(pluginSettings..'lspconfig.lua')
+        --    end
+        --}
+        use 'neovim/nvim-lspconfig'
+        use 'hrsh7th/cmp-nvim-lsp'
+        use 'hrsh7th/cmp-buffer'
         use {
-            'jose-elias-alvarez/nvim-lsp-ts-utils',
-            requires = {
-                {'neovim/nvim-lspconfig'},
-                {'nvim-lua/plenary.nvim'},
-                {'jose-elias-alvarez/null-ls.nvim'}
-            },
+            'hrsh7th/nvim-cmp',
             config = function()
-                dofile(pluginSettings..'lspconfig.lua')
+                dofile(pluginSettings..'lsp.lua')
             end
         }
-      
+        use {
+            'tzachar/cmp-tabnine',
+            run='./install.sh',
+            requires = 'hrsh7th/nvim-cmp'
+        }
+        use 'L3MON4D3/LuaSnip'
+        use 'onsails/lspkind-nvim'
+        use 'github/copilot.vim'
+
         -- Code Action Menu
         use {
           'weilbith/nvim-code-action-menu',
@@ -158,6 +175,22 @@ return require('packer').startup({function()
             after = 'nvim-treesitter',
             config = function()
                 dofile(pluginSettings..'neorg.lua')
+            end
+        }
+
+        -- Harpoon
+        use {
+            'ThePrimeagen/harpoon',
+            requires = 'nvim-lua/plenary.nvim',
+            config = function()
+                require("harpoon").setup({
+                    global_settings = {
+                        save_on_toggle = false,
+                        save_on_change = true,
+                        enter_on_sendcmd = false,
+                        excluded_filetypes = { "harpoon" }
+                    },
+                })
             end
         }
 

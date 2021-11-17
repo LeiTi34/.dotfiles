@@ -120,7 +120,7 @@ nvim_lsp.tsserver.setup {
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'rust_analyzer'} --, 'tsserver' }
+local servers = { 'pyright', 'rust_analyzer', 'tsserver' }
 local coq = require "coq" -- add this
 
 for _, lsp in ipairs(coq.lsp_ensure_capabilities(servers)) do

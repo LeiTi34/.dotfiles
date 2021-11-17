@@ -12,3 +12,5 @@ opt.shiftwidth = 4
 opt.expandtab = true
 
 opt.hlsearch = false
+
+vim.opt.completeopt = "menu,menuone,noselect"
