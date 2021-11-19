@@ -4,6 +4,10 @@ export GCM_CREDENTIAL_STORE=secretservice
 # Default editor
 export EDITOR=/usr/bin/nvim
 
+# Wayland
+export XKB_DEFAULT_LAYOUT=de
+export GTK_THEME="Adwaita-dark"
+
 # XDG Dirs
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
