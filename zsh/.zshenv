@@ -23,6 +23,7 @@ elif [ $(</etc/hostname) =  "840G6" ]; then
 elif [ $(</etc/hostname) =  "TR" ]; then
     export WLAN_INTERFACE="wlp5s0"
     export NETWORK_INTERFACE="enp8s0"
+    export WLR_NO_HARDWARE_CURSORS=1 # Fix mouse courser not shown in wlroots
 else
     export WLAN_INTERFACE="wlan0"
     export NETWORK_INTERFACE="eth0"
