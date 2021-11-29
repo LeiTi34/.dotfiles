@@ -1,4 +1,3 @@
-
 -- Setup nvim-cmp.
 local cmp = require'cmp'
 
@@ -13,8 +12,12 @@ cmp.setup({
         end,
     },
     mapping = {
-        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+--        ['<Tab>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+--        ['<S-Tab>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+        ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+        ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
         ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
         ['<C-e>'] = cmp.mapping({
@@ -25,15 +28,16 @@ cmp.setup({
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
+        -- { name = 'emmet_ls' },
         { name = 'vsnip' }, -- For vsnip users.
-        { name = 'cmp_tabnine'},
+        { name = "path"},
         { name = "calc"},
-        { name = "spell"},
-        { name = 'luasnip' }, -- For luasnip users.
-        { name = 'ultisnips' }, -- For ultisnips users.
+        { name = 'cmp_tabnine', keyword_length = 5 },
+        -- { name = "spell"},
+        -- { name = 'buffer', keyword_length = 5 },
+        -- { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'ultisnips' }, -- For ultisnips users.
         -- { name = 'snippy' }, -- For snippy users.
-    }, {
-        { name = 'buffer' },
     })
 })
 
@@ -66,8 +70,9 @@ cmp.setup {
 }
 
 -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+--local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+--
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-require('lspconfig')['tsserver'].setup {
-    capabilities = capabilities
-}
+-- require('lspconfig')['tsserver'].setup {
+--     capabilities = capabilities
+-- }
