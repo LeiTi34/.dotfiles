@@ -140,13 +140,13 @@ return require('packer').startup({function()
     }
 
     -- Focus
-    use {
-        'beauwilliams/focus.nvim',
-        config = function()
-            require('focus').setup({compatible_filetrees = {'CHADTree'}, treewidth = 20})
-            -- dofile(pluginSettings..'focus.lua')
-        end
-    }
+    -- use {
+    --     'beauwilliams/focus.nvim',
+    --     config = function()
+    --         require('focus').setup({compatible_filetrees = {'CHADTree'}, treewidth = 20})
+    --         -- dofile(pluginSettings..'focus.lua')
+    --     end
+    -- }
 
     -- Toggleterm
     use {

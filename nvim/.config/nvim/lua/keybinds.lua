@@ -10,6 +10,11 @@ vim.g.mapleader = ' '
 map('v', 'J', ':m \'>+1<CR>gv=gv', options)
 map('v', 'K', ':m \'<-2<CR>gv=gv', options)
 
+map('n', '<leader>h', ':wincmd h<CR>', options)
+map('n', '<leader>j', ':wincmd j<CR>', options)
+map('n', '<leader>k', ':wincmd k<CR>', options)
+map('n', '<leader>l', ':wincmd l<CR>', options)
+
 -- Terminal
 map('t', '<esc>', [[<C-\><C-n>]], options)
 map('t', [[<C-v><esc>]], '<esc>', options)
@@ -31,12 +36,12 @@ map('n', '<Leader>gl', '<Cmd>:diffget //3<CR>', options)
 map('n', '<Leader>gh', '<Cmd>:diffget //2<CR>', options)
 map('n', '<Leader>gs', '<Cmd>:G<CR>', options)
  
--- Focus
-map('n', '<Leader>h', ':FocusSplitLeft<CR>', { silent = true })
-map('n', '<Leader>j', ':FocusSplitDown<CR>', { silent = true })
-map('n', '<Leader>k', ':FocusSplitUp<CR>', { silent = true })
-map('n', '<Leader>l', ':FocusSplitRight<CR>', { silent = true })
--- map('n', '<Leader>nt', ':FocusSplitDown cmd term<CR>', { silent = true })
+-- -- Focus
+-- map('n', '<Leader>h', ':FocusSplitLeft<CR>', { silent = true })
+-- map('n', '<Leader>j', ':FocusSplitDown<CR>', { silent = true })
+-- map('n', '<Leader>k', ':FocusSplitUp<CR>', { silent = true })
+-- map('n', '<Leader>l', ':FocusSplitRight<CR>', { silent = true })
+-- -- map('n', '<Leader>nt', ':FocusSplitDown cmd term<CR>', { silent = true })
 
 -- Bufferline
 -- These commands will navigate through buffers in order regardless of which mode you are using
