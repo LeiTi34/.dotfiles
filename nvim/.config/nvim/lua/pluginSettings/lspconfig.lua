@@ -15,7 +15,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'html' }
+local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'html'}
 local snippet_servers = {'emmet_ls', 'cssls' --[[, 'angularls']] }
 
 for _, lsp in ipairs(servers) do
@@ -40,4 +40,14 @@ for _, lsp in ipairs(snippet_servers) do
     }
   }
 end
+
+local project_library_path = vim.fn.stdpath("config").."/lua/languageserver"
+local cmd = {"ngserver", "--stdio", "--tsProbeLocations", project_library_path , "--ngProbeLocations", project_library_path}
+
+require'lspconfig'.angularls.setup{
+  cmd = cmd,
+  on_new_config = function(new_config,new_root_dir)
+    new_config.cmd = cmd
+  end,
+}
 
