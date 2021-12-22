@@ -29,6 +29,7 @@ cmp.setup({
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
+        { name = "neorg"},
         -- { name = 'emmet_ls' },
         { name = 'vsnip' }, -- For vsnip users.
         { name = "path"},

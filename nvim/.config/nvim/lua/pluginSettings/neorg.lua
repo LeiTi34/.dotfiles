@@ -17,5 +17,10 @@ require('neorg').setup {
             }
         },
         ["core.integrations.telescope"] = {}, -- Enable the telescope module
+        ["core.norg.completion"] = {
+    config = {
+        engine = "nvim-cmp" -- we current support nvim-compe and nvim-cmp only
+    }
+}
     },
 }

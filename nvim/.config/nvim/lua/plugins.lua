@@ -16,7 +16,7 @@ return require('packer').startup({function()
 
     -- Feline
     use {
-        'famiu/feline.nvim',
+        'feline-nvim/feline.nvim',
         config = function()
             require('feline').setup()
         end
@@ -86,6 +86,12 @@ return require('packer').startup({function()
     -- Fugitive
     use 'tpope/vim-fugitive'
          after = 'cmp-nvim-lsp'
+
+    -- Neogit
+    use {
+        'TimUntersberger/neogit',
+        requires = 'nvim-lua/plenary.nvim'
+    }
 
     -- - LSP TS Utils
     -- use {
@@ -196,6 +202,18 @@ return require('packer').startup({function()
         'numToStr/Comment.nvim',
         config = function()
             require('Comment').setup()
+        end
+    }
+
+    -- Startup
+    use {
+        'startup-nvim/startup.nvim',
+        requires = {
+            'nvim-telescope/telescope.nvim',
+            'nvim-lua/plenary.nvim'
+        },
+        config = function()
+            require('startup').setup({theme = "evil"})
         end
     }
 

@@ -1,6 +1,7 @@
 local opt = vim.opt
 
 -- vim.cmd[[colorscheme sonokai]]
+opt.termguicolors = true
 opt.modelines = 0
 
 opt.number = true
@@ -12,5 +13,5 @@ opt.shiftwidth = 4
 opt.expandtab = true
 
 opt.hlsearch = false
-
-vim.opt.completeopt = "menu,menuone,noselect"
+--[[
+vim.opt.completeopt = "menu,menuone,noselect" ]]
