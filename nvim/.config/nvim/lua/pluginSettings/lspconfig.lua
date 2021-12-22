@@ -41,6 +41,7 @@ for _, lsp in ipairs(snippet_servers) do
   }
 end
 
+-- Angularls
 local project_library_path = vim.fn.stdpath("config").."/lua/languageserver"
 local cmd = {"ngserver", "--stdio", "--tsProbeLocations", project_library_path , "--ngProbeLocations", project_library_path}
 
