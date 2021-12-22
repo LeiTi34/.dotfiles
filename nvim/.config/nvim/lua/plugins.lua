@@ -197,6 +197,15 @@ return require('packer').startup({function()
         end
     }
 
+    -- TS Autotag
+    use {
+        'windwp/nvim-ts-autotag',
+        requires = 'nvim-treesitter/nvim-treesitter',
+        config = function()
+            require('nvim-ts-autotag').setup()
+        end
+    }
+
     -- Comment
     use {
         'numToStr/Comment.nvim',
