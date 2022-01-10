@@ -97,6 +97,12 @@ return require('packer').startup({function()
     use 'tpope/vim-fugitive'
          after = 'cmp-nvim-lsp'
 
+    use {
+         'sindrets/diffview.nvim',
+         requires = 'nvim-lua/plenary.nvim'
+    }
+
+
     -- Neogit
     use {
         'TimUntersberger/neogit',

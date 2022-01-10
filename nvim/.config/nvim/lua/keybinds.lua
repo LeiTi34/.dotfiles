@@ -34,7 +34,9 @@ map('n', '<Leader>n', '<Cmd>CHADopen<CR>', options)
 -- Fugitive
 map('n', '<Leader>gl', '<Cmd>:diffget //3<CR>', options)
 map('n', '<Leader>gh', '<Cmd>:diffget //2<CR>', options)
-map('n', '<Leader>gs', '<Cmd>:G<CR>', options)
+
+-- Neogit
+map('n', '<Leader>gs', '<Cmd>lua require(\'neogit\').open()<CR>', options)
  
 -- -- Focus
 -- map('n', '<Leader>h', ':FocusSplitLeft<CR>', { silent = true })
