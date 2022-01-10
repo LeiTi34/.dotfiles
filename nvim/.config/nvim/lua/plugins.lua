@@ -60,7 +60,17 @@ return require('packer').startup({function()
     -- Telescope
     use {
         'nvim-telescope/telescope.nvim',
-        requires = { {'nvim-lua/plenary.nvim'} }
+        requires = {
+            { 'nvim-lua/plenary.nvim' },
+            { 'ThePrimeagen/git-worktree.nvim' }
+        },
+        config = function()
+            require('telescope').load_extension('git_worktree')
+        end
+    }
+
+    use {
+        'ThePrimeagen/git-worktree.nvim'
     }
 
     -- FZF

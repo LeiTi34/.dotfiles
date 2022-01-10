@@ -109,3 +109,7 @@ map('n', '<leader>ch', ':lua require("harpoon.term").sendCommand(1, 1)<CR>', opt
 map('n', '<leader>cj', ':lua require("harpoon.term").sendCommand(1, 2)<CR>', options)
 map('n', '<leader>ck', ':lua require("harpoon.term").sendCommand(1, 3)<CR>', options)
 map('n', '<leader>cl', ':lua require("harpoon.term").sendCommand(1, 3)<CR>', options)
+
+-- Git Worktree
+map('n', '<leader>ww', ':lua require("telescope").extensions.git_worktree.git_worktrees()<CR>', options)
+map('n', '<leader>wc', ':lua require("telescope").extensions.git_worktree.create_git_worktree()<CR>', options)
