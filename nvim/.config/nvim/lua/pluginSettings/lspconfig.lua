@@ -15,7 +15,7 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'html'}
+local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'html', 'texlab' }
 local snippet_servers = {'emmet_ls', 'cssls' --[[, 'angularls']] }
 
 for _, lsp in ipairs(servers) do
@@ -52,3 +52,25 @@ require'lspconfig'.angularls.setup{
   end,
 }
 
+--nvim_lsp.ltex.setup()
+--require("grammar-guard").init()
+-- setup LSP config
+nvim_lsp.ltex.setup({
+  cmd = { 'ltex-ls' }, -- add this if you install ltex-ls yourself
+	settings = {
+		ltex = {
+			enabled = { "latex", "tex", "bib", "markdown" },
+			language = {"de-AT", "en"},
+			diagnosticSeverity = "information",
+			setenceCacheSize = 2000,
+			additionalRules = {
+				enablePickyRules = true,
+				motherTongue = "de-AT",
+			},
+			trace = { server = "verbose" },
+			dictionary = {},
+			disabledRules = {},
+			hiddenFalsePositives = {},
+		},
+	},
+})

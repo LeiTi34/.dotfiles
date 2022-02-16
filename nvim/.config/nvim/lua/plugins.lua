@@ -143,14 +143,26 @@ return require('packer').startup({function()
         }
     }
 
+    -- LSP
     use {
-        -- LSP
         'neovim/nvim-lspconfig',
         config = function()
             dofile(pluginSettings..'lspconfig.lua')
         end,
-        after = 'cmp-nvim-lsp'
+        after = 'cmp-nvim-lsp',
+        requires = { 'brymer-meneses/grammar-guard.nvim', requires = 'neovim/nvim-lspconfig.lua' },
     }
+
+    --     use {
+    --         'brymer-meneses/grammar-guard.nvim',
+    --     requires = {
+    --         'neovim/nvim-lspconfig',
+    --         'williamboman/nvim-lsp-installer'
+    --     },
+    --     -- config = function()
+    --     --     dofile(pluginSettings..'grammar-guard.lua')
+    --     -- end
+    -- }
     -- use 'L3MON4D3/LuaSnip'
     -- use 
     -- use 'github/copilot.vim'
@@ -187,14 +199,14 @@ return require('packer').startup({function()
     -- Neorg
     use { 
         'nvim-neorg/neorg',
+        config = function()
+            dofile(pluginSettings..'neorg.lua')
+        end,
+        after = 'nvim-treesitter',
         requires = {
             {'nvim-lua/plenary.nvim'},
             {'vhyrro/neorg-telescope'}
-        },
-        after = 'nvim-treesitter',
-        config = function()
-            dofile(pluginSettings..'neorg.lua')
-        end
+        }
     }
 
     -- Harpoon
