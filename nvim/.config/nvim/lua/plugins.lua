@@ -15,6 +15,8 @@ return packer.startup({function()
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
+    use 'lewis6991/impatient.nvim'
+
     -- Feline
     use {
         'feline-nvim/feline.nvim',
@@ -153,34 +155,11 @@ return packer.startup({function()
 
     use 'github/copilot.vim'
 
-    --     use {
-    --         'brymer-meneses/grammar-guard.nvim',
-    --     requires = {
-    --         'neovim/nvim-lspconfig',
-    --         'williamboman/nvim-lsp-installer'
-    --     },
-    --     -- config = function()
-    --     --     dofile(pluginSettings..'grammar-guard.lua')
-    --     -- end
-    -- }
-    -- use 'L3MON4D3/LuaSnip'
-    -- use 
-    -- use 'github/copilot.vim'
-
     -- Code Action Menu
     use {
         'weilbith/nvim-code-action-menu',
         cmd = 'CodeActionMenu',
     }
-
-    -- Focus
-    -- use {
-    --     'beauwilliams/focus.nvim',
-    --     config = function()
-    --         require('focus').setup({compatible_filetrees = {'CHADTree'}, treewidth = 20})
-    --         -- dofile(pluginSettings..'focus.lua')
-    --     end
-    -- }
 
     -- Toggleterm
     use {
