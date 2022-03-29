@@ -15,7 +15,11 @@ return packer.startup({function()
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
+    -- Faster startup time
     use 'lewis6991/impatient.nvim'
+
+    -- Nested keymaps
+    use 'LionC/nest.nvim'
 
     -- Feline
     use {
@@ -92,11 +96,11 @@ return packer.startup({function()
         config = function() require('config.treesitter-textobjects') end
     }
 
-    -- Fugitive
-    use {
-        'tpope/vim-fugitive',
-         after = 'cmp-nvim-lsp'
-     }
+    -- -- Fugitive
+    -- use {
+    --     'tpope/vim-fugitive',
+    --      after = 'cmp-nvim-lsp'
+    --  }
 
     use {
          'sindrets/diffview.nvim',
