@@ -21,11 +21,19 @@ return packer.startup({function()
     -- Nested keymaps
     use 'LionC/nest.nvim'
 
-    -- Feline
+    --[[ -- Feline
     use {
         'feline-nvim/feline.nvim',
         config = function() require('config.feline') end
-    }
+    } ]]
+
+        -- Lualine
+    use {
+        'nvim-lualine/lualine.nvim',
+         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+         config = function() require('config.lualine') end
+     }
+
 
     use {
         'lewis6991/gitsigns.nvim',
