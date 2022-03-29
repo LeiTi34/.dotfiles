@@ -1,4 +1,7 @@
-local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+local tsparsers = require('nvim-treesitter.parsers')
+if not tsparsers then return end
+
+parser_configs = tsparsers.get_parser_configs()
 
 parser_configs.norg = {
     install_info = {
@@ -24,7 +27,10 @@ parser_configs.norg_table = {
     },
 }
 
-require'nvim-treesitter.configs'.setup {
+local tsconfig = require('nvim-treesitter.configs')
+if not tsconfig then return end
+
+tsconfig.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   -- ignore_install = { "javascript" }, -- List of parsers to ignore installing
   highlight = {

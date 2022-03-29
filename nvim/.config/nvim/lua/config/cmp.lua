@@ -1,6 +1,9 @@
 -- Setup nvim-cmp.
 local cmp = require('cmp')
+if not cmp then return end
+
 local lspkind = require('lspkind')
+if not lspkind then return end
 
 cmp.setup({
     snippet = {
@@ -81,7 +84,14 @@ cmp.setup.cmdline(':', {
 
 -- TabNine
 local tabnine = require('cmp_tabnine.config')
-tabnine:setup({max_lines = 1000, max_num_results = 20, sort = true})
+if not tabnine then return end
+
+tabnine:setup({
+    max_lines = 1000,
+    max_num_results = 20,
+    sort = true,
+    run_on_every_keystroke = true
+})
 
 -- Setup lspconfig.
 --local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())

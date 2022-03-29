@@ -1,3 +1,9 @@
 [submodule "polybar/git/polybar-scripts"]
 	path = polybar/git/polybar-scripts
 	url = https://github.com/polybar/polybar-scripts
+[submodule "nvim/.config/nvim/dap/vscode-node-debug2"]
+	path = nvim/.config/nvim/dap/vscode-node-debug2
+	url = https://github.com/microsoft/vscode-node-debug2.git
+[submodule "nvim/.config/nvim/dap/vscode-chrome-debug"]
+	path = nvim/.config/nvim/dap/vscode-chrome-debug
+	url = https://github.com/Microsoft/vscode-chrome-debug

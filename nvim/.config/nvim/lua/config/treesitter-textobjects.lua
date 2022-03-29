@@ -1,4 +1,7 @@
-require'nvim-treesitter.configs'.setup {
+tsconfigs = require('nvim-treesitter.configs')
+if not tsconfigs then return end
+
+tsconfigs.setup {
   textobjects = {
     select = {
       enable = true,

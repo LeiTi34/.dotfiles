@@ -1,4 +1,7 @@
-require('neorg').setup {
+local neorg = require("neorg")
+if not neorg then return end
+
+neorg.setup {
     -- Tell Neorg what modules to load
     load = {
         ["core.defaults"] = {}, -- Load all the default modules

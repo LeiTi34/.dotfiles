@@ -1,14 +1,15 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
--- Only required if you have packer configured as `opt`
-pluginSettings = vim.fn['stdpath']('config')..'/lua/pluginSettings/'
---print(pluginSettings..'github-theme.lua')
+vim.cmd ('packadd packer.nvim')
 
-vim.cmd [[packadd packer.nvim]]
--- -- Only if your version of Neovim doesn't have https://github.com/neovim/neovim/pull/12632 merged
--- vim._update_package_paths()
+local packer = require('packer')
+if not packer then
+    print('Packer was not found')
+    return
+end
 
-return require('packer').startup({function()
+
+return packer.startup({function()
     -- Get path to my pluginSettings config files
 
     -- Packer can manage itself
@@ -17,38 +18,42 @@ return require('packer').startup({function()
     -- Feline
     use {
         'feline-nvim/feline.nvim',
-        config = function()
-            require('feline').setup()
-        end
+        config = function() require('config.feline') end
     }
 
     use {
         'lewis6991/gitsigns.nvim',
-        requires = {
-            'nvim-lua/plenary.nvim'
-        },
-        config = function()
-            require('gitsigns').setup()
-        end
+        requires = 'nvim-lua/plenary.nvim',
+        config = function() require('config.gitsigns') end
     }
 
     -- Bufferline
     use {
         'akinsho/bufferline.nvim',
         requires = 'kyazdani42/nvim-web-devicons',
-        config = function()
-            dofile(pluginSettings..'bufferline.lua')
+        config = function() 
+            --require('config.bufferline') 
+            vim.opt.termguicolors = true
+            local bufferline = require("bufferline")
+            bufferline.setup{
+                options = {
+                    diagnostics = 'nvim_lsp',
+                    offsets = {{ filetype = 'CHADTree', text = 'CHADTree'}} 
+                }
+            }
         end
     }
     -- Theme
     use {
         'projekt0n/github-nvim-theme',
-        config = function()
-            require('github-theme').setup()
-        end
+        config = function() require('config.github-theme') end
     }
     -- use 'sainnhe/sonokai'
 
+    use {
+        'stevearc/dressing.nvim',
+        config = function() require('config.dressing') end
+    }
 
     -- CHADTree
     use {
@@ -64,14 +69,10 @@ return require('packer').startup({function()
             { 'nvim-lua/plenary.nvim' },
             { 'ThePrimeagen/git-worktree.nvim' }
         },
-        config = function()
-            require('telescope').load_extension('git_worktree')
-        end
+        config = function() require('config.telescope') end
     }
 
-    use {
-        'ThePrimeagen/git-worktree.nvim'
-    }
+    use 'ThePrimeagen/git-worktree.nvim'
 
     -- FZF
     -- use 'junegunn/fzf.vim'
@@ -80,22 +81,20 @@ return require('packer').startup({function()
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
-        config = function()
-            dofile(pluginSettings..'treesitter.lua')
-        end
+        config = function() require('config.treesitter') end
     }
     use 'nvim-treesitter/playground'
 
     use {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        config = function()
-            dofile(pluginSettings..'treesitter-textobjects.lua')
-        end
+        config = function() require('config.treesitter-textobjects') end
     }
 
     -- Fugitive
-    use 'tpope/vim-fugitive'
+    use {
+        'tpope/vim-fugitive',
          after = 'cmp-nvim-lsp'
+     }
 
     use {
          'sindrets/diffview.nvim',
@@ -126,9 +125,6 @@ return require('packer').startup({function()
     --use 'aca/emmet-ls'
     use {
         'hrsh7th/nvim-cmp',
-        config = function()
-            dofile(pluginSettings..'cmp.lua')
-        end,
         requires = {
             { 'neovim/nvim-lspconfig' },
             { 'onsails/lspkind-nvim' },
@@ -140,18 +136,22 @@ return require('packer').startup({function()
             { 'hrsh7th/cmp-emoji', after = 'nvim-cmp' },
             { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' },
             { 'tzachar/cmp-tabnine', run = './install.sh' },
-        }
+        },
+        config = function() require('config.cmp') end
     }
 
     -- LSP
     use {
         'neovim/nvim-lspconfig',
-        config = function()
-            dofile(pluginSettings..'lspconfig.lua')
-        end,
         after = 'cmp-nvim-lsp',
-        requires = { 'brymer-meneses/grammar-guard.nvim', requires = 'neovim/nvim-lspconfig.lua' },
+        requires = {
+            'brymer-meneses/grammar-guard.nvim',
+            requires = 'neovim/nvim-lspconfig.lua'
+        },
+        config = function() require('config.lspconfig') end
     }
+
+    use 'github/copilot.vim'
 
     --     use {
     --         'brymer-meneses/grammar-guard.nvim',
@@ -185,9 +185,7 @@ return require('packer').startup({function()
     -- Toggleterm
     use {
         'akinsho/toggleterm.nvim',
-        config = function()
-            dofile(pluginSettings..'toggleterm.lua')
-        end
+        config = function() require('config.toggleterm') end
     }
 
     -- Dadbod
@@ -199,47 +197,32 @@ return require('packer').startup({function()
     -- Neorg
     use { 
         'nvim-neorg/neorg',
-        config = function()
-            dofile(pluginSettings..'neorg.lua')
-        end,
         after = 'nvim-treesitter',
         requires = {
             {'nvim-lua/plenary.nvim'},
             {'vhyrro/neorg-telescope'}
-        }
+        },
+        config = function() require('config.neorg') end,
     }
 
     -- Harpoon
     use {
         'ThePrimeagen/harpoon',
         requires = 'nvim-lua/plenary.nvim',
-        config = function()
-            require("harpoon").setup({
-                global_settings = {
-                    save_on_toggle = false,
-                    save_on_change = true,
-                    enter_on_sendcmd = false,
-                    excluded_filetypes = { "harpoon" }
-                },
-            })
-        end
+        config = function() require('config.harpoon') end
     }
 
     -- TS Autotag
     use {
         'windwp/nvim-ts-autotag',
         requires = 'nvim-treesitter/nvim-treesitter',
-        config = function()
-            require('nvim-ts-autotag').setup()
-        end
+        config = function() require('config.ts-autotag') end
     }
 
     -- Comment
     use {
         'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end
+        config = function() require('config.comment') end
     }
 
     -- Startup
@@ -249,9 +232,14 @@ return require('packer').startup({function()
             'nvim-telescope/telescope.nvim',
             'nvim-lua/plenary.nvim'
         },
-        config = function()
-            require('startup').setup({theme = "evil"})
-        end
+        config = function() require('config.startup') end
+    }
+
+    -- Debugger
+    use {
+        'rcarriga/nvim-dap-ui',
+        requires = { 'mfussenegger/nvim-dap' },
+        config = function() require('config.dap') end
     }
 
 end,
@@ -260,5 +248,6 @@ config = {
         open_fn = function()
             return require('packer.util').float({ border = 'single' })
         end
-    }
+    },
+    compile_on_sync = true
 }})

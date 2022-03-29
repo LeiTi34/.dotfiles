@@ -1,7 +1,13 @@
-require("grammar-guard").init()
+local grammerguard = require("grammar-guard")
+if not grammerguard then return end
+
+grammerguard.init()
+
+local lspconfig = require("lspconfig")
+if not lspconfig then return end
 
 -- setup LSP config
-require("lspconfig").grammar_guard.setup({
+lspconfig.grammar_guard.setup({
   cmd = { 'ltex-ls' }, -- add this if you install ltex-ls yourself
 	settings = {
 		ltex = {

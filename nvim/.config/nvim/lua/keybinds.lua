@@ -58,27 +58,9 @@ map('n', '<Leader>be', ':BufferLineSortByExtension<CR>', options)
 map('n', '<Leader>bd', ':BufferLineSortByDirectory<CR>', options)
 
 -- LSP
--- See `:help vim.lsp.*` for documentation on any of the below functions
 map("n", "<Leader>oi", ":TSLspOrganize<CR>", options)
 map("n", "<Leader>rf", ":TSLspRenameFile<CR>", options)
 map("n", "<Leader>ia", ":TSLspImportAll<CR>", options)
-map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', options)
-map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', options)
-map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', options)
-map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', options)
-map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', options)
-map('n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', options)
-map('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', options)
-map('n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', options)
-map('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', options)
-map('n', '<Leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>', options)
-map('n', '<Leader>cA', '<cmd>lua vim.lsp.buf.code_action()<CR>', options)
-map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', options)
-map('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', options)
-map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', options)
-map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', options)
-map('n', '<Leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', options)
-map('n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', options)
 
 -- Navigate quick fix list
 map('n', '[q', '<cmd>cprev<CR>', options)
