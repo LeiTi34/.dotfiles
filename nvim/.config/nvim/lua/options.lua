@@ -2,7 +2,11 @@ local opt = vim.opt
 
 -- vim.cmd[[colorscheme sonokai]]
 opt.termguicolors = true
+
 opt.modelines = 0
+opt.showmode = false
+opt.ruler = false
+opt.showcmd = false
 
 opt.number = true
 opt.relativenumber = true
