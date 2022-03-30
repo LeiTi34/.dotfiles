@@ -27,7 +27,11 @@ nest.applyKeymaps {
         }},
 
         -- Tree
-        { 'n', '<Cmd>CHADopen<CR>' },
+        { 'n', {
+            { 'n', '<Cmd>Neotree reveal toggle source=filesystem<CR>' },
+            { 'b', '<Cmd>Neotree reveal toggle source=buffers<CR>' },
+            { 'g', '<Cmd>Neotree reveal toggle source=git_status<CR>' },
+        }},
 
         -- LSP
         { 'oi', '<Cmd>TSLspOrganize<CR>' },
