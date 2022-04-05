@@ -42,21 +42,28 @@ return packer.startup({function()
     }
 
     -- Bufferline
+    -- use {
+    --     'akinsho/bufferline.nvim',
+    --     requires = 'kyazdani42/nvim-web-devicons',
+    --     config = function()
+    --         --require('config.bufferline')
+    --         vim.opt.termguicolors = true
+    --         local bufferline = require("bufferline")
+    --         bufferline.setup{
+    --             options = {
+    --                 diagnostics = 'nvim_lsp',
+    --                 offsets = {{ filetype = 'CHADTree', text = 'CHADTree'}}
+    --             }
+    --         }
+    --     end
+    -- }
+
     use {
-        'akinsho/bufferline.nvim',
+        'noib3/nvim-cokeline',
         requires = 'kyazdani42/nvim-web-devicons',
-        config = function()
-            --require('config.bufferline')
-            vim.opt.termguicolors = true
-            local bufferline = require("bufferline")
-            bufferline.setup{
-                options = {
-                    diagnostics = 'nvim_lsp',
-                    offsets = {{ filetype = 'CHADTree', text = 'CHADTree'}}
-                }
-            }
-        end
+        config = function() require('config.cokeline') end
     }
+
     -- Theme
     use {
         'daschw/leaf.nvim',

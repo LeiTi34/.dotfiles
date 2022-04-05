@@ -23,6 +23,7 @@ nest.applyKeymaps {
             { 'f', '<Cmd>lua require("telescope.builtin").find_files()<CR>' },
             { 'g', '<Cmd>lua require("telescope.builtin").live_grep()<CR>' },
             { 'b', '<Cmd>lua require("telescope.builtin").buffers()<CR>' },
+            { 'k', '<Cmd>lua require("telescope.builtin").keymaps()<CR>' },
             { 'h', '<Cmd>lua require("telescope.builtin").help_tags()<CR>' },
         }},
 
@@ -43,10 +44,12 @@ nest.applyKeymaps {
         -- Neogit
         { 'gs', '<Cmd>lua require("neogit").open()<CR>' },
 
-        -- Bufferline
+        -- Cokeline
         { 'b', {
-            { 'e', '<Cmd>BufferLineSortByExtension<CR>' },
-            { 'd', '<Cmd>BufferLineSortByDirectory<CR>' },
+            { 'b', '<Plug>(cokeline-pick-focus)' },
+            { 'c', '<Plug>(cokeline-pick-close)' },
+            { 'n', '<Plug>(cokeline-focus-next)' },
+            { 'p', '<Plug>(cokeline-focus-prev)' },
         }},
 
         -- Dadbod UI
@@ -88,15 +91,6 @@ nest.applyKeymaps {
             {'l', '<Cmd>SessionManager load_last_session<CR>' },
             {'s', '<Cmd>SessionManager save_current_session<CR>' },
         }},
-    }},
-
-    -- G commands
-    { 'g', {
-        -- Bufferline
-        { 'b', '<Cmd>BufferLineCycleNext<CR>' },
-        { 'B', '<Cmd>BufferLineCyclePrev<CR>' },
-        { '<C-b>', '<Cmd>BufferLineMoveNext<CR>' },
-        { '<C-B>', '<Cmd>BufferLineMovePrev<CR>' },
     }},
 
     -- Ctrl commands
