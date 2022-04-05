@@ -1,6 +1,6 @@
 local map = vim.api.nvim_set_keymap
 
-options = { noremap = true, silent = true }
+local options = { noremap = true, silent = true }
 
 -- Set up <Space> to be the global leader
 map('n', '<Space>', '<NOP>', options)
@@ -81,6 +81,13 @@ nest.applyKeymaps {
             { 'w', '<Cmd>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>' },
             { 'c', '<Cmd>lua require("telescope").extensions.git_worktree.create_git_worktree()<CR>' },
         }},
+
+        -- Session
+        { 's', {
+            {'f', '<Cmd>SessionManager load_session<CR>' },
+            {'l', '<Cmd>SessionManager load_last_session<CR>' },
+            {'s', '<Cmd>SessionManager save_current_session<CR>' },
+        }},
     }},
 
     -- G commands
@@ -105,7 +112,7 @@ nest.applyKeymaps {
     { '[q', '<Cmd>cprev<CR>' },
     { ']q', '<Cmd>cnext<CR>' },
 
-    -- Visual remaps
+    -- Visual remaps FIXME
     { mode = 'v', {
         { 'J', '<Cmd>m \'>+1<CR>gv=gv' },
         { 'K', '<Cmd>m \'<-2<CR>gv=gv' },

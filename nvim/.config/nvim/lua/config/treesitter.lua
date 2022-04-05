@@ -1,7 +1,7 @@
 local tsparsers = require('nvim-treesitter.parsers')
 if not tsparsers then return end
 
-parser_configs = tsparsers.get_parser_configs()
+local parser_configs = tsparsers.get_parser_configs()
 
 parser_configs.norg = {
     install_info = {

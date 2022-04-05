@@ -8,6 +8,8 @@ opt.showmode = false
 opt.ruler = false
 opt.showcmd = false
 
+opt.laststatus = 3
+
 opt.number = true
 opt.relativenumber = true
 

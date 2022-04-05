@@ -9,16 +9,15 @@ toggleterm.setup{
   direction = 'horizontal'
 }
 
-local Terminal  = require('toggleterm.terminal').Terminal
-if not Terminal then return end
-
-local lazygit = Terminal:new({
-    cmd = "lazygit",
-    hidden = true,
-    direction = 'float'
-})
-
-function _lazygit_toggle()
-  lazygit:toggle()
-end
-
+-- local Terminal  = require('toggleterm.terminal').Terminal
+-- if not Terminal then return end
+--
+-- local lazygit = Terminal:new({
+--     cmd = "lazygit",
+--     hidden = true,
+--     direction = 'float'
+-- })
+--
+-- function _lazygit_toggle()
+--   lazygit:toggle()
+-- end

@@ -1,7 +1,7 @@
 local dap = require('dap')
 if not dap then return end
 
-dapDir = vim.fn['stdpath']('config')..'/dap/'
+local dapDir = vim.fn['stdpath']('config')..'/dap/'
 
 -- Node
 dap.adapters.node2 = {

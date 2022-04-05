@@ -45,23 +45,27 @@ return packer.startup({function()
     use {
         'akinsho/bufferline.nvim',
         requires = 'kyazdani42/nvim-web-devicons',
-        config = function() 
-            --require('config.bufferline') 
+        config = function()
+            --require('config.bufferline')
             vim.opt.termguicolors = true
             local bufferline = require("bufferline")
             bufferline.setup{
                 options = {
                     diagnostics = 'nvim_lsp',
-                    offsets = {{ filetype = 'CHADTree', text = 'CHADTree'}} 
+                    offsets = {{ filetype = 'CHADTree', text = 'CHADTree'}}
                 }
             }
         end
     }
     -- Theme
     use {
+        'daschw/leaf.nvim',
+        config = function() require('config.leaf-theme') end
+    }
+    --[[ use {
         'projekt0n/github-nvim-theme',
         config = function() require('config.github-theme') end
-    }
+    } ]]
     -- use 'sainnhe/sonokai'
 
     use {
@@ -79,10 +83,10 @@ return packer.startup({function()
     use {
         'nvim-neo-tree/neo-tree.nvim',
          branch = 'v2.x',
-         requires = { 
+         requires = {
             'nvim-lua/plenary.nvim',
             'kyazdani42/nvim-web-devicons', -- not strictly required, but recommended
-            'MunifTanjim/nui.nvim' 
+            'MunifTanjim/nui.nvim'
         },
         config = function () require('config.neo-tree') end
     }
@@ -151,7 +155,7 @@ return packer.startup({function()
     use {
         'hrsh7th/nvim-cmp',
         requires = {
-            { 'neovim/nvim-lspconfig' },
+            { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp', requires = 'neovim/nvim-lspconfig' },
             { 'onsails/lspkind-nvim' },
             { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
             { 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' , requires = 'hrsh7th/vim-vsnip' },
@@ -159,7 +163,6 @@ return packer.startup({function()
             { 'hrsh7th/cmp-calc', after = 'nvim-cmp' },
             { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
             { 'hrsh7th/cmp-emoji', after = 'nvim-cmp' },
-            { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' },
             { 'tzachar/cmp-tabnine', run = './install.sh' },
         },
         config = function() require('config.cmp') end
@@ -227,15 +230,33 @@ return packer.startup({function()
         config = function() require('config.comment') end
     }
 
-    -- Startup
+    -- -- Startup
+    -- use {
+    --     'startup-nvim/startup.nvim',
+    --     requires = {
+    --         'nvim-telescope/telescope.nvim',
+    --         'nvim-lua/plenary.nvim'
+    --     },
+    --     config = function() require('config.startup') end
+    -- }
+
     use {
-        'startup-nvim/startup.nvim',
-        requires = {
-            'nvim-telescope/telescope.nvim',
-            'nvim-lua/plenary.nvim'
-        },
-        config = function() require('config.startup') end
+        'goolord/alpha-nvim',
+        requires = 'kyazdani42/nvim-web-devicons',
+        config = function () require('config.alpha') end
     }
+
+    use {
+        'Shatur/neovim-session-manager',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function() require('config.session-manager') end
+    }
+
+    -- use {
+    --     'jedrzejboczar/possession.nvim',
+    --     requires = 'nvim-lua/plenary.nvim',
+    --     config = function () require('config.possession') end
+    -- }
 
     -- Debugger
     use {

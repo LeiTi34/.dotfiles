@@ -1,4 +1,4 @@
-tsconfigs = require('nvim-treesitter.configs')
+local tsconfigs = require('nvim-treesitter.configs')
 if not tsconfigs then return end
 
 tsconfigs.setup {
@@ -6,7 +6,7 @@ tsconfigs.setup {
     select = {
       enable = true,
 
-      -- Automatically jump forward to textobj, similar to targets.vim 
+      -- Automatically jump forward to textobj, similar to targets.vim
       lookahead = true,
 
       keymaps = {
