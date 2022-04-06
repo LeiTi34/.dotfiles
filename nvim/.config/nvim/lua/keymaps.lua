@@ -94,8 +94,8 @@ nest.applyKeymaps {
     }},
 
     -- Ctrl commands
-    -- Harpoon navigation
     { '<C-', {
+        -- Harpoon navigation
         { 'h>', '<Cmd>lua require("harpoon.ui").nav_file(1)<CR>' },
         { 'j>', '<Cmd>lua require("harpoon.ui").nav_file(2)<CR>' },
         { 'k>', '<Cmd>lua require("harpoon.ui").nav_file(3)<CR>' },
@@ -118,4 +118,3 @@ nest.applyKeymaps {
         { '<C-v><esc>', '<esc>' },
     }}
 }
-

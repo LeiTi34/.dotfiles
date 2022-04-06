@@ -7,3 +7,6 @@
 [submodule "nvim/.config/nvim/dap/vscode-chrome-debug"]
 	path = nvim/.config/nvim/dap/vscode-chrome-debug
 	url = https://github.com/Microsoft/vscode-chrome-debug
+[submodule "nvim/.config/nvim/snippets/vscode-angular-snippets"]
+	path = nvim/.config/nvim/snippets/vscode-angular-snippets
+	url = https://github.com/johnpapa/vscode-angular-snippets.git

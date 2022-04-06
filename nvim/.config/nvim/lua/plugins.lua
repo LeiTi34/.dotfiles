@@ -157,6 +157,12 @@ return packer.startup({function()
     --     end
     -- }
 
+    use {
+        'L3MON4D3/LuaSnip',
+        requires = 'rafamadriz/friendly-snippets',
+        config = function () require('config.luasnip') end
+    }
+
     -- use 'neovim/nvim-lsp'
     --use 'aca/emmet-ls'
     use {
@@ -165,15 +171,17 @@ return packer.startup({function()
             { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp', requires = 'neovim/nvim-lspconfig' },
             { 'onsails/lspkind-nvim' },
             { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
-            { 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' , requires = 'hrsh7th/vim-vsnip' },
+            --{ 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' , requires = 'hrsh7th/vim-vsnip' },
             { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
             { 'hrsh7th/cmp-calc', after = 'nvim-cmp' },
             { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
             { 'hrsh7th/cmp-emoji', after = 'nvim-cmp' },
             { 'tzachar/cmp-tabnine', run = './install.sh' },
+            { 'L3MON4D3/LuaSnip' },
         },
         config = function() require('config.cmp') end
     }
+    use { 'saadparwaiz1/cmp_luasnip' }
 
     -- LSP
     use {
