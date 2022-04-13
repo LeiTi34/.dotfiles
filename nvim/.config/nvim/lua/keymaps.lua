@@ -20,11 +20,13 @@ nest.applyKeymaps {
 
         -- Telescope
         { 'f', {
+            { 'b', '<Cmd>lua require("telescope.builtin").buffers()<CR>' },
             { 'f', '<Cmd>lua require("telescope.builtin").find_files()<CR>' },
             { 'g', '<Cmd>lua require("telescope.builtin").live_grep()<CR>' },
-            { 'b', '<Cmd>lua require("telescope.builtin").buffers()<CR>' },
-            { 'k', '<Cmd>lua require("telescope.builtin").keymaps()<CR>' },
             { 'h', '<Cmd>lua require("telescope.builtin").help_tags()<CR>' },
+            { 'k', '<Cmd>lua require("telescope.builtin").keymaps()<CR>' },
+            { 's', '<Cmd>SessionManager load_session<CR>' },
+            { 't', '<Cmd>Telescope yabs tasks<CR>' },
         }},
 
         -- Tree
@@ -71,6 +73,9 @@ nest.applyKeymaps {
             { 'j', '<Cmd>lua require("harpoon.term").gotoTerminal(2)<CR>' },
             { 'k', '<Cmd>lua require("harpoon.term").gotoTerminal(3)<CR>' },
             { 'l', '<Cmd>lua require("harpoon.term").gotoTerminal(4)<CR>' },
+
+            -- yabs
+            { 'r', '<Cmd>lua require("yabs"):run_default_task()<CR>' },
         }},
         { 'c', {
             { 'h', '<Cmd>lua require("harpoon.term").sendCommand(2, 1)<CR>' },
@@ -93,6 +98,15 @@ nest.applyKeymaps {
         }},
     }},
 
+    -- v commands
+    { 'v', {
+        -- Syntax tree surfer
+        { 'd', '<Cmd>lua require("syntax-tree-surfer").move("n", false)<CR>'}, -- TODO Check if binding is good/needed
+        { 'u', '<Cmd>lua require("syntax-tree-surfer").move("n", true)<CR>'},
+        { 'x', '<Cmd>lua require("syntax-tree-surfer").select()<CR>'},
+        { 'n', '<Cmd>lua require("syntax-tree-surfer").select_current_node()<CR>'},
+    }},
+
     -- Ctrl commands
     { '<C-', {
         -- Harpoon navigation
@@ -106,11 +120,25 @@ nest.applyKeymaps {
     { '[q', '<Cmd>cprev<CR>' },
     { ']q', '<Cmd>cnext<CR>' },
 
-    -- Visual remaps FIXME
-    { mode = 'v', {
-        { 'J', '<Cmd>m \'>+1<CR>gv=gv' },
-        { 'K', '<Cmd>m \'<-2<CR>gv=gv' },
+    -- x mode
+    { mode = 'x', {
+        -- Syntax tree surfer
+        { 'J', '<Cmd>lua require("syntax-tree-surfer").surf("next", "visual")<CR>' },
+        { 'K', '<Cmd>lua require("syntax-tree-surfer").surf("prev", "visual")<CR>' },
+        { 'H', '<Cmd>lua require("syntax-tree-surfer").surf("parent", "visual")<CR>' },
+        { 'L', '<Cmd>lua require("syntax-tree-surfer").surf("child", "visual")<CR>' },
+
+        { '<A-', {
+            { 'j>', '<Cmd>lua require("syntax-tree-surfer").surf("next", "visual", true)<CR>' },
+            { 'k>', '<Cmd>lua require("syntax-tree-surfer").surf("prev", "visual", true)<CR>' },
+        }},
     }},
+
+    -- -- Visual remaps
+    -- { mode = 'v', {
+    --     { 'J', '<Cmd>m \'>+1<CR>gv=gv' },
+    --     { 'K', '<Cmd>m \'<-2<CR>gv=gv' },
+    -- }},
 
     -- Terminal Remaps
     { mode = 't', {

@@ -280,6 +280,14 @@ return packer.startup({function()
         config = function() require('config.dap') end
     }
 
+    use {
+        'pianocomposer321/yabs.nvim',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function() require('config.yabs') end
+    }
+
+    use 'ziontee113/syntax-tree-surfer'
+
 end,
 config = {
     display = {

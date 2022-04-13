@@ -15,15 +15,21 @@ neorg.setup {
         ["core.norg.dirman"] = { -- Manage your directories with Neorg
             config = {
                 workspaces = {
-                    my_workspace = "~/neorg"
+                    my_workspace = "~/neorg",
+                    gtd = "~/gtd",
                 }
             }
         },
         ["core.integrations.telescope"] = {}, -- Enable the telescope module
         ["core.norg.completion"] = {
-    config = {
-        engine = "nvim-cmp" -- we current support nvim-compe and nvim-cmp only
-    }
-}
+            config = {
+                engine = "nvim-cmp" -- we current support nvim-compe and nvim-cmp only
+            }
+        },
+        ["core.gtd.base"] = {
+            config = {
+                workspace = "gtd",
+            }
+        },
     },
 }
