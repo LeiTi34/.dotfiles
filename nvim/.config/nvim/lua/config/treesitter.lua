@@ -31,7 +31,11 @@ local tsconfig = require('nvim-treesitter.configs')
 if not tsconfig then return end
 
 tsconfig.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {
+      "c", "lua", "rust", "c", "cpp", "python", "java", "javascript", "typescript", "latex", "make", "nix",
+      "php", "query", "norg", "norg_meta", "norg_table", "r", "scss", "yaml", "json", "html", "css",
+      "toml", "vue", "svelte", "ql", "bibtex", "bash", "cmake", "vim", "verilog", "comment",
+  }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   -- ignore_install = { "javascript" }, -- List of parsers to ignore installing
   highlight = {
     enable = true,              -- false will disable the whole extension
