@@ -32,7 +32,27 @@ yabs:setup({
                     condition = conditions.file_exists('src/server/package.json')
                 },
             },
-        }
+        },
+        tex = {
+            default_task = 'develop',
+            tasks = {
+                develop = {
+                    command = [[TermExec cmd='nodemon -x "pdflatex -shell-escape %:r && biber %:r && pdflatex -shell-escape %:r " -w ./ -e .tex']],
+                    type = 'vim',
+                    output = 'none',
+                },
+                build = {
+                    command = 'pdflatex %',
+                    type = 'shell',
+                    output = 'echo',
+                },
+                run = {
+                    command = 'zathura %:r.pdf & disown',
+                    type = 'shell',
+                    output = 'none',
+                }
+            }
+        },
     },
 })
 
