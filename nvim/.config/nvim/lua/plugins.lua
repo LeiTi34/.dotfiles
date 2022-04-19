@@ -165,6 +165,12 @@ return packer.startup({function()
 
     -- use 'neovim/nvim-lsp'
     --use 'aca/emmet-ls'
+
+    use {
+        'windwp/nvim-autopairs',
+        config = function() require('config.autopairs') end
+    }
+
     use {
         'hrsh7th/nvim-cmp',
         requires = {
@@ -178,6 +184,7 @@ return packer.startup({function()
             { 'hrsh7th/cmp-emoji', after = 'nvim-cmp' },
             { 'tzachar/cmp-tabnine', run = './install.sh' },
             { 'L3MON4D3/LuaSnip' },
+            { 'windwp/nvim-autopairs' },
         },
         config = function() require('config.cmp') end
     }
