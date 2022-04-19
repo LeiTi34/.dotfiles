@@ -37,7 +37,7 @@ yabs:setup({
             default_task = 'develop',
             tasks = {
                 develop = {
-                    command = [[TermExec cmd='nodemon -x "pdflatex -shell-escape %:r && biber %:r && pdflatex -shell-escape %:r " -w ./ -e .tex']],
+                    command = [[TermExec cmd='nodemon -x "pdflatex -shell-escape %:r && biber %:r && pdflatex -shell-escape %:r " -w ./ -e tex,bib,cls']],
                     type = 'vim',
                     output = 'none',
                 },
