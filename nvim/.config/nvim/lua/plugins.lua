@@ -295,6 +295,13 @@ return packer.startup({function()
 
     use 'ziontee113/syntax-tree-surfer'
 
+    -- Lua
+    use {
+        'folke/todo-comments.nvim',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function() require('config.todo-comments') end
+    }
+
 end,
 config = {
     display = {
