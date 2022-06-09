@@ -76,6 +76,13 @@ nest.applyKeymaps {
 
             -- yabs
             { 'r', '<Cmd>lua require("yabs"):run_default_task()<CR>' },
+
+            -- todo-comments
+            { 'c', '<Cmd>TodoQuickFix<CR>' },
+            { 'C', '<Cmd>TodoTelescope<CR>' },
+
+            --troubles
+            { 'd', '<Cmd>TroubleToggle<CR>' },
         }},
         { 'c', {
             { 'h', '<Cmd>lua require("harpoon.term").sendCommand(2, 1)<CR>' },

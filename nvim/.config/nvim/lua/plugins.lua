@@ -302,6 +302,12 @@ return packer.startup({function()
         config = function() require('config.todo-comments') end
     }
 
+    use {
+        "folke/trouble.nvim",
+        requires = "kyazdani42/nvim-web-devicons",
+        config = function() require('config.trouble') end
+    }
+
 end,
 config = {
     display = {
