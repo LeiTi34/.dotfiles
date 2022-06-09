@@ -26,9 +26,9 @@ def get_widgets(type="primary"):
             highlight_method="block",
 
             active=theme["fg_normal"],
-            inactive=theme["bg_dimmer"],
+            inactive=theme["bg_dim"],
             border=theme["green_soft"],
-            other_screen_border=theme["bg_dimmer"], # TODO
+            other_screen_border=theme["bg_dimmer"],
             other_current_screen_border=theme["bg_dimmer"],
             this_current_screen_border=theme["green_soft"],
             this_screen_border=theme["blue_soft"],
