@@ -1,5 +1,4 @@
-
-from libqtile.config import Click, Drag, Group, Key
+from libqtile.config import Click, Drag, Group, Key, ScratchPad, DropDown
 from libqtile.utils import guess_terminal
 from libqtile.lazy import lazy
 
@@ -15,12 +14,15 @@ keys = [
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod, "shift"], "space", lazy.layout.flip()),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([mod, "shift"], "h", lazy.layout.swap_left(), lazy.layout.move_left()),
+    Key([mod, "shift"], "l", lazy.layout.swap_right(), lazy.layout.move_right()),
+    # Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    # Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), lazy.layout.move_down(), desc="Move window down"),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), lazy.layout.move_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
@@ -28,6 +30,9 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod], "o", lazy.layout.grow()),
+    Key([mod], "i", lazy.layout.shrink()),
+    Key([mod], "m", lazy.layout.maximize()),
 
     ### Switch focus to specific monitor (out of three)
     Key([mod], "w", lazy.to_screen(0), desc='Keyboard focus to monitor 1'),
@@ -68,6 +73,9 @@ keys = [
     # Brightness Keys
     Key([], "XF86MonBrightnessDown", lazy.spawn("light -U 10"), desc="Lower Monitor Brightness"),
     Key([], "XF86MonBrightnessUp", lazy.spawn("light -A 10"), desc="Raise Monitor Brightness"),
+
+    # ScratchPad
+    Key([mod], "s", lazy.group["scratchpad"].dropdown_toggle("term")),
 ]
 
 groups = [Group(i) for i in "1234567890"]
@@ -102,6 +110,20 @@ for i in groups:
         ]
     )
 
+groups.append(
+    ScratchPad("scratchpad", [
+        # define a drop down terminal.
+        # it is placed in the upper third of screen by default.
+        DropDown(
+            "term",
+            "alacritty",
+            opacity = 1,
+            height = 0.5,
+            width = 0.99,
+            x = 0.005,
+        ),
+    ])
+)
 
 # Drag floating layouts.
 mouse = [
