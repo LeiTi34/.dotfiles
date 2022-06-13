@@ -3,7 +3,7 @@ if not lualine then return end
 
 lualine.setup({
     options = {
-        theme = 'onedark',
+        theme = 'leaf',
         globalstatus = true,
     }
 })
