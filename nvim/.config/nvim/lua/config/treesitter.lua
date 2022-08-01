@@ -35,6 +35,7 @@ tsconfig.setup {
       "c", "lua", "rust", "c", "cpp", "python", "java", "javascript", "typescript", "latex", "make", "nix",
       "php", "query", "norg", "norg_meta", "norg_table", "r", "scss", "yaml", "json", "html", "css",
       "toml", "vue", "svelte", "ql", "bibtex", "bash", "cmake", "vim", "verilog", "comment",
+      "markdown", "markdown_inline"
   }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   -- ignore_install = { "javascript" }, -- List of parsers to ignore installing
   highlight = {
