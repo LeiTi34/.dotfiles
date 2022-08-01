@@ -8,7 +8,6 @@ if not packer then
     return
 end
 
-
 return packer.startup({function()
     -- Get path to my pluginSettings config files
 
@@ -306,6 +305,11 @@ return packer.startup({function()
         "folke/trouble.nvim",
         requires = "kyazdani42/nvim-web-devicons",
         config = function() require('config.trouble') end
+    }
+
+    use {
+        'norcalli/nvim-colorizer.lua',
+        config = function() require('config.colorizer') end
     }
 
 end,
