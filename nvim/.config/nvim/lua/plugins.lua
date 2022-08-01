@@ -200,6 +200,47 @@ return packer.startup({function()
         config = function() require('config.lspconfig') end
     }
 
+    -- use {
+    --     'VonHeikemen/lsp-zero.nvim',
+    --     requires = {
+    --         -- LSP Support
+    --         {'neovim/nvim-lspconfig'},
+    --         {'williamboman/mason.nvim'},
+    --         {'williamboman/mason-lspconfig.nvim'},
+    --
+    --         -- Autocompletion
+    --         {'hrsh7th/nvim-cmp'},
+    --         {'hrsh7th/cmp-buffer'},
+    --         {'hrsh7th/cmp-path'},
+    --         {'saadparwaiz1/cmp_luasnip'},
+    --         {'hrsh7th/cmp-nvim-lsp'},
+    --         {'hrsh7th/cmp-nvim-lua'},
+    --
+    --         -- Snippets
+    --         {'L3MON4D3/LuaSnip'},
+    --         {'rafamadriz/friendly-snippets'},
+    --     },
+    --     config = function()
+    --         local lsp = require('lsp-zero')
+    --         lsp.preset('recommended')
+    --         lsp.setup()
+    --     end
+    -- }
+
+
+    -- Debugger
+    use {
+        'rcarriga/nvim-dap-ui',
+        requires = { 'mfussenegger/nvim-dap' },
+        config = function() require('config.dap') end
+    }
+
+    -- use {
+    --     'williamboman/mason.nvim',
+    --     requires = 'williamboman/mason-lspconfig.nvim',
+    --     config = function() require('mason').setup() end
+    -- }
+    --
     use 'github/copilot.vim'
 
     -- Code Action Menu
@@ -211,6 +252,7 @@ return packer.startup({function()
     -- Toggleterm
     use {
         'akinsho/toggleterm.nvim',
+        tag = 'v2.*',
         config = function() require('config.toggleterm') end
     }
 
@@ -279,13 +321,6 @@ return packer.startup({function()
     --     config = function () require('config.possession') end
     -- }
 
-    -- Debugger
-    use {
-        'rcarriga/nvim-dap-ui',
-        requires = { 'mfussenegger/nvim-dap' },
-        config = function() require('config.dap') end
-    }
-
     use {
         'pianocomposer321/yabs.nvim',
         requires = 'nvim-lua/plenary.nvim',
@@ -311,6 +346,13 @@ return packer.startup({function()
         'norcalli/nvim-colorizer.lua',
         config = function() require('config.colorizer') end
     }
+
+    -- -- nvim-docker
+    -- use {
+    --     'dgrbrady/nvim-docker',
+    --     requires = {'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'},
+    --     rocks = 'reactivex' -- ReactiveX Lua implementation
+    -- }
 
 end,
 config = {

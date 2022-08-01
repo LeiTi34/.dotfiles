@@ -9,6 +9,10 @@ vim.g.mapleader = ' '
 local nest = require('nest')
 if not nest then return end
 
+-- LUA bindings
+-- local nvim_docker = require('nvim-docker')
+
+-- Keymap
 nest.applyKeymaps {
     -- Leader commands
     { '<leader>', {
@@ -27,6 +31,8 @@ nest.applyKeymaps {
             { 'k', '<Cmd>lua require("telescope.builtin").keymaps()<CR>' },
             { 's', '<Cmd>SessionManager load_session<CR>' },
             { 't', '<Cmd>Telescope yabs tasks<CR>' },
+            -- -- Nvim Docker
+            -- { 'd', nvim_docker.containers.list_containers }
         }},
 
         -- Tree
