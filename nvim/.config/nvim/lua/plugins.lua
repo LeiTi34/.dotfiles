@@ -140,7 +140,14 @@ return packer.startup({function()
     -- Neogit
     use {
         'TimUntersberger/neogit',
-        requires = 'nvim-lua/plenary.nvim'
+        requires = 'nvim-lua/plenary.nvim',
+        config = function()
+            require('neogit').setup({
+                integrations = {
+                    diffview = true,
+                }
+            })
+        end
     }
 
     -- - LSP TS Utils
