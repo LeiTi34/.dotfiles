@@ -1,8 +1,34 @@
-from keys import mod, keys, groups, mouse
-from layouts import layouts, floating_layout
-from screens import screens
+import keys as Keys
+import layouts as Layouts
+import screens as Screens
+import groups as Groups
+import mouse as Mouse
+
 import hooks
 
+# Keys
+keys = Keys.get_keys()
+
+# Mouse
+mouse = Mouse.get_mouse()
+
+# Groups
+groups = Groups.get_groups()
+keys.extend(Groups.get_keys(groups))
+groups.extend(Groups.get_scratchpad_groups())
+mouse.extend(Groups.get_mouse())
+
+# Layouts
+layouts = Layouts.get_layouts()
+floating_layout = Layouts.get_floating_layout()
+
+# Screens
+widget_defaults = Screens.get_widget_defaults()
+extension_defaults = widget_defaults.copy()
+screens = Screens.get_screens(connected_monitors=3)
+
+
+# Misc
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
 follow_mouse_focus = True

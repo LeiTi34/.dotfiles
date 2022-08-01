@@ -1,5 +1,5 @@
-class Colors():
-    colors = {
+def get_colors():
+    return {
         # light
         "lightest": "#f7faf3",
         "lighter": "#ecefe8",

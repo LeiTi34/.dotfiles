@@ -3,18 +3,18 @@ import psutil
 from libqtile import bar, widget, qtile
 from libqtile.config import Screen
 
-from themes import Themes
+import themes as Themes
 
-theme = Themes().get_theme('darkest')
+theme = Themes.get_theme()
 
 
-widget_defaults = dict(
-    font="Hack",
-    fontsize=13,
-    padding=3,
-    foreground=theme["fg_normal"],
-)
-extension_defaults = widget_defaults.copy()
+def get_widget_defaults():
+    return dict(
+        font="Hack",
+        fontsize=13,
+        padding=3,
+        foreground=theme["fg_normal"],
+    )
 
 def get_widgets(type="primary"):
     widgets = [
@@ -238,10 +238,12 @@ def get_status_bar(type="primary"):
 def get_screen(type="primary"):
     return Screen(top=get_status_bar(type=type), wallpaper='~/.config/qtile/wallpaper.jpg', wallpaper_mode='fill')
 
-screens = [get_screen()]
 
-connected_monitors = 3
+def get_screens(connected_monitors=1):
+    screens = [get_screen()]
 
-if connected_monitors > 1:
-    for _ in range(1, connected_monitors):
-        screens.append(get_screen(type="secondary"))
+    if connected_monitors > 1:
+        for _ in range(1, connected_monitors):
+            screens.append(get_screen(type="secondary"))
+
+    return screens
