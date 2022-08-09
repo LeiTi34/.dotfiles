@@ -387,7 +387,11 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 eval $(thefuck --alias)
 
 # Lazy load Node Version Manager
-group_lazy_load /usr/share/nvm/init-nvm.sh nvm node npm truffle gulp yarn
+group_lazy_load /usr/share/nvm/init-nvm.sh nvm node npm truffle gulp yarn ng
 
 ## END OF FILE #################################################################
 
+
+
+# Load Angular CLI autocompletion.
+#source <(ng completion script)
