@@ -16,6 +16,12 @@ vim.fn.sign_define("DiagnosticSignHint",
 -- in the form "LspDiagnosticsSignWarning"
 
 require('neo-tree').setup({
+    sources = {
+        "filesystem",
+        "buffers",
+        "git_status",
+        "diagnostics",
+    },
     nesting_rules = {},
     filesystem = {
         filtered_items = {
