@@ -40,7 +40,7 @@ nest.applyKeymaps {
             { 'n', '<Cmd>Neotree reveal toggle source=filesystem<CR>' },
             { 'b', '<Cmd>Neotree reveal toggle source=buffers<CR>' },
             { 'g', '<Cmd>Neotree reveal toggle source=git_status<CR>' },
-            { 'd', '<Cmd>Neotree reveal toggle source=diagnostics<CR>' },
+            { 'd', '<Cmd>Neotree reveal bottom toggle source=diagnostics<CR>' },
         }},
 
         -- LSP
@@ -48,7 +48,7 @@ nest.applyKeymaps {
         { 'rf', '<Cmd>TSLspRenameFile<CR>' },
         { 'ia', '<Cmd>TSLspImportAll<CR>' },
         -- Code Action Menu
-        { 'ca', '<cmd>CodeActionMenu<CR>' },
+        { 'cA', '<cmd>CodeActionMenu<CR>' },
 
         -- Neogit
         { 'gs', '<Cmd>lua require("neogit").open()<CR>' },

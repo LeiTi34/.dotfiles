@@ -15,6 +15,7 @@ vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
+    require('lsp_menu').on_attach(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -30,7 +31,12 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>cA', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+
+    vim.keymap.set('n', '<leader>ca', require'lsp_menu'.codeaction.run, { buffer = bufnr })
+    vim.keymap.set('v', '<leader>ca', function() require'lsp_menu'.codeaction.run{range = true} end, { buffer = bufnr })
+    -- vim.keymap.set('n', '<leader>cl', require'lsp_menu'.codelens.run, { buffer = bufnr })
+
     vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
@@ -50,6 +56,60 @@ for _, lsp in ipairs(servers) do
         }
     }
 end
+
+nvim_lsp.texlab.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        texlab = {
+            auxDirectory = ".",
+            bibtexFormatter = "texlab",
+            build = {
+                args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                executable = "latexmk",
+                forwardSearchAfter = false,
+                onSave = false
+            },
+            chktex = {
+                onEdit = false,
+                onOpenAndSave = false
+            },
+            diagnosticsDelay = 300,
+            formatterLineLength = 80,
+            forwardSearch = {
+                args = {}
+            },
+            latexFormatter = "latexindent",
+            latexindent = {
+                modifyLineBreaks = false
+            }
+        }
+    }
+})
+
+-- setup LSP config
+nvim_lsp.ltex.setup({
+    on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+        require("ltex_extra").setup {
+            load_langs = { "de-AT", "en-US" }, -- table <string> : languages for witch dictionaries will be loaded
+            init_check = true, -- boolean : whether to load dictionaries on startup
+            path = ".ltex", -- string : path to store dictionaries. Relative path uses current working directory
+            log_level = "none", -- string : "none", "trace", "debug", "info", "warn", "error", "fatal"
+        }
+    end,
+    capabilities = capabilities,
+    filetypes = { "bib", "markdown", "org", "plaintex", "rst", "rnoweb", "tex", "ltex", "texlab" }, --gitcommit
+    settings = {
+        ltex = {
+            language = "de-AT",
+            additionalRules = {
+                enablePickyRules = true,
+                motherTongue = "de-AT",
+            },
+        },
+    },
+})
 
 -- Setup with snippet support
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -105,53 +165,3 @@ require'lspconfig'.sumneko_lua.setup {
     },
 }
 
---nvim_lsp.ltex.setup()
---require("grammar-guard").init()
--- setup LSP config
--- nvim_lsp.ltex.setup({
---     cmd = { 'ltex-ls' }, -- add this if you install ltex-ls yourself
---     settings = {
---         ltex = {
---             enabled = { "latex", "tex", "bib", "markdown" },
---             language = {"de-AT", "en"},
---             diagnosticSeverity = "information",
---             setenceCacheSize = 2000,
---             additionalRules = {
---                 enablePickyRules = true,
---                 motherTongue = "de-AT",
---             },
---             trace = { server = "verbose" },
---             dictionary = {},
---             disabledRules = {},
---             hiddenFalsePositives = {},
---         },
---     },
--- })
-
-nvim_lsp.texlab.setup({
-    settings = {
-        texlab = {
-            auxDirectory = ".",
-            bibtexFormatter = "texlab",
-            build = {
-                args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-                executable = "latexmk",
-                forwardSearchAfter = false,
-                onSave = false
-            },
-            chktex = {
-                onEdit = false,
-                onOpenAndSave = false
-            },
-            diagnosticsDelay = 300,
-            formatterLineLength = 80,
-            forwardSearch = {
-                args = {}
-            },
-            latexFormatter = "latexindent",
-            latexindent = {
-                modifyLineBreaks = false
-            }
-        }
-    }
-})

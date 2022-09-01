@@ -74,10 +74,10 @@ return packer.startup({function()
     } ]]
     -- use 'sainnhe/sonokai'
 
-    use {
-        'stevearc/dressing.nvim',
-        config = function() require('config.dressing') end
-    }
+    -- use {
+    --     'stevearc/dressing.nvim',
+    --     config = function() require('config.dressing') end
+    -- }
 
     -- CHADTree
     --[[ use {
@@ -198,12 +198,15 @@ return packer.startup({function()
     use { 'saadparwaiz1/cmp_luasnip' }
 
     -- LSP
+    use { 'barreiroleo/ltex-extra.nvim' }
     use {
         'neovim/nvim-lspconfig',
         after = 'cmp-nvim-lsp',
         requires = {
-            'brymer-meneses/grammar-guard.nvim',
-            requires = 'neovim/nvim-lspconfig.lua'
+            'barreiroleo/ltex-extra.nvim',
+            -- 'brymer-meneses/grammar-guard.nvim',
+            -- requires = 'neovim/nvim-lspconfig.lua',
+            'aspeddro/lsp_menu.nvim',
         },
         config = function() require('config.lspconfig') end
     }
@@ -249,7 +252,7 @@ return packer.startup({function()
     --     config = function() require('mason').setup() end
     -- }
     --
-    use 'github/copilot.vim'
+    -- use 'github/copilot.vim'
 
     -- Code Action Menu
     use {
