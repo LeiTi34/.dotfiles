@@ -68,6 +68,7 @@ def get_keys():
         Key([], "XF86AudioMute", lazy.spawn("pulsemixer --toggle-mute"), desc="Mute/Unmute"),
         Key([], "XF86AudioLowerVolume", lazy.spawn("pulsemixer --change-volume -5"), desc="Lower Volume"),
         Key([], "XF86AudioRaiseVolume", lazy.spawn("pulsemixer --change-volume +5"), desc="Raise Volume"),
+        Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Raise Volume"),
         # Mute Microphone
         #Key([], "XF86AudioMicMute", lazy.spawn("pulsemixer --toggle-mute-microphone"), desc="Mute/Unmute Microphone"),
         Key([], "XF86AudioMicMute", lazy.spawn("pamixer --default-source -t"), desc="Mute/Unmute Microphone"),
