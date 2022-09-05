@@ -19,5 +19,7 @@ opt.shiftwidth = 4
 opt.expandtab = true
 
 opt.hlsearch = false
+
+opt.guifont = {'Fira Code', ':h11'}
 --[[
 vim.opt.completeopt = "menu,menuone,noselect" ]]
