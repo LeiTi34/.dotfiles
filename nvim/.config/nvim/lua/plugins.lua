@@ -29,7 +29,11 @@ return packer.startup({function()
         -- Lualine
     use {
         'nvim-lualine/lualine.nvim',
-         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+         requires = {
+             { 'kyazdani42/nvim-web-devicons', opt = true },
+             'arkav/lualine-lsp-progress',
+            "SmiteshP/nvim-navic",
+         },
          config = function() require('config.lualine') end
      }
 
@@ -207,6 +211,7 @@ return packer.startup({function()
             -- 'brymer-meneses/grammar-guard.nvim',
             -- requires = 'neovim/nvim-lspconfig.lua',
             'aspeddro/lsp_menu.nvim',
+            "SmiteshP/nvim-navic",
         },
         config = function() require('config.lspconfig') end
     }
