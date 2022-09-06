@@ -37,20 +37,15 @@ yabs:setup({
             default_task = 'develop',
             tasks = {
                 develop = {
-                    command = [[TermExec cmd='nodemon -x "pdflatex -shell-escape %:r && biber %:r && pdflatex -shell-escape %:r " -w ./ -e tex,bib,cls']],
+                    command = [[TermExec cmd='latexmk -shell-escape -pdf -pvc']],
                     type = 'vim',
                     output = 'none',
                 },
                 build = {
-                    command = 'pdflatex %',
+                    command = 'latexmk -shell-escape -pdf',
                     type = 'shell',
                     output = 'echo',
                 },
-                run = {
-                    command = 'zathura %:r.pdf & disown',
-                    type = 'shell',
-                    output = 'none',
-                }
             }
         },
     },
