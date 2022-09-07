@@ -78,10 +78,10 @@ return packer.startup({function()
     } ]]
     -- use 'sainnhe/sonokai'
 
-    -- use {
-    --     'stevearc/dressing.nvim',
-    --     config = function() require('config.dressing') end
-    -- }
+    use {
+        'stevearc/dressing.nvim',
+        config = function() require('config.dressing') end
+    }
 
     -- CHADTree
     --[[ use {
@@ -123,7 +123,6 @@ return packer.startup({function()
         run = ':TSUpdate',
         config = function() require('config.treesitter') end
     }
-    use 'nvim-treesitter/nvim-treesitter-angular"
     use 'nvim-treesitter/playground'
 
     use {
