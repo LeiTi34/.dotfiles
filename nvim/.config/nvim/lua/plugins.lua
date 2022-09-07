@@ -123,6 +123,7 @@ return packer.startup({function()
         run = ':TSUpdate',
         config = function() require('config.treesitter') end
     }
+    use 'nvim-treesitter/nvim-treesitter-angular"
     use 'nvim-treesitter/playground'
 
     use {

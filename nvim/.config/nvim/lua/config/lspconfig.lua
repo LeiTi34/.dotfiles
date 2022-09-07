@@ -1,6 +1,8 @@
 local nvim_lsp = require('lspconfig')
 if not nvim_lsp then return end
 
+local util = require "lspconfig.util"
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
@@ -129,11 +131,19 @@ end
 
 -- Angularls
 local project_library_path = vim.fn.stdpath("config").."/lsp"
-local cmd = {"ngserver", "--stdio", "--tsProbeLocations", project_library_path , "--ngProbeLocations", project_library_path}
+local cmd = {
+    "ngserver",
+    "--stdio",
+    "--tsProbeLocations", project_library_path,
+    "--ngProbeLocations", project_library_path,
+    "--includeCompletionsWithSnippetText",
+    "--includeAutomaticOptionalChainCompletions",
+}
 
 require'lspconfig'.angularls.setup{
     cmd = cmd,
-    on_new_config = function(new_config, new_root_dir)
+    root_dir = util.root_pattern('angular.json'),
+    on_new_config = function(new_config)
         new_config.cmd = cmd
     end,
 }

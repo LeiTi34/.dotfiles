@@ -57,4 +57,4 @@ vim.keymap.set('n', '<Leader><Leader>s', '<Cmd>source ~/.config/nvim/lua/config/
 -- Load predefined snippets
 
 vscode_loader.load()
-vscode_loader.load({paths = snippet_dir .. 'vscode-angular-snippets'})
+vscode_loader.lazy_load({paths = snippet_dir .. 'vscode-angular-snippets'})
