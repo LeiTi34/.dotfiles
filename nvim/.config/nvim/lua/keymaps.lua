@@ -29,6 +29,7 @@ nest.applyKeymaps {
             { 'g', '<Cmd>lua require("telescope.builtin").live_grep()<CR>' },
             { 'h', '<Cmd>lua require("telescope.builtin").help_tags()<CR>' },
             { 'k', '<Cmd>lua require("telescope.builtin").keymaps()<CR>' },
+            { 'r', '<Cmd>lua require("telescope.builtin").registers()<CR>' },
             { 's', '<Cmd>SessionManager load_session<CR>' },
             { 't', '<Cmd>Telescope yabs tasks<CR>' },
             -- -- Nvim Docker
