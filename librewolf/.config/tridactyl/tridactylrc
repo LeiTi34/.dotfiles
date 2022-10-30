@@ -22,6 +22,8 @@ bind gD composite tabduplicate; tabdetach
 bind gp tabpush
 bind gP tabpush_and_focus
 
+" Ignore Sites
+autocmd DocStart ^https://docs\.google\.com/ mode ignore
 
 " custom commands
 
@@ -30,13 +32,30 @@ command tabpush_and_focus jsb void async function(){const tab=await activeTab();
 
 " Videomode
 "
+
+" Settings
 set video_seek 5
+set video_mark_tollorance 1
+set video_seek_op 120
+seturl ^https://www.youtube.com/watch\?v=116OjLa1DwY video_seek_op 42
+
+" Init
+bindurl ^https://www.youtube.com/watch\? v video_mode
+autocmd DocLoad ^https://www.youtube.com/watch\? video_mode
+
+" Bindings
+bind gv video_mode
+set videomaps.V exit_video
+set videomaps.z mode normal
+
+set videomaps.gf fullscreen
+set videomaps.q fullscreen
+set videomaps.🕷🕷INHERITS🕷🕷 nmaps
+
 " seek forward/backward seconds defined in video_seek
 set videomaps.w jsep $ex('video_with').then(video => {const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek')); video.currentTime += tic * count }); 1;
 set videomaps.b jsep $ex('video_with').then(video => {const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek')); video.currentTime -= tic * count }); 1;
 
-set video_seek_op 120
-seturl ^https://www.youtube.com/watch\?v=116OjLa1DwY video_seek_op 42
 set videomaps.C video_with video.currentTime = Number(get('video_seek_op'))
 set videomaps.a video_with video.currentTime = 0
 set videomaps.A video_with video.currentTime = video.duration
@@ -45,16 +64,17 @@ set videomaps.gt fillcmdline video_goto
 set videomaps.i fillcmdline video_goto
 set videomaps.I fillcmdline video_goby
 
-alias video_goby js -d@ let time = JS_ARGS.filter(Boolean); let sign = '+'; if (time[0].match(/^[-+]/)) { sign = time[0].charAt(0); time[0] = time[0].slice(1) } time = time.filter(Boolean).map(Number); const second = time.reduce((s, n) => s*60+n, 0); tri.controller.acceptExCmd(`video_with video.currentTime ${sign}= ${second}`) @
-alias video_goto js -d@ let time = JS_ARGS.filter(Boolean); let sign = '+'; if (time[0].match(/^[-+]/)) { sign = time[0].charAt(0); time[0] = time[0].slice(1) } time = time.filter(Boolean).map(Number); let second = time.reduce((s, n) => s*60+n, 0); if (sign == '-') second = `video.duration - ${second}`; tri.controller.acceptExCmd(`video_with video.currentTime = ${second}`) @
-
 set videomaps.m gobble 1 video_mark_add
 set videomaps.' gobble 1 video_mark_goto
 set videomaps.ge video_mark_empty
 
 set videomaps.E video_mark_goby +1
 set videomaps.e video_mark_goby -1
-set video_mark_tollorance 1
+
+" Functions
+alias video_goby js -d@ let time = JS_ARGS.filter(Boolean); let sign = '+'; if (time[0].match(/^[-+]/)) { sign = time[0].charAt(0); time[0] = time[0].slice(1) } time = time.filter(Boolean).map(Number); const second = time.reduce((s, n) => s*60+n, 0); tri.controller.acceptExCmd(`video_with video.currentTime ${sign}= ${second}`) @
+alias video_goto js -d@ let time = JS_ARGS.filter(Boolean); let sign = '+'; if (time[0].match(/^[-+]/)) { sign = time[0].charAt(0); time[0] = time[0].slice(1) } time = time.filter(Boolean).map(Number); let second = time.reduce((s, n) => s*60+n, 0); if (sign == '-') second = `video.duration - ${second}`; tri.controller.acceptExCmd(`video_with video.currentTime = ${second}`) @
+
 alias video_mark_add jsep void $ex('video_with').then(video => { const mark = JS_ARG; tri.videoMark.addMark(mark, video.currentTime); $ex('video_mode') })
 alias video_mark_empty js const vm = tri.videoMark; vm.historyStore = Object.values(vm.mark).sort((a,b) => a-b);
 alias video_mark_goby jsep void $ex('video_with').then(video => { const current = video.currentTime; const n = Number(JS_ARG); const time = tri.videoMark.goby(current, n); video.currentTime = time; $ex('video_mode'); })
@@ -64,16 +84,6 @@ alias video_mark_init jse if(!tri.videoMark){tri.videoMark={historyStore:[],mark
 
 alias video_mode composite mode video ; video_mark_init
 alias exit_video mode normal
-bind gv video_mode
-set videomaps.V exit_video
-set videomaps.z mode normal
-
-bindurl ^https://www.youtube.com/watch\? v video_mode
-autocmd DocLoad ^https://www.youtube.com/watch\? video_mode
-
-set videomaps.gf fullscreen
-set videomaps.q fullscreen
-set videomaps.🕷🕷INHERITS🕷🕷 nmaps
 
 alias video_with jse let video; if (document.activeElement.name == 'VIDEO') video = document.activeElement; else video = $all('video').find(v => !v.paused); if (!video) video = $('video'); video;
 alias jse js 'use strict'; function $all(q, root=document) { return Array.from(root.querySelectorAll(q)) }; function $(q, root=document) { return root.querySelector(q) }; let $ex = (s) => tri.controller.acceptExCmd(s) ; let $set = (...args) => tri.config.set(...args);
