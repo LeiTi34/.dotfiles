@@ -70,6 +70,7 @@ return packer.startup({function()
     -- Theme
     use {
         'daschw/leaf.nvim',
+        tag = 'v0.1.0',
         config = function() require('config.leaf-theme') end
     }
     --[[ use {
