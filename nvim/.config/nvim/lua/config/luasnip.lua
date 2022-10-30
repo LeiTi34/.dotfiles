@@ -1,19 +1,23 @@
 local ls = require('luasnip')
-local types = require('luasnip.util.types')
-local events = require('luasnip.util.events')
 
-local fmt = require('luasnip.extras.fmt').fmt
-local rep = require('luasnip.extras').rep
-local snippet_from_nodes = ls.sn
-local vscode_loader = require("luasnip.loaders.from_vscode")
-
-local s = ls.s
+local s = ls.snippet
+local sn = ls.snippet_node
+local isn = ls.indent_snippet_node
 local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
 local c = ls.choice_node
 local d = ls.dynamic_node
-local l = require('luasnip.extras').lambda
+local r = ls.restore_node
+local events = require("luasnip.util.events")
+local ai = require("luasnip.nodes.absolute_indexer")
+local fmt = require("luasnip.extras.fmt").fmt
+local extras = require("luasnip.extras")
+local m = extras.m
+local l = extras.l
+local rep = extras.rep
+local postfix = require("luasnip.extras.postfix").postfix
+local vscode_loader = require("luasnip.loaders.from_vscode")
 
 local snippet_dir = vim.fn['stdpath']('config')..'/snippets/'
 
@@ -44,7 +48,39 @@ end, { silent = true })
 
 vim.keymap.set('n', '<Leader><Leader>s', '<Cmd>source ~/.config/nvim/lua/config/luasnip.lua<CR>')
 
--- -- Custom snippets
+-- Functions
+local date = function() return {os.date('%Y-%m-%d')} end
+
+-- Custom snippets
+ls.add_snippets(nil, {
+    all = {
+        s('test', {extras.partial(os.date, '%Y')}),
+        s('test2', f(date))
+
+    },
+    markdown = {
+        s({
+            trig = 'meta',
+            namr = 'Metadata',
+            dscr = 'Yaml medadata for markdown'
+        },
+        {
+            t({'---',
+            'title: '}), i(1, 'title'), t({'',
+            'author: '}), i(2, 'Alex Leidwein'), t({'',
+            'date: '}), i(3, extras.partial(os.date, '%Y-%m-%d')), t({'',
+            'fontfamily: '}), i(4, 'helvet'), t({'',
+            'header-includes:',
+            '  - \\renewcommand{\\familydefault}{\\sfdefault}',
+            'pagestyle: empty',
+            'papersize: a4',
+            'geometry: margin='}), i(5, '3cm'), t({'',
+            'output: pdf_document',
+            '---',
+            ''}), i(0)
+        }),
+    }
+})
 -- ls.add_snippets('all', {
 --     s('test',t 'test successful'),
 -- })
