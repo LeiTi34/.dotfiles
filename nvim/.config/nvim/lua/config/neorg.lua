@@ -5,6 +5,7 @@ neorg.setup {
     -- Tell Neorg what modules to load
     load = {
         ["core.defaults"] = {}, -- Load all the default modules
+        ["core.export"] = {},
         ["core.keybinds"] = {
             config = {
                 default_keybinds = true,
