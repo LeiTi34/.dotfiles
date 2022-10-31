@@ -65,11 +65,31 @@ return packer.startup({function()
     }
 
     -- Theme
+    -- use {
+    --     'daschw/leaf.nvim',
+    --     tag = 'v0.1.0',
+    --     config = function() require('config.leaf-theme') end
+    -- }
+
     use {
-        'daschw/leaf.nvim',
-        tag = 'v0.1.0',
-        config = function() require('config.leaf-theme') end
+        'navarasu/onedark.nvim',
+        config = function()
+            local onedark = require('onedark')
+            onedark.setup({
+                style = 'warmer'
+            })
+            onedark.load()
+        end
     }
+
+    -- use {
+    --     'shaunsingh/oxocarbon.nvim',
+    --     run = './install.sh'
+    --     config = function()
+    --         vim.cmd.colorscheme "oxocarbon"
+    --     end
+    -- }
+
     --[[ use {
         'projekt0n/github-nvim-theme',
         config = function() require('config.github-theme') end
