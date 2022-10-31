@@ -53,11 +53,6 @@ local date = function() return {os.date('%Y-%m-%d')} end
 
 -- Custom snippets
 ls.add_snippets(nil, {
-    all = {
-        s('test', {extras.partial(os.date, '%Y')}),
-        s('test2', f(date))
-
-    },
     markdown = {
         s({
             trig = 'meta',
