@@ -17,9 +17,6 @@ return packer.startup({function()
     -- Faster startup time
     use 'lewis6991/impatient.nvim'
 
-    -- Nested keymaps
-    use 'LionC/nest.nvim'
-
     --[[ -- Feline
     use {
         'feline-nvim/feline.nvim',
@@ -344,7 +341,10 @@ return packer.startup({function()
         config = function() require('config.yabs') end
     }
 
-    use 'ziontee113/syntax-tree-surfer'
+    use {
+        'ziontee113/syntax-tree-surfer',
+        config = function() require('syntax-tree-surfer').setup() end
+    }
 
     -- Lua
     use {

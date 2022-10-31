@@ -1,163 +1,143 @@
-local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 
-local options = { noremap = true, silent = true }
+local options = { remap = false, silent = true, nowait = true }
+local opts = options
 
 -- Set up <Space> to be the global leader
-map('n', '<Space>', '<NOP>', options)
+map('n', '<Space>', '', opts)
 vim.g.mapleader = ' '
 
-local nest = require('nest')
-if not nest then return end
 
--- LUA bindings
--- local nvim_docker = require('nvim-docker')
+-- Window navigation
+map('n', '<leader>h', '<Cmd>wincmd h<CR>', opts)
+map('n', '<leader>j', '<Cmd>wincmd j<CR>', opts)
+map('n', '<leader>k', '<Cmd>wincmd k<CR>', opts)
+map('n', '<leader>l', '<Cmd>wincmd l<CR>', opts)
 
--- Keymap
-nest.applyKeymaps {
-    -- Leader commands
-    { '<leader>', {
-        -- Window navigation
-        { 'h', '<Cmd>wincmd h<CR>' },
-        { 'j', '<Cmd>wincmd j<CR>' },
-        { 'k', '<Cmd>wincmd k<CR>' },
-        { 'l', '<Cmd>wincmd l<CR>' },
+-- Telescope
+local telescope_builtin = require('telescope.builtin')
+map('n', '<leader>fb', telescope_builtin.buffers, opts)
+map('n', '<leader>ff', telescope_builtin.find_files, opts)
+map('n', '<leader>fg', telescope_builtin.live_grep, opts)
+map('n', '<leader>fh', telescope_builtin.help_tags, opts)
+map('n', '<leader>fk', telescope_builtin.keymaps, opts)
+map('n', '<leader>fr', telescope_builtin.registers, opts)
 
-        -- Telescope
-        { 'f', {
-            { 'b', '<Cmd>lua require("telescope.builtin").buffers()<CR>' },
-            { 'f', '<Cmd>lua require("telescope.builtin").find_files()<CR>' },
-            { 'g', '<Cmd>lua require("telescope.builtin").live_grep()<CR>' },
-            { 'h', '<Cmd>lua require("telescope.builtin").help_tags()<CR>' },
-            { 'k', '<Cmd>lua require("telescope.builtin").keymaps()<CR>' },
-            { 'r', '<Cmd>lua require("telescope.builtin").registers()<CR>' },
-            { 's', '<Cmd>SessionManager load_session<CR>' },
-            { 't', '<Cmd>Telescope yabs tasks<CR>' },
-            -- -- Nvim Docker
-            -- { 'd', nvim_docker.containers.list_containers }
-        }},
+map('n', '<leader>fs', '<Cmd>SessionManager load_session<CR>', opts)
+map('n', '<leader>ft', '<Cmd>Telescope yabs tasks<CR>', opts)
 
-        -- Tree
-        { 'n', {
-            { 'n', '<Cmd>Neotree reveal toggle source=filesystem<CR>' },
-            { 'b', '<Cmd>Neotree reveal toggle source=buffers<CR>' },
-            { 'g', '<Cmd>Neotree reveal toggle source=git_status<CR>' },
-            { 'd', '<Cmd>Neotree reveal bottom toggle source=diagnostics<CR>' },
-        }},
+-- Neotree
+map('n','<leader>nn', '<Cmd>Neotree reveal toggle source=filesystem<CR>', opts)
+map('n','<leader>nb', '<Cmd>Neotree reveal toggle source=buffers<CR>', opts)
+map('n','<leader>ng', '<Cmd>Neotree reveal toggle source=git_status<CR>', opts)
+map('n','<leader>nd', '<Cmd>Neotree reveal bottom toggle source=diagnostics<CR>', opts)
 
-        -- LSP
-        { 'oi', '<Cmd>TSLspOrganize<CR>' },
-        { 'rf', '<Cmd>TSLspRenameFile<CR>' },
-        { 'ia', '<Cmd>TSLspImportAll<CR>' },
-        -- Code Action Menu
-        { 'cA', '<cmd>CodeActionMenu<CR>' },
+-- Neogit
+map('n', '<leader>gs', '<Cmd>lua require("neogit").open()<CR>', opts)
 
-        -- Neogit
-        { 'gs', '<Cmd>lua require("neogit").open()<CR>' },
+-- Cokeline
+map('n', '<leader>bb', '<Plug>(cokeline-pick-focus)', opts)
+map('n', '<leader>bc', '<Plug>(cokeline-pick-close)', opts)
+map('n', '<leader>bn', '<Plug>(cokeline-focus-next)', opts)
+map('n', '<leader>bp', '<Plug>(cokeline-focus-prev)', opts)
 
-        -- Cokeline
-        { 'b', {
-            { 'b', '<Plug>(cokeline-pick-focus)' },
-            { 'c', '<Plug>(cokeline-pick-close)' },
-            { 'n', '<Plug>(cokeline-focus-next)' },
-            { 'p', '<Plug>(cokeline-focus-prev)' },
-        }},
+-- Dadbod UI
+map('n', '<leader>du', '<Cmd>DBUIToggle<CR>', opts)
+map('n', '<leader>df', '<Cmd>DBUIFindBuffer<CR>', opts)
+map('n', '<leader>dr', '<Cmd>DBUIRenameBuffer<CR>', opts)
+map('n', '<leader>dl', '<Cmd>DBUILastQueryInfo<CR>', opts)
 
-        -- Dadbod UI
-        { 'd', {
-            { 'u', '<Cmd>DBUIToggle<CR>' },
-            { 'f', '<Cmd>DBUIFindBuffer<CR>' },
-            { 'r', '<Cmd>DBUIRenameBuffer<CR>' },
-            { 'l', '<Cmd>DBUILastQueryInfo<CR>' },
-        }},
+-- Harpoon
+local harpoon_mark = require("harpoon.mark")
+map('n', '<leader>Ha', harpoon_mark.add_file, opts)
+local harpoon_ui = require("harpoon.ui")
+map('n', '<leader>Hm', harpoon_ui.toggle_quick_menu, opts)
+-- Harpoon navigation
+map('n', '<C-h>', function() harpoon_ui.nav_file(1) end, opts)
+map('n', '<C-j>', function() harpoon_ui.nav_file(2) end, opts)
+map('n', '<C-k>', function() harpoon_ui.nav_file(3) end, opts)
+map('n', '<C-l>', function() harpoon_ui.nav_file(4) end, opts)
+local harpoon_cmd_ui = require("harpoon.cmd-ui")
+map('n', '<leader>tm', harpoon_cmd_ui.toggle_quick_menu, opts)
+local harpoon_term = require("harpoon.term")
+map('n', '<leader>th', function() harpoon_term.gotoTerminal(1) end, opts)
+map('n', '<leader>tj', function() harpoon_term.gotoTerminal(2) end, opts)
+map('n', '<leader>tk', function() harpoon_term.gotoTerminal(3) end, opts)
+map('n', '<leader>tl', function() harpoon_term.gotoTerminal(4) end, opts)
+map('n', '<leader>ch', function() harpoon_term.sendCommand(2, 1) end, opts)
+map('n', '<leader>cj', function() harpoon_term.sendCommand(1, 2) end, opts)
+map('n', '<leader>ck', function() harpoon_term.sendCommand(1, 3) end, opts)
+map('n', '<leader>cl', function() harpoon_term.sendCommand(1, 4) end, opts)
 
-        -- Harpoon
-        { 'h', {
-            { 'a', '<Cmd>lua require("harpoon.mark").add_file()<CR>' },
-            { 'm', '<Cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>' },
-        }},
-        { 't', {
-            { 'm', '<Cmd>lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>' },
-            { 'h', '<Cmd>lua require("harpoon.term").gotoTerminal(1)<CR>' },
-            { 'j', '<Cmd>lua require("harpoon.term").gotoTerminal(2)<CR>' },
-            { 'k', '<Cmd>lua require("harpoon.term").gotoTerminal(3)<CR>' },
-            { 'l', '<Cmd>lua require("harpoon.term").gotoTerminal(4)<CR>' },
+-- yabs
+local yabs = require("yabs")
+map('n', '<leader>tr', yabs.run_default_task, opts)
 
-            -- yabs
-            { 'r', '<Cmd>lua require("yabs"):run_default_task()<CR>' },
+-- todo-comments
+map('n', '<leader>tc', '<Cmd>TodoQuickFix<CR>', opts)
+map('n', '<leader>tC', '<Cmd>TodoTelescope<CR>', opts)
 
-            -- todo-comments
-            { 'c', '<Cmd>TodoQuickFix<CR>' },
-            { 'C', '<Cmd>TodoTelescope<CR>' },
+--troubles
+map('n', '<leader>td', '<Cmd>TroubleToggle<CR>', opts)
 
-            --troubles
-            { 'd', '<Cmd>TroubleToggle<CR>' },
-        }},
-        { 'c', {
-            { 'h', '<Cmd>lua require("harpoon.term").sendCommand(2, 1)<CR>' },
-            { 'j', '<Cmd>lua require("harpoon.term").sendCommand(1, 2)<CR>' },
-            { 'k', '<Cmd>lua require("harpoon.term").sendCommand(1, 3)<CR>' },
-            { 'l', '<Cmd>lua require("harpoon.term").sendCommand(1, 4)<CR>' },
-        }},
+-- Git Worktree
+local telescope = require("telescope")
+map('n', '<leader>ww', telescope.extensions.git_worktree.git_worktrees, opts)
+map('n', '<leader>wc', telescope.extensions.git_worktree.create_git_worktree, opts)
 
-        -- Git Worktree
-        { 'w', {
-            { 'w', '<Cmd>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>' },
-            { 'c', '<Cmd>lua require("telescope").extensions.git_worktree.create_git_worktree()<CR>' },
-        }},
+-- Session
+map('n', '<leader>sf', '<Cmd>SessionManager load_session<CR>', opts)
+map('n', '<leader>sl', '<Cmd>SessionManager load_last_session<CR>', opts)
+map('n', '<leader>ss', '<Cmd>SessionManager save_current_session<CR>', opts)
 
-        -- Session
-        { 's', {
-            {'f', '<Cmd>SessionManager load_session<CR>' },
-            {'l', '<Cmd>SessionManager load_last_session<CR>' },
-            {'s', '<Cmd>SessionManager save_current_session<CR>' },
-        }},
-    }},
+-- Navigate Quick fix list
+map('n', '[q', '<Cmd>cprev<CR>', opts)
+map('n', ']q', '<Cmd>cnext<CR>', opts)
 
-    -- v commands
-    { 'v', {
-        -- Syntax tree surfer
-        { 'd', '<Cmd>lua require("syntax-tree-surfer").move("n", false)<CR>'}, -- TODO Check if binding is good/needed
-        { 'u', '<Cmd>lua require("syntax-tree-surfer").move("n", true)<CR>'},
-        { 'x', '<Cmd>lua require("syntax-tree-surfer").select()<CR>'},
-        { 'n', '<Cmd>lua require("syntax-tree-surfer").select_current_node()<CR>'},
-    }},
+-- Syntax Tree Surfer
+-- Normal Mode Swapping:
+-- Swap The Master Node relative to the cursor with it's siblings, Dot Repeatable
+vim.keymap.set("n", "vU", function()
+	vim.opt.opfunc = "v:lua.STSSwapUpNormal_Dot"
+	return "g@l"
+end, { silent = true, expr = true })
+vim.keymap.set("n", "vD", function()
+	vim.opt.opfunc = "v:lua.STSSwapDownNormal_Dot"
+	return "g@l"
+end, { silent = true, expr = true })
 
-    -- Ctrl commands
-    { '<C-', {
-        -- Harpoon navigation
-        { 'h>', '<Cmd>lua require("harpoon.ui").nav_file(1)<CR>' },
-        { 'j>', '<Cmd>lua require("harpoon.ui").nav_file(2)<CR>' },
-        { 'k>', '<Cmd>lua require("harpoon.ui").nav_file(3)<CR>' },
-        { 'l>', '<Cmd>lua require("harpoon.ui").nav_file(4)<CR>' },
-    }},
+-- Swap Current Node at the Cursor with it's siblings, Dot Repeatable
+vim.keymap.set("n", "vd", function()
+	vim.opt.opfunc = "v:lua.STSSwapCurrentNodeNextNormal_Dot"
+	return "g@l"
+end, { silent = true, expr = true })
+vim.keymap.set("n", "vu", function()
+	vim.opt.opfunc = "v:lua.STSSwapCurrentNodePrevNormal_Dot"
+	return "g@l"
+end, { silent = true, expr = true })
 
-    -- Navigate Quick fix list
-    { '[q', '<Cmd>cprev<CR>' },
-    { ']q', '<Cmd>cnext<CR>' },
+--> If the mappings above don't work, use these instead (no dot repeatable)
+-- vim.keymap.set("n", "vd", '<cmd>STSSwapCurrentNodeNextNormal<cr>', opts)
+-- vim.keymap.set("n", "vu", '<cmd>STSSwapCurrentNodePrevNormal<cr>', opts)
+-- vim.keymap.set("n", "vD", '<cmd>STSSwapDownNormal<cr>', opts)
+-- vim.keymap.set("n", "vU", '<cmd>STSSwapUpNormal<cr>', opts)
 
-    -- x mode
-    { mode = 'x', {
-        -- Syntax tree surfer
-        { 'J', '<Cmd>lua require("syntax-tree-surfer").surf("next", "visual")<CR>' },
-        { 'K', '<Cmd>lua require("syntax-tree-surfer").surf("prev", "visual")<CR>' },
-        { 'H', '<Cmd>lua require("syntax-tree-surfer").surf("parent", "visual")<CR>' },
-        { 'L', '<Cmd>lua require("syntax-tree-surfer").surf("child", "visual")<CR>' },
+-- Visual Selection from Normal Mode
+vim.keymap.set("n", "vx", '<cmd>STSSelectMasterNode<cr>', opts)
+vim.keymap.set("n", "vn", '<cmd>STSSelectCurrentNode<cr>', opts)
 
-        { '<A-', {
-            { 'j>', '<Cmd>lua require("syntax-tree-surfer").surf("next", "visual", true)<CR>' },
-            { 'k>', '<Cmd>lua require("syntax-tree-surfer").surf("prev", "visual", true)<CR>' },
-        }},
-    }},
+-- Select Nodes in Visual Mode
+vim.keymap.set("x", "J", '<cmd>STSSelectNextSiblingNode<cr>', opts)
+vim.keymap.set("x", "K", '<cmd>STSSelectPrevSiblingNode<cr>', opts)
+vim.keymap.set("x", "H", '<cmd>STSSelectParentNode<cr>', opts)
+vim.keymap.set("x", "L", '<cmd>STSSelectChildNode<cr>', opts)
 
-    -- -- Visual remaps
-    -- { mode = 'v', {
-    --     { 'J', '<Cmd>m \'>+1<CR>gv=gv' },
-    --     { 'K', '<Cmd>m \'<-2<CR>gv=gv' },
-    -- }},
+-- Swapping Nodes in Visual Mode
+vim.keymap.set("x", "<A-j>", '<cmd>STSSwapNextVisual<cr>', opts)
+vim.keymap.set("x", "<A-k>", '<cmd>STSSwapPrevVisual<cr>', opts)
 
-    -- Terminal Remaps
-    { mode = 't', {
-        { '<esc>', '<C-\\><C-n>' },
-        { '<C-v><esc>', '<esc>' },
-    }}
-}
+
+-- Terminal remaps
+map('t', '<esc>', '<C-\\><C-n>', opts)
+map('t', '<C-v><esc>', '<esc>', opts)
+
