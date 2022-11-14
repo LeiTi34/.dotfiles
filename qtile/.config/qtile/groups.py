@@ -36,6 +36,8 @@ def get_keys(groups):
             #     desc="move focused window to group {}".format(i.name)),
         ])
 
+    keys.append(Key([mod], "XF86AudioPlay", lazy.group[groups[0].name].toscreen(), lazy.spawn("playerctl -a pause"), desc='Panic Button: Move to first group and pause all media'))
+
     return keys
 
 def get_scratchpad_groups():
