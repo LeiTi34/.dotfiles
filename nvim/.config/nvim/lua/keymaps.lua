@@ -24,7 +24,7 @@ map('n', '<leader>fk', telescope_builtin.keymaps, opts)
 map('n', '<leader>fr', telescope_builtin.registers, opts)
 
 map('n', '<leader>fs', '<Cmd>SessionManager load_session<CR>', opts)
-map('n', '<leader>ft', '<Cmd>Telescope yabs tasks<CR>', opts)
+-- map('n', '<leader>ft', '<Cmd>Telescope yabs tasks<CR>', opts)
 
 -- Neotree
 map('n','<leader>nn', '<Cmd>Neotree reveal toggle source=filesystem<CR>', opts)
@@ -59,19 +59,31 @@ map('n', '<C-k>', function() harpoon_ui.nav_file(3) end, opts)
 map('n', '<C-l>', function() harpoon_ui.nav_file(4) end, opts)
 local harpoon_cmd_ui = require("harpoon.cmd-ui")
 map('n', '<leader>tm', harpoon_cmd_ui.toggle_quick_menu, opts)
-local harpoon_term = require("harpoon.term")
-map('n', '<leader>th', function() harpoon_term.gotoTerminal(1) end, opts)
-map('n', '<leader>tj', function() harpoon_term.gotoTerminal(2) end, opts)
-map('n', '<leader>tk', function() harpoon_term.gotoTerminal(3) end, opts)
-map('n', '<leader>tl', function() harpoon_term.gotoTerminal(4) end, opts)
-map('n', '<leader>ch', function() harpoon_term.sendCommand(2, 1) end, opts)
-map('n', '<leader>cj', function() harpoon_term.sendCommand(1, 2) end, opts)
-map('n', '<leader>ck', function() harpoon_term.sendCommand(1, 3) end, opts)
-map('n', '<leader>cl', function() harpoon_term.sendCommand(1, 4) end, opts)
+-- local harpoon_term = require("harpoon.term")
+-- map('n', '<leader>th', function() harpoon_term.gotoTerminal(1) end, opts)
+-- map('n', '<leader>tj', function() harpoon_term.gotoTerminal(2) end, opts)
+-- map('n', '<leader>tk', function() harpoon_term.gotoTerminal(3) end, opts)
+-- map('n', '<leader>tl', function() harpoon_term.gotoTerminal(4) end, opts)
+-- map('n', '<leader>ch', function() harpoon_term.sendCommand(2, 1) end, opts)
+-- map('n', '<leader>cj', function() harpoon_term.sendCommand(1, 2) end, opts)
+-- map('n', '<leader>ck', function() harpoon_term.sendCommand(1, 3) end, opts)
+-- map('n', '<leader>cl', function() harpoon_term.sendCommand(1, 4) end, opts)
 
--- yabs
-local yabs = require("yabs")
-map('n', '<leader>tr', yabs.run_default_task, opts)
+-- -- yabs
+-- local yabs = require("yabs")
+-- map('n', '<leader>tr', yabs.run_default_task, opts)
+
+-- Overseer.nvim
+local overseer = require("overseer")
+map('n', '<leader>ft', overseer.run_template, opts)
+map('n', '<leader>tO', function() overseer.toggle({ direction = 'right' }) end, opts)
+map('n', '<leader>tT', function() overseer.toggle({ direction = 'right' }) end, opts)
+map('n', '<leader>tr', overseer.run_template, opts)
+map('n', '<leader>ta', overseer.run_action, opts)
+map('n', '<leader>tv', '<Cmd>OverseerQuickAction open vsplit<CR>', opts)
+map('n', '<leader>th', '<Cmd>OverseerQuickAction open hsplit<CR>', opts)
+map('n', '<leader>tf', '<Cmd>OverseerQuickAction open float<CR>', opts)
+map('n', '<leader>to', '<Cmd>OverseerQuickAction open<CR>', opts)
 
 -- todo-comments
 map('n', '<leader>tc', '<Cmd>TodoQuickFix<CR>', opts)

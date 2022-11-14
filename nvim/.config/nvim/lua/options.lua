@@ -9,6 +9,8 @@ opt.showmode = false
 opt.ruler = false
 opt.showcmd = false
 
+opt.splitbelow = true
+
 opt.laststatus = 3
 
 opt.number = true
@@ -22,5 +24,6 @@ opt.expandtab = true
 opt.hlsearch = false
 
 opt.guifont = {'Fira Code', ':h11'}
+
 --[[
 vim.opt.completeopt = "menu,menuone,noselect" ]]

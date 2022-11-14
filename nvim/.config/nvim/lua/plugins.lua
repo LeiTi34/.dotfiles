@@ -355,10 +355,15 @@ return packer.startup({function()
     --     config = function () require('config.possession') end
     -- }
 
+    -- use {
+    --     'pianocomposer321/yabs.nvim',
+    --     requires = 'nvim-lua/plenary.nvim',
+    --     config = function() require('config.yabs') end
+    -- }
+
     use {
-        'pianocomposer321/yabs.nvim',
-        requires = 'nvim-lua/plenary.nvim',
-        config = function() require('config.yabs') end
+        'stevearc/overseer.nvim',
+        config = function() require('config.overseer') end
     }
 
     use {

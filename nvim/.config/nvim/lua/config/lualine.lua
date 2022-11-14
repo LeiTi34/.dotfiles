@@ -9,9 +9,8 @@ lualine.setup({
         globalstatus = true,
     },
     sections = {
-		lualine_c = {
-			'lsp_progress'
-		},
+		lualine_c = { 'lsp_progress' },
+        lualine_x = { 'overseer' },
 	},
     winbar = {
         lualine_c = {
