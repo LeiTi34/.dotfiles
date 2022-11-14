@@ -389,6 +389,11 @@ eval $(thefuck --alias)
 # Lazy load Node Version Manager
 group_lazy_load /usr/share/nvm/init-nvm.sh nvm node npm truffle gulp yarn ng
 
+# alias
+alias nv='neovide&disown'
+alias arh='autorandr -c home'
+alias arw='autorandr -c work'
+
 ## END OF FILE #################################################################
 
 
