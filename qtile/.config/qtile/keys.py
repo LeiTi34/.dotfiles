@@ -1,9 +1,13 @@
+import os
 from libqtile.config import Key
 from libqtile.utils import guess_terminal
 from libqtile.lazy import lazy
 
 mod = "mod4"
 terminal = guess_terminal()
+
+home = os.path.expanduser("~")
+scripts = home + '/.scripts/'
 
 def get_keys():
     return [
@@ -68,7 +72,10 @@ def get_keys():
         Key([], "XF86AudioMute", lazy.spawn("pulsemixer --toggle-mute"), desc="Mute/Unmute"),
         Key([], "XF86AudioLowerVolume", lazy.spawn("pulsemixer --change-volume -5"), desc="Lower Volume"),
         Key([], "XF86AudioRaiseVolume", lazy.spawn("pulsemixer --change-volume +5"), desc="Raise Volume"),
-        Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Raise Volume"),
+        Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Play/Pause"),
+        Key([], "XF86AudioPrev", lazy.spawn("playerctl previous"), desc="Previous Track"),
+        Key([], "XF86AudioNext", lazy.spawn("playerctl next"), desc="Next Track"),
+        Key([], "XF86AudioRewind", lazy.spawn(scripts + "rewind-audio.sh"), desc="Rewind Audio"),
         # Mute Microphone
         #Key([], "XF86AudioMicMute", lazy.spawn("pulsemixer --toggle-mute-microphone"), desc="Mute/Unmute Microphone"),
         Key([], "XF86AudioMicMute", lazy.spawn("pamixer --default-source -t"), desc="Mute/Unmute Microphone"),
@@ -77,7 +84,7 @@ def get_keys():
         Key([], "XF86MonBrightnessUp", lazy.spawn("light -A 10"), desc="Raise Monitor Brightness"),
 
         # Take a screenshot
-        Key([mod, "shift"], "s", lazy.spawn("scrot \"$HOME\"'/Pictures/screenshots/%Y-%m-%d_$wx$h_scrot.png' -s -e 'xclip -selection clipboard -t image/png -i $f'"), desc="Take a screenshot"),
+        Key([mod, "shift"], "s", lazy.spawn("scrot " + home + "'/Pictures/screenshots/%Y-%m-%d_$wx$h_scrot.png' -s -e 'xclip -selection clipboard -t image/png -i $f'"), desc="Take a screenshot"),
 
         # ScratchPad
         Key([mod], "s", lazy.group["scratchpad"].dropdown_toggle("term")),
