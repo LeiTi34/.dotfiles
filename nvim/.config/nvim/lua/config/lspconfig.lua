@@ -113,9 +113,11 @@ nvim_lsp.ltex.setup({
         }
     end,
     capabilities = capabilities,
-    filetypes = { "bib", "markdown", "org", "plaintex", "rst", "rnoweb", "tex", "ltex", "texlab" }, --gitcommit
+    filetypes = { "bib", "markdown", "org", "plaintex", "rst", "rnoweb", "tex", "ltex", "texlab", "gitcommit" },
     settings = {
         ltex = {
+            enabled = { "bib", "markdown", "org", "plaintex", "rst", "rnoweb", "tex", "ltex", "texlab", "gitcommit" },
+            -- enabled = true,
             language = "de-AT",
             additionalRules = {
                 enablePickyRules = true,
