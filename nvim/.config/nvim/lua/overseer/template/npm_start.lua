@@ -8,6 +8,6 @@ return {
         }
     end,
     condition = {
-        filetype = { "typescript", "typescriptreact", "javascript", "html", "css", "scss" },
+        filetype = { "typescript", "typescriptreact", "javascript", "html", "css", "scss", "json" },
     }
 }

@@ -10,7 +10,7 @@ lualine.setup({
     },
     sections = {
 		lualine_c = { 'lsp_progress' },
-        lualine_x = { 'overseer' },
+        lualine_u = { 'overseer' },
 	},
     winbar = {
         lualine_c = {

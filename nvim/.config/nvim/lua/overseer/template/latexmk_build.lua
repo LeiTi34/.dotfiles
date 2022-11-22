@@ -8,6 +8,6 @@ return {
         }
     end,
     condition = {
-        filetype = { "tex", "bib" },
+        filetype = { "tex", "plaintex", "bib" },
     }
 }
