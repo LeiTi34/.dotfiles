@@ -13,6 +13,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
 
+# Extend path
+export PATH="$HOME/.scripts:$PATH"
+
 # System specific configuration
 if [ $(</etc/hostname) =  "X1C6" ]; then
     export WLAN_INTERFACE="wlp2s0"
