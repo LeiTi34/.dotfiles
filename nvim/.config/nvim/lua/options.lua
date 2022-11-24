@@ -28,5 +28,8 @@ opt.guifont = {'Fira Code', ':h11'}
 opt.undodir = os.getenv("XDG_CACHE_HOME") .. '/nvim/undodir'
 opt.undofile = true
 
+-- Wrap lines
+opt.wrap = true
+
 --[[
 vim.opt.completeopt = "menu,menuone,noselect" ]]
