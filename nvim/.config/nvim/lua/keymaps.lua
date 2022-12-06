@@ -153,3 +153,6 @@ vim.keymap.set("x", "<A-k>", '<cmd>STSSwapPrevVisual<cr>', opts)
 map('t', '<esc>', '<C-\\><C-n>', opts)
 map('t', '<C-v><esc>', '<esc>', opts)
 
+-- Remap C-d, C-u to center the screen
+map('n', '<C-d>', '<C-d>zz', opts)
+map('n', '<C-u>', '<C-u>zz', opts)
