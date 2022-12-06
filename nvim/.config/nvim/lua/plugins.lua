@@ -227,21 +227,24 @@ return packer.startup({function()
         after = 'cmp-nvim-lsp',
         requires = {
             'williamboman/mason.nvim',
+
+            -- lspconfig
             'williamboman/mason-lspconfig.nvim',
-            'mfussenegger/nvim-dap',
-            'jayp0521/mason-nvim-dap.nvim',
-            'rcarriga/nvim-dap-ui',
             'barreiroleo/ltex-extra.nvim',
             -- 'brymer-meneses/grammar-guard.nvim',
             'aspeddro/lsp_menu.nvim',
-            "SmiteshP/nvim-navic",
+            'SmiteshP/nvim-navic',
+
+            -- dap
+            'mfussenegger/nvim-dap',
+            'jayp0521/mason-nvim-dap.nvim',
+            'rcarriga/nvim-dap-ui',
+
+            -- null-ls
+            'jose-elias-alvarez/null-ls.nvim',
+            'jayp0521/mason-null-ls.nvim',
         },
-        config = function()
-            require('config.mason')
-            require('config.lspconfig')
-            require('dapui').setup()
-            -- require('config.dap')
-        end
+        config = function() require('config.mason') end
     }
     -- -- Debugger
     -- use {
