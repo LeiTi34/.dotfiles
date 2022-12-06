@@ -131,6 +131,7 @@ return packer.startup({function()
     }
 
     use 'ThePrimeagen/git-worktree.nvim'
+    use 'ThePrimeagen/vim-be-good'
 
     -- FZF
     -- use 'junegunn/fzf.vim'
@@ -225,14 +226,29 @@ return packer.startup({function()
         'neovim/nvim-lspconfig',
         after = 'cmp-nvim-lsp',
         requires = {
+            'williamboman/mason.nvim',
+            'williamboman/mason-lspconfig.nvim',
+            'mfussenegger/nvim-dap',
+            'jayp0521/mason-nvim-dap.nvim',
+            'rcarriga/nvim-dap-ui',
             'barreiroleo/ltex-extra.nvim',
             -- 'brymer-meneses/grammar-guard.nvim',
-            -- requires = 'neovim/nvim-lspconfig.lua',
             'aspeddro/lsp_menu.nvim',
             "SmiteshP/nvim-navic",
         },
-        config = function() require('config.lspconfig') end
+        config = function()
+            require('config.mason')
+            require('config.lspconfig')
+            require('dapui').setup()
+            -- require('config.dap')
+        end
     }
+    -- -- Debugger
+    -- use {
+    --     requires = { 'mfussenegger/nvim-dap' },
+    --     config = function() require('config.dap') end
+    -- }
+
 
     -- use {
     --     'VonHeikemen/lsp-zero.nvim',
@@ -262,20 +278,13 @@ return packer.startup({function()
     -- }
 
 
-    -- Debugger
-    use {
-        'rcarriga/nvim-dap-ui',
-        requires = { 'mfussenegger/nvim-dap' },
-        config = function() require('config.dap') end
-    }
-
     -- use {
     --     'williamboman/mason.nvim',
     --     requires = 'williamboman/mason-lspconfig.nvim',
     --     config = function() require('mason').setup() end
     -- }
     --
-    -- use 'github/copilot.vim'
+    use 'github/copilot.vim'
 
     -- Code Action Menu
     use {

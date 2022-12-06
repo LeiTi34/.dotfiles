@@ -141,22 +141,22 @@ for _, lsp in ipairs(snippet_servers) do
 end
 
 -- Angularls
-local project_library_path = vim.fn.stdpath("config").."/lsp"
-local cmd = {
-    "ngserver",
-    "--stdio",
-    "--tsProbeLocations", project_library_path,
-    "--ngProbeLocations", project_library_path,
-    "--includeCompletionsWithSnippetText",
-    "--includeAutomaticOptionalChainCompletions",
-}
+-- local project_library_path = vim.fn.stdpath("config").."/lsp"
+-- local cmd = {
+--     "ngserver",
+--     "--stdio",
+--     "--tsProbeLocations", project_library_path,
+--     "--ngProbeLocations", project_library_path,
+--     "--includeCompletionsWithSnippetText",
+--     "--includeAutomaticOptionalChainCompletions",
+-- }
 
-require'lspconfig'.angularls.setup{
-    cmd = cmd,
+nvim_lsp.angularls.setup{
+    -- cmd = cmd,
     root_dir = util.root_pattern('angular.json'),
-    on_new_config = function(new_config)
-        new_config.cmd = cmd
-    end,
+    -- on_new_config = function(new_config)
+    --     new_config.cmd = cmd
+    -- end,
 }
 
 -- Sumneko Lua
@@ -164,7 +164,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-require'lspconfig'.sumneko_lua.setup {
+nvim_lsp.sumneko_lua.setup {
     settings = {
         Lua = {
             runtime = {

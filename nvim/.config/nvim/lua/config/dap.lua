@@ -1,14 +1,14 @@
 local dap = require('dap')
 if not dap then return end
 
-local dapDir = vim.fn['stdpath']('config')..'/dap/'
-
--- Node
-dap.adapters.node2 = {
-  type = 'executable',
-  command = 'node',
-  args = {dapDir .. '/vscode-node-debug2/out/src/nodeDebug.js'},
-}
+-- local dapDir = vim.fn['stdpath']('config')..'/dap/'
+--
+-- -- Node
+-- dap.adapters.node2 = {
+--   type = 'executable',
+--   command = 'node',
+--   args = {dapDir .. '/vscode-node-debug2/out/src/nodeDebug.js'},
+-- }
 dap.configurations.javascript = {
   {
     name = 'Launch',
@@ -50,12 +50,12 @@ dap.configurations.typescript = {
   },
 }
 
--- Chrome
-dap.adapters.chrome = {
-    type = "executable",
-    command = "node",
-    args = {dapDir .. "/vscode-chrome-debug/out/src/chromeDebug.js"} -- TODO adjust
-}
+-- -- Chrome
+-- dap.adapters.chrome = {
+--     type = "executable",
+--     command = "node",
+--     args = {dapDir .. "/vscode-chrome-debug/out/src/chromeDebug.js"} -- TODO adjust
+-- }
 
 dap.configurations.javascript = { -- change this to javascript if needed
     {
