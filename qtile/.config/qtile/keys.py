@@ -84,7 +84,7 @@ def get_keys():
         Key([], "XF86MonBrightnessUp", lazy.spawn("light -A 10"), desc="Raise Monitor Brightness"),
 
         # Take a screenshot
-        Key([mod, "shift"], "s", lazy.spawn("scrot " + home + "'/Pictures/screenshots/%Y-%m-%d_$wx$h_scrot.png' -s -e 'xclip -selection clipboard -t image/png -i $f'"), desc="Take a screenshot"),
+        Key([mod, "shift"], "s", lazy.spawn("scrot " + home + "'/Pictures/screenshots/%Y-%m-%d_$wx$h_scrot.png' -s -f -e 'xclip -selection clipboard -t image/png -i $f'"), desc="Take a screenshot"),
 
         # ScratchPad
         Key([mod], "s", lazy.group["scratchpad"].dropdown_toggle("term")),
