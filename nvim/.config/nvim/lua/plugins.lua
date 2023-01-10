@@ -287,7 +287,7 @@ return packer.startup({function()
     --     config = function() require('mason').setup() end
     -- }
     --
-    use 'github/copilot.vim'
+    -- use 'github/copilot.vim'
 
     -- Code Action Menu
     use {

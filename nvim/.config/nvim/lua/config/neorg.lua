@@ -27,10 +27,10 @@ neorg.setup {
                 engine = "nvim-cmp" -- we current support nvim-compe and nvim-cmp only
             }
         },
-        ["core.gtd.base"] = {
-            config = {
-                workspace = "gtd",
-            }
-        },
+        -- ["core.gtd.base"] = {
+        --     config = {
+        --         workspace = "gtd",
+        --     }
+        -- },
     },
 }
