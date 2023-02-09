@@ -15,17 +15,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 return require('lazy').setup({
-    -- Get path to my pluginSettings config files
-
-    -- 'lewis6991/impatient.nvim',
-
-    --[[ -- Feline
-    {
-        'feline-nvim/feline.nvim',
-        config = function() require('config.feline') end,
-    }, ]]
-
-        -- Lualine
+    -- Lualine
     {
         'nvim-lualine/lualine.nvim',
          dependencies = {
@@ -43,43 +33,6 @@ return require('lazy').setup({
         config = function() require('config.gitsigns') end,
     },
 
-    -- Bufferline
-    -- {
-    --     'akinsho/bufferline.nvim',
-    --     dependencies = 'kyazdani42/nvim-web-devicons',
-    --     config = function()
-    --         --require('config.bufferline')
-    --         vim.opt.termguicolors = true
-    --         local bufferline = require("bufferline")
-    --         bufferline.setup{
-    --             options = {
-    --                 diagnostics = 'nvim_lsp',
-    --                 offsets = {{ filetype = 'CHADTree', text = 'CHADTree'}}
-    --             }
-    --         }
-    --     end,
-    -- },
-
-    -- {
-    --     'noib3/nvim-cokeline',
-    --     dependencies = 'kyazdani42/nvim-web-devicons',
-    --     config = function() require('config.cokeline') end,
-    --     lazy=false,
-    --     keys = {
-    --         { '<leader>bb', '<Plug>(cokeline-pick-focus)', desc='Cokeline pick focus' },
-    --         { '<leader>bc', '<Plug>(cokeline-pick-close)', desc='Cokeline pick close' },
-    --         { '<leader>b]', '<Plug>(cokeline-focus-next)', desc='Cokeline focus next' },
-    --         { '<leader>b[', '<Plug>(cokeline-focus-prev)', desc='Cokeline focus prev' },
-    --     },
-    -- },
-
-    -- Theme
-    -- {
-    --     'daschw/leaf.nvim',
-    --     tag = 'v0.1.0',
-    --     config = function() require('config.leaf-theme') end,
-    -- },
-
     {
         'navarasu/onedark.nvim',
         config = function()
@@ -91,31 +44,10 @@ return require('lazy').setup({
         end,
     },
 
-    -- {
-    --     'shaunsingh/oxocarbon.nvim',
-    --     build = './install.sh'
-    --     config = function()
-    --         vim.cmd.colorscheme "oxocarbon"
-    --     end,
-    -- },
-
-    --[[ {
-        'projekt0n/github-nvim-theme',
-        config = function() require('config.github-theme') end,
-    }, ]]
-    -- 'sainnhe/sonokai',
-
     {
         'stevearc/dressing.nvim',
         config = function() require('config.dressing') end,
     },
-
-    -- CHADTree
-    --[[ {
-        'ms-jpq/chadtree',
-        branch = 'chad',
-        build = ':CHADdeps',
-    }, ]]
 
     {
         'nvim-neo-tree/neo-tree.nvim',
@@ -159,9 +91,6 @@ return require('lazy').setup({
     'ThePrimeagen/git-worktree.nvim',
     'ThePrimeagen/vim-be-good',
 
-    -- FZF
-    -- 'junegunn/fzf.vim',
-
     -- Treesitter
     {
         'nvim-treesitter/nvim-treesitter',
@@ -185,12 +114,6 @@ return require('lazy').setup({
         config = function() require('config.treesitter-textobjects') end,
     },
 
-    -- -- Fugitive
-    -- {
-    --     'tpope/vim-fugitive',
-    --      after = 'cmp-nvim-lsp'
-    --  },
-
     {
          'sindrets/diffview.nvim',
          dependencies = 'nvim-lua/plenary.nvim'
@@ -213,28 +136,6 @@ return require('lazy').setup({
         },
         cmd = 'Neogit',
     },
-
-    -- - LSP TS Utils
-    -- {
-    --     'jose-elias-alvarez/nvim-lsp-ts-utils',
-    --     dependencies = {
-    --         {'neovim/nvim-lspconfig'},
-    --         {'nvim-lua/plenary.nvim'},
-    --         {'jose-elias-alvarez/null-ls.nvim'}
-    --     },
-    --     config = function()
-    --         dofile(pluginSettings..'lspconfig.lua')
-    --     end,
-    -- },
-
-    -- {
-    --     'L3MON4D3/LuaSnip',
-    --     dependencies = 'rafamadriz/friendly-snippets',
-    --     config = function () require('config.luasnip') end,
-    -- },
-
-    -- 'neovim/nvim-lsp',
-    --'aca/emmet-ls',
 
     {
         'windwp/nvim-autopairs',
@@ -289,48 +190,6 @@ return require('lazy').setup({
         },
         config = function() require('config.mason') end,
     },
-    -- -- Debugger
-    -- {
-    --     dependencies = { 'mfussenegger/nvim-dap' },
-    --     config = function() require('config.dap') end,
-    -- },
-
-
-    -- {
-    --     'VonHeikemen/lsp-zero.nvim',
-    --     dependencies = {
-    --         -- LSP Support
-    --         {'neovim/nvim-lspconfig'},
-    --         {'williamboman/mason.nvim'},
-    --         {'williamboman/mason-lspconfig.nvim'},
-    --
-    --         -- Autocompletion
-    --         {'hrsh7th/nvim-cmp'},
-    --         {'hrsh7th/cmp-buffer'},
-    --         {'hrsh7th/cmp-path'},
-    --         {'saadparwaiz1/cmp_luasnip'},
-    --         {'hrsh7th/cmp-nvim-lsp'},
-    --         {'hrsh7th/cmp-nvim-lua'},
-    --
-    --         -- Snippets
-    --         {'L3MON4D3/LuaSnip'},
-    --         {'rafamadriz/friendly-snippets'},
-    --     },
-    --     config = function()
-    --         local lsp = require('lsp-zero')
-    --         lsp.preset('recommended')
-    --         lsp.setup()
-    --     end,
-    -- },
-
-
-    -- {
-    --     'williamboman/mason.nvim',
-    --     dependencies = 'williamboman/mason-lspconfig.nvim',
-    --     config = function() require('mason').setup() end,
-    -- },
-    --
-    -- 'github/copilot.vim',
 
     -- Code Action Menu
     {
@@ -394,46 +253,11 @@ return require('lazy').setup({
         config = function() require('config.comment') end,
     },
 
-    -- -- Startup
-    -- {
-    --     'startup-nvim/startup.nvim',
-    --     dependencies = {
-    --         'nvim-telescope/telescope.nvim',
-    --         'nvim-lua/plenary.nvim'
-    --     },
-    --     config = function() require('config.startup') end,
-    -- },
-
     {
         'goolord/alpha-nvim',
         dependencies = 'kyazdani42/nvim-web-devicons',
         config = function () require('config.alpha') end,
     },
-
-    -- {
-    --     'Shatur/neovim-session-manager',
-    --     dependencies = 'nvim-lua/plenary.nvim',
-    --     config = function() require('config.session-manager') end,
-    --     keys = {
-    --         { '<leader>fs', '<Cmd>SessionManager load_session<cr>', desc="load session" },
-    --         { '<leader>sl', '<Cmd>SessionManager load_last_session<CR>', desc="load last session" },
-    --         { '<leader>ss', '<Cmd>SessionManager save_current_session<CR>', desc="save current session" },
-    --
-    --     },
-    --     cmd = 'SessionManager',
-    -- },
-
-    -- {
-    --     'jedrzejboczar/possession.nvim',
-    --     dependencies = 'nvim-lua/plenary.nvim',
-    --     config = function () require('config.possession') end,
-    -- },
-
-    -- {
-    --     'pianocomposer321/yabs.nvim',
-    --     dependencies = 'nvim-lua/plenary.nvim',
-    --     config = function() require('config.yabs') end,
-    -- },
 
     {
         'stevearc/overseer.nvim',
@@ -463,11 +287,6 @@ return require('lazy').setup({
             'OverseerClearCache',
         },
     },
-
-    -- {
-    --     'ziontee113/syntax-tree-surfer',
-    --     config = function() require('syntax-tree-surfer').setup() end,
-    -- },
 
     -- Lua
     {
@@ -515,10 +334,4 @@ return require('lazy').setup({
         },
         config = function() require('config.neural') end,
     }
-    -- -- nvim-docker
-    -- {
-    --     'dgrbrady/nvim-docker',
-    --     dependencies = {'nvim-lua/plenary.nvim', 'MunifTanjim/nui.nvim'},
-    --     rocks = 'reactivex' -- ReactiveX Lua implementation
-    -- },
 })
