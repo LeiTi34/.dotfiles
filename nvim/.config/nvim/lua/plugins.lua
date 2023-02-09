@@ -412,6 +412,14 @@ return require('lazy').setup({
         config = function() require('config.colorizer') end
     },
 
+    {
+        'dense-analysis/neural',
+        dependencies = {
+            'MunifTanjim/nui.nvim',
+            'ElPiloto/significant.nvim',
+        },
+        config = function() require('config.neural') end,
+    }
     -- -- nvim-docker
     -- {
     --     'dgrbrady/nvim-docker',
