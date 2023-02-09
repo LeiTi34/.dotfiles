@@ -9,7 +9,7 @@ lualine.setup({
         globalstatus = true,
     },
     sections = {
-		lualine_c = { 'lsp_progress' },
+		lualine_c = { 'filename', 'lsp_progress' },
         lualine_x = { 'overseer', 'encoding', 'filetype' },
 	},
     winbar = {
