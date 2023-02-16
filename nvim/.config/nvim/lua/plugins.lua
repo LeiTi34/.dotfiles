@@ -44,6 +44,25 @@ return require('lazy').setup({
         end,
     },
 
+    -- {
+    --     '2nthony/vitesse.nvim',
+    --     dependencies = {
+    --         'tjdevries/colorbuddy.nvim'
+    --     },
+    --     config = function()
+    --         require("vitesse").setup {
+    --             comment_italics = true,
+    --             float_background = false,
+    --             reverse_visual = false,
+    --         }
+    --     end,
+    -- },
+
+    -- {
+    --     'arturgoms/moonbow.nvim'
+    -- },
+    -- install = { colorscheme = { 'moonbow' } },
+
     {
         'stevearc/dressing.nvim',
         config = function() require('config.dressing') end,
@@ -97,7 +116,7 @@ return require('lazy').setup({
         build = ':TSUpdate',
         dependencies = {
             -- Neorg
-            'nvim-neorg/neorg',
+            'nvim-neorg/neorg', -- TODO better lazy loading
             dependencies = {
                 {'nvim-lua/plenary.nvim'},
                 {'vhyrro/neorg-telescope'}
@@ -176,7 +195,6 @@ return require('lazy').setup({
             'williamboman/mason-lspconfig.nvim',
             'barreiroleo/ltex-extra.nvim',
             -- 'brymer-meneses/grammar-guard.nvim',
-            'aspeddro/lsp_menu.nvim',
             'SmiteshP/nvim-navic',
 
             -- dap
@@ -320,11 +338,11 @@ return require('lazy').setup({
         config = function() require('config.colorizer') end,
     },
 
-    {
-        'barrett-ruth/import-cost.nvim',
-        build = 'sh install.sh npm',
-        config = true
-    },
+    -- {
+    --     'barrett-ruth/import-cost.nvim',
+    --     build = 'sh install.sh npm',
+    --     config = true
+    -- },
 
     {
         'dense-analysis/neural',
