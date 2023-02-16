@@ -1,9 +1,9 @@
 require('mason-null-ls').setup({
     ensure_installed = {
-        'eslint_d',
+        -- 'eslint_d',
         'gitlint',
         'hadolint',
-        'prettierd',
+        -- 'prettierd',
         'stylua',
     },
     automatic_installation = true,

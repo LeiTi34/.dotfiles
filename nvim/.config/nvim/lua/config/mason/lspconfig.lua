@@ -4,6 +4,7 @@ require('mason-lspconfig').setup({
         'cssls',
         'cssmodules_ls',
         'dockerls',
+        -- 'docker_compose_language_service',
         'emmet_ls',
         'gopls',
         'html',
@@ -12,7 +13,7 @@ require('mason-lspconfig').setup({
         'pyright',
         'rust_analyzer',
         'sqlls',
-        'sumneko_lua',
+        'lua_ls',
         'texlab',
         'tsserver',
         'lemminx',
@@ -25,7 +26,7 @@ local nvim_lsp = require('lspconfig')
 if not nvim_lsp then return end
 
 local util = require "lspconfig.util"
-
+local navic = require("nvim-navic")
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -42,9 +43,9 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    local lsp_menu = require('lsp_menu')
-    require("nvim-navic").attach(client, bufnr)
-    lsp_menu.on_attach(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider then
+        navic.attach(client, bufnr)
+    end
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -59,29 +60,37 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<C-s>', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set('n', '<leader>wl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
+    vim.keymap.set('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
     vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set('n', '<leader>rr', vim.lsp.buf.rename, bufopts)
-    -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-
-    vim.keymap.set('n', '<leader>ca', lsp_menu.codeaction.run, { buffer = bufnr })
-    vim.keymap.set('v', '<leader>ca', function()
-        lsp_menu.codeaction.run({range = true})
-    end, { buffer = bufnr })
-    -- vim.keymap.set('n', '<leader>cl', require'lsp_menu'.codelens.run, { buffer = bufnr })
-
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<leader>fc', function()
-        vim.lsp.buf.format({async = true})
-    end, bufopts)
+    vim.keymap.set('n', '<leader>fc', function() vim.lsp.buf.format({async = true}) end, bufopts)
 end
 
+local signs = { Error = " ", Warn = " ", Hint = "ﴞ ", Info = " " }
+for type, icon in pairs(signs) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'html', 'texlab', 'gopls' }
+local servers = {
+    'cssls',
+    'cssmodules_ls',
+    'dockerls',
+    'docker_compose_language_service',
+    'gopls',
+    'html',
+    'jsonls',
+    'pyright',
+    'rust_analyzer',
+    'sqlls',
+    'tsserver',
+    'texlab',
+    'yamlls',
+}
 local snippet_servers = {'emmet_ls', 'cssls' --[[, 'angularls']] }
 
 for _, lsp in ipairs(servers) do
@@ -187,7 +196,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-nvim_lsp.sumneko_lua.setup {
+nvim_lsp.lua_ls.setup {
     settings = {
         Lua = {
             runtime = {
