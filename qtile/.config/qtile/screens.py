@@ -158,10 +158,11 @@ def get_widgets(type="primary"):
         #     volume_app="pavucontrol",
         #
         # ),
-        widget.PulseVolume(
+        widget.Volume(
             fmt="{}",
             foreground=theme["purple_hard"],
             volume_app="pavucontrol",
+            mute_command="pulsemixer --toggle-mute"
         )
     ])
 
