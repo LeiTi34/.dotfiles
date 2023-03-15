@@ -15,34 +15,47 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 return require('lazy').setup({
-    -- Lualine
     {
-        'nvim-lualine/lualine.nvim',
-         dependencies = {
-             { 'kyazdani42/nvim-web-devicons', opt = true },
-             'arkav/lualine-lsp-progress',
-            "SmiteshP/nvim-navic",
-         },
-         config = function() require('config.lualine') end,
-     },
-
-
-    {
-        'lewis6991/gitsigns.nvim',
-        dependencies = 'nvim-lua/plenary.nvim',
-        config = function() require('config.gitsigns') end,
-    },
-
-    {
-        'navarasu/onedark.nvim',
+        'rebelot/kanagawa.nvim',
         config = function()
-            local onedark = require('onedark')
-            onedark.setup({
-                style = 'warmer'
+            require('kanagawa').setup({
+                overrides = function(colors)
+                    local theme = colors.theme
+                    return {
+                        -- FoldColumn = { bg = theme.ui.bg },
+                        -- LineNr = { fg = theme.ui.fg, bg = theme.ui.bg },
+                        -- SignColumn = { bg = theme.ui.bg },
+                        -- CursorLineNr = { bg = theme.ui.bg },
+                        -- DiagnosticSignError = { bg = theme.ui.bg },
+                        -- DiagnosticSignWarn = { bg = theme.ui.bg },
+                        -- DiagnosticSignInfo = { bg = theme.ui.bg },
+                        -- DiagnosticSignHint = { bg = theme.ui.bg },
+                    }
+                end,
             })
-            onedark.load()
+            vim.cmd("colorscheme kanagawa-dragon")
+            -- require('kanagawa').setup()
+            -- vim.colorscheme('kanagawa')
         end,
     },
+    -- {
+    --     'NTBBloodbath/sweetie.nvim',
+    --     config = function()
+    --         require('sweetie.nvim').setup()
+    --         vim.cmd.colorscheme('sweetie')
+    --     end
+    -- },
+
+    -- {
+    --     'navarasu/onedark.nvim',
+    --     config = function()
+    --         local onedark = require('onedark')
+    --         onedark.setup({
+    --             style = 'warmer'
+    --         })
+    --         onedark.load()
+    --     end,
+    -- },
 
     -- {
     --     '2nthony/vitesse.nvim',
@@ -62,6 +75,46 @@ return require('lazy').setup({
     --     'arturgoms/moonbow.nvim'
     -- },
     -- install = { colorscheme = { 'moonbow' } },
+
+    -- Lualine
+    {
+        'nvim-lualine/lualine.nvim',
+         dependencies = {
+             { 'kyazdani42/nvim-web-devicons', opt = true },
+             'arkav/lualine-lsp-progress',
+            "SmiteshP/nvim-navic",
+         },
+         config = function() require('config.lualine') end,
+     },
+    -- Winbar
+    {
+        "utilyre/barbecue.nvim",
+        name = "barbecue",
+        version = "*",
+        dependencies = {
+            "SmiteshP/nvim-navic",
+            "kyazdani42/nvim-web-devicons", -- optional dependency
+        },
+        config = function()
+            require('barbecue').setup()
+            require('barbecue.ui').toggle(true)
+        end,
+        -- opts = {
+        --     -- configurations go here
+        -- },
+    },
+    -- LSP Status
+    {
+        'j-hui/fidget.nvim',
+        config = function() require"fidget".setup() end,
+    },
+
+
+    {
+        'lewis6991/gitsigns.nvim',
+        dependencies = 'nvim-lua/plenary.nvim',
+        config = function() require('config.gitsigns') end,
+    },
 
     {
         'stevearc/dressing.nvim',
@@ -195,7 +248,7 @@ return require('lazy').setup({
             'williamboman/mason-lspconfig.nvim',
             'barreiroleo/ltex-extra.nvim',
             -- 'brymer-meneses/grammar-guard.nvim',
-            'SmiteshP/nvim-navic',
+            -- 'SmiteshP/nvim-navic',
 
             -- dap
             'mfussenegger/nvim-dap',
