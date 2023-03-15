@@ -25,7 +25,7 @@ require('mason-lspconfig').setup({
 local nvim_lsp = require('lspconfig')
 if not nvim_lsp then return end
 
-local util = require "lspconfig.util"
+local util = require ("lspconfig.util")
 local navic = require("nvim-navic")
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -221,3 +221,16 @@ nvim_lsp.lua_ls.setup {
     },
 }
 
+require("mason-lspconfig").setup_handlers {
+    -- This is a default handler that will be called for each installed server (also for new servers that are installed during a session)
+    function (server_name)
+        nvim_lsp[server_name].setup {
+
+            on_attach = on_attach,
+            capabilities = capabilities,
+            flags = {
+                debounce_text_changes = 150,
+            }
+        }
+    end,
+}
