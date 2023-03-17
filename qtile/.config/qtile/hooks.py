@@ -2,6 +2,7 @@ import os
 import subprocess
 
 from libqtile import hook
+from libqtile.lazy import lazy
 
 @hook.subscribe.client_new
 def floating_dialogs(window):
@@ -23,3 +24,7 @@ def idle_dialogues(window):
 def autostart():
     home = os.path.expanduser('~/.config/qtile/autostart.sh')
     subprocess.Popen([home])
+
+@hook.subscribe.screen_change
+def restart_on_randr(_):
+    lazy.reload_config()
