@@ -74,34 +74,79 @@ for type, icon in pairs(signs) do
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+require("mason-lspconfig").setup_handlers {
+    -- This is a default handler that will be called for each installed server (also for new servers that are installed during a session)
+    function (server_name)
+        nvim_lsp[server_name].setup {
+
+            on_attach = on_attach,
+            capabilities = capabilities,
+            flags = {
+                debounce_text_changes = 150,
+            }
+        }
+    end,
+}
+
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = {
-    'cssls',
-    'cssmodules_ls',
-    'dockerls',
-    'docker_compose_language_service',
-    'gopls',
-    'html',
-    'jsonls',
-    'pyright',
-    'rust_analyzer',
-    'sqlls',
-    'tsserver',
-    'texlab',
-    'yamlls',
-}
-local snippet_servers = {'emmet_ls', 'cssls' --[[, 'angularls']] }
+-- local servers = {
+--     'ccls',
+--     'cssls',
+--     'cssmodules_ls',
+--     'dockerls',
+--     'docker_compose_language_service',
+--     'gopls',
+--     'html',
+--     'jsonls',
+--     'pyright',
+--     'rust_analyzer',
+--     'sqlls',
+--     'tsserver',
+--     'texlab',
+--     'yamlls',
+-- }
+--
+-- for _, lsp in ipairs(servers) do
+--     nvim_lsp[lsp].setup {
+--         on_attach = on_attach,
+--         capabilities = capabilities,
+--         flags = {
+--             debounce_text_changes = 150,
+--         }
+--     }
+-- end
 
-for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        flags = {
-            debounce_text_changes = 150,
-        }
-    }
-end
+-- Sumneko Lua
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
+
+nvim_lsp.lua_ls.setup {
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+                -- Setup your lua path
+                path = runtime_path,
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = {'vim'},
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+}
 
 nvim_lsp.texlab.setup({
     on_attach = on_attach,
@@ -159,6 +204,9 @@ nvim_lsp.ltex.setup({
     },
 })
 
+
+local snippet_servers = {'emmet_ls', 'cssls' --[[, 'angularls']] }
+
 -- Setup with snippet support
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
@@ -183,7 +231,7 @@ end
 --     "--includeAutomaticOptionalChainCompletions",
 -- }
 
-nvim_lsp.angularls.setup{
+nvim_lsp.angularls.setup {
     -- cmd = cmd,
     root_dir = util.root_pattern('angular.json'),
     -- on_new_config = function(new_config)
@@ -191,46 +239,3 @@ nvim_lsp.angularls.setup{
     -- end,
 }
 
--- Sumneko Lua
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
-
-nvim_lsp.lua_ls.setup {
-    settings = {
-        Lua = {
-            runtime = {
-                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                version = 'LuaJIT',
-                -- Setup your lua path
-                path = runtime_path,
-            },
-            diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = {'vim'},
-            },
-            workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = vim.api.nvim_get_runtime_file("", true),
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-                enable = false,
-            },
-        },
-    },
-}
-
-require("mason-lspconfig").setup_handlers {
-    -- This is a default handler that will be called for each installed server (also for new servers that are installed during a session)
-    function (server_name)
-        nvim_lsp[server_name].setup {
-
-            on_attach = on_attach,
-            capabilities = capabilities,
-            flags = {
-                debounce_text_changes = 150,
-            }
-        }
-    end,
-}
