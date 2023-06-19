@@ -16,4 +16,4 @@ require("null-ls").setup({
     }
 })
 
-require('mason-null-ls').setup_handlers() -- If `automatic_setup` is true.
+-- require('mason-null-ls').setup_handlers() -- If `automatic_setup` is true.

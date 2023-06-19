@@ -25,7 +25,9 @@ opt.hlsearch = false
 
 opt.guifont = {'Fira Code', ':h11'}
 
-opt.undodir = os.getenv("XDG_CACHE_HOME") .. '/nvim/undodir'
+local cache_dir = os.getenv("XDG_CACHE_HOME")
+local fallback_cache_dir = os.getenv("HOME") .. '/.cache'
+opt.undodir =  (cache_dir and cache_dir or fallback_cache_dir) .. '/nvim/undodir'
 opt.undofile = true
 
 -- Wrap lines
