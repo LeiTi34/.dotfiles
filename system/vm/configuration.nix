@@ -64,6 +64,8 @@ in
   services.xserver.windowManager.qtile.enable = true;
   hardware.opengl.driSupport32Bit = true;
 
+  services.gnome.gnome-keyring.enable = true;
+
   # Configure keymap in X11
   services.xserver.layout = "de";
   # services.xserver.xkbOptions = {

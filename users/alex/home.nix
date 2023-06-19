@@ -149,8 +149,18 @@ in
           helper = "${
             pkgs.nur.repos.utybo.git-credential-manager
           }/bin/git-credential-manager";
+        #   helper = "${
+        #       pkgs.git.override { withLibsecret = true; }
+        #     }/bin/git-credential-libsecret";
         };
       };
+    };
+  };
+
+  services = {
+    gpg-agent = {
+      enable = true;
+      enableSshSupport = true;
     };
   };
 
