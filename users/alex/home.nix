@@ -12,7 +12,7 @@ let
 
   defaultPkgs = with pkgs; [
     alacritty
-    librewolf
+    # librewolf
     #neovim
 
     picom

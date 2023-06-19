@@ -98,10 +98,10 @@ in
   users.users.alex = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      firefox
-      thunderbird
-    ];
+    # packages = with pkgs; [
+    #   firefox
+    #   thunderbird
+    # ];
   };
 
 
