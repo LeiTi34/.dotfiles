@@ -50,7 +50,7 @@ in
   # release notes.
   home = {
     inherit username homeDirectory;
-    stateVersion = "22.11"; # Please read the comment before changing.
+    stateVersion = "23.05"; # Please read the comment before changing.
 
     packages = defaultPkgs;
 
@@ -140,6 +140,17 @@ in
           source "$(fzf-share)/completion.zsh"
         fi
       '';
+    };
+    git = {
+      enable = true;
+      extraConfig = {
+        credential = {
+          credentialStore = "secretservice";
+          helper = "${
+            pkgs.nur.repos.utybo.git-credential-manager
+          }/bin/git-credential-manager";
+        };
+      };
     };
   };
 
