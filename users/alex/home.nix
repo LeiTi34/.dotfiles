@@ -145,6 +145,8 @@ in
     };
     git = {
       enable = true;
+      userEmail = "a@b.c";
+      userName = "Alex Leidwein";
       extraConfig = {
         credential = {
           credentialStore = "secretservice";
