@@ -1,3 +1,7 @@
+#tags {
+    margin: 2px 0;
+}
+
 * {
     border: none;
     border-radius: 0;
@@ -11,13 +15,14 @@
 
 
 #tags button  {
-    background-color: #282a36;
+    background-color: #2e2c2f;
     padding: 6px;
     border-radius: 10px;
     
 }
 window#waybar {
-    background-color: #282a36;
+    /* background-color: #161417; */
+    background: transparent;
     color: #f8f8f2;
     transition-property: background-color;
     transition-duration: .5s;
@@ -42,24 +47,39 @@ window#waybar {
 #network,
 #tray
 {
-    padding-left: 20px;
-    padding-right: 20px;
-    background: #44475a; 
-    border-radius: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
+    padding: 0 10px;
+    margin: 2px 0;
+    background: #2e2c2f; 
+    /* border-radius: 10px; */
+    /* margin: 5px; */
+    /* margin-left: 5px; */
+    /* margin-right: 5px; */
 }
 
-#battery {
-    color: #50fa7b; 
+#tray {
+    border-radius: 16px;
 }
 
 #clock {
-    color: #bd93f9;
+    border-radius: 0 16px 16px 0;
+    /* padding-right: 20px; */
+    /* margin-right: 20px; */
+}
+
+#pulseaudio {
+    border-radius: 20px 0 0 20px;
+}
+
+#battery {
+    color: #88b18f; 
+}
+
+#clock {
+    color: #489ca5;
 }
 
 #cpu {
-    color: #8be9fd
+    color: #8c6aa8
 }
 #memory {
     color: #ff79c6; 
