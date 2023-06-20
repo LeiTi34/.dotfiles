@@ -12,13 +12,21 @@ let
   };
 in
 {
-  
   vm = lib.nixosSystem {
     inherit lib pkgs system;
     specialArgs = { inherit inputs; };
 
     modules = [
       ../system/vm/configuration.nix
+    ];
+  };
+
+  z8g4 = lib.nixosSystem {
+    inherit lib pkgs system;
+    specialArgs = { inherit inputs; };
+
+    modules = [
+      ../system/z8g4/configuration.nix
     ];
   };
 }

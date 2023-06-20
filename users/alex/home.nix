@@ -12,8 +12,10 @@ let
 
   defaultPkgs = with pkgs; [
     alacritty
-    # librewolf
+    librewolf
+    neovide
     #neovim
+    jetbrains.datagrip
 
     picom
     starship

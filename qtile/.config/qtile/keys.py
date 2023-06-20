@@ -64,7 +64,7 @@ def get_keys():
         Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
         Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
         Key([mod, "shift"], "p", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-        Key([mod], "p", lazy.spawn('dmenu_run -fn Hack-10 -h 26 -nb "#161417" -nf "#f7faf3" -sb "#59795f" -sf "#f7faf3"'), desc="Spawn a command using dmenu"),
+        Key([mod], "p", lazy.spawn('dmenu_run -fn Hack-10 -nb "#161417" -nf "#f7faf3" -sb "#59795f" -sf "#f7faf3"'), desc="Spawn a command using dmenu"),
         Key([mod], "b", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
         Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating"),
 
