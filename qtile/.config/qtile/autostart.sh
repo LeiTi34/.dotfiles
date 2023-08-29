@@ -1,6 +1,6 @@
 #!/bin/sh
 
 nextcloud &
-udiskie &
+# udiskie &
 nm-applet --indicator &
 

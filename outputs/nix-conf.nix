@@ -21,12 +21,12 @@ in
     ];
   };
 
-  z8g4 = lib.nixosSystem {
+  PCNX-LeiAle1 = lib.nixosSystem {
     inherit lib pkgs system;
     specialArgs = { inherit inputs; };
 
     modules = [
-      ../system/z8g4/configuration.nix
+      ../system/PCNX-LeiAle1/configuration.nix
     ];
   };
 }

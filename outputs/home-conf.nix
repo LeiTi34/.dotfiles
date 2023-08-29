@@ -1,11 +1,11 @@
-{ system, nixpkgs, nurpkgs, home-manager, ... }:
+{ system, nixpkgs-unstable, nurpkgs, home-manager, ... }:
 
 let
   username = "alex";
   homeDirectory = "/home/${username}";
   configHome = "${homeDirectory}/.config";
 
-  pkgs = import nixpkgs {
+  pkgs = import nixpkgs-unstable {
     inherit system;
     config.allowUnfree = true;
     config.xdg.configHome = configHome;

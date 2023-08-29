@@ -12,6 +12,7 @@ let
       "Hack"
     ]; })
   ];
+
 in
 {
   imports =
@@ -35,14 +36,17 @@ in
   # NVIDIA GPU
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia = {
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      modesetting.enable = false;
+      open = true;
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "z8g4"; # Define your hostname.
+  networking.hostName = "PCNX-LeiAle1"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -62,10 +66,47 @@ in
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
+  # services.dbus.enable = true;
+  # xdg.portal = {
+  #   enable = true;
+  #   wlr.enable = true;
+  #   # gtk portal needed to make gtk apps happy
+  #   extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+  # };
+
+  #environment.variables.WLR_BACKENDS = "headless";
+  #environment.variables.WLR_RENDERER = "pixman";
+  #environment.variables.WLR_LIBINPUT_NO_DEVICES = "1";
+
+
+  # services.xserver.displayManager.sessionPackages = [
+  #   (pkgs.river.overrideAttrs
+  #     (prevAttrs: rec {
+  #       postInstall =
+  #         let
+  #           riverSession = ''
+  #             [Desktop Entry]
+  #             Name=River
+  #             Comment=Dynamic Wayland compositor
+  #             Exec=/home/alex/.config/river/init
+  #             Type=Application
+  #           '';
+  #         in
+  #         ''
+  #           mkdir -p $out/share/wayland-sessions
+  #           echo "${riverSession}" > $out/share/wayland-sessions/river.desktop
+  #         '';
+  #       passthru.providedSessions = [ "river" ];
+  #     })
+  #   )
+  # ];
+
+
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    # displayManager.lightdm.enable = true;
+    # displayManager.lightdm.enable = false;
+    displayManager.startx.enable = true;
     # Enable Qtile
     windowManager.qtile = {
       enable = true;
@@ -91,7 +132,7 @@ in
   # services.x2goserver.enable = true;
   # services.xserver.desktopManager.xfce.enable = true;
   # services.xrdp.enable = true;
-  # services.xrdp.defaultWindowManager = "${pkgs.xfce.xfce4-session}/bin/xfce4-session";
+  # services.xrdp.defaultWindowManager = "qtile";
 
   services.xrdp = {
     enable = true;
@@ -99,6 +140,7 @@ in
     # defaultWindowManager = "startplasma-x11";
     # defaultWindowManager = "startx";
     # defaultWindowManager = "qtile";
+    defaultWindowManager = "startx";
   };
   
   # environment.etc."xrdp/startwm.sh" = {
@@ -117,7 +159,7 @@ in
   services.printing.enable = true;
 
   # Enable sound.
-  # sound.enable = true;
+  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -137,7 +179,18 @@ in
     defaultUserShell = pkgs.zsh;
     users.alex = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [
+          "wheel"
+          "input"
+          "power"
+          "video"
+          "optical"
+          "network"
+          "libvirt"
+          "storage"
+          "kvm"
+          "audio"
+      ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
         firefox
         tree
@@ -147,6 +200,8 @@ in
       ];
     };
   };
+
+  security.sudo.wheelNeedsPassword = false;
 
   # Docker
   virtualisation.docker = {
@@ -181,6 +236,34 @@ in
     qtile
 
     virt-manager
+
+    # foot #terminal
+    # wayvnc
+    # waybar
+    # bemenu
+    # swaybg
+    # wlroots #not really sure if this is required to prevent WLR rendererCreateError
+    vulkan-tools
+    # river
+
+
+    # (river.overrideAttrs (prevAttrs: rec {
+    #   postInstall =
+    #     let
+    #       riverSession = ''
+    #         [Desktop Entry]
+    #         Name=River
+    #         Comment=Dynamic Wayland compositor
+    #         Exec=/home/alex/.config/river/init
+    #         Type=Application
+    #       '';
+    #     in
+    #     ''
+    #       mkdir -p $out/share/wayland-sessions
+    #       echo "${riverSession}" > $out/share/wayland-sessions/river.desktop
+    #     '';
+    #   passthru.providedSessions = [ "river" ];
+    # }))
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -199,6 +282,11 @@ in
     settings.X11Forwarding = true;
   };
 
+  # security.pam.services.swaylock = {
+  #     text = ''
+  #         auth include login
+  #         '';
+  # };
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

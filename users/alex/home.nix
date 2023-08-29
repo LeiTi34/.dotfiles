@@ -37,6 +37,27 @@ let
     xclip
     dmenu
     picom
+
+    udiskie
+    networkmanagerapplet
+    nextcloud-client
+
+    element-desktop
+    remmina
+
+    # swayidle
+    # waylock
+
+
+    # mako
+    # waybar
+    # river
+    # foot
+    # wayvnc
+    # bemenu
+    # swaybg
+    # river
+
   ];
 in
 {
@@ -58,6 +79,10 @@ in
 
     sessionVariables = {
       EDITOR = "nvim";
+      XDG_CACHE_HOME  = "$HOME/.cache";
+      XDG_CONFIG_HOME = "$HOME/.config";
+      XDG_DATA_HOME   = "$HOME/.local/share";
+      XDG_STATE_HOME  = "$HOME/.local/state";
     };
 
     file = {
@@ -87,9 +112,28 @@ in
       "tridactyl".source = ../../librewolf/.config/tridactyl/tridactylrc;
 
       "nvim".source = mkOutOfStoreSymlink (fullPath "nvim/.config/nvim");
+
+      "river" = {
+        source = ../../river/.config/river;
+        recursive = true;
+      };
+      "waybar" = {
+        source = ../../river/.config/waybar;
+        recursive = true;
+      };
     };
   };
 
+  # lets create a target session for river
+  systemd.user.targets.river-session = {
+    Unit = {
+      Description = "River Compositor Session";
+      Documentation = [ "man:systemd.special(7)" ];
+      BindsTo = [ "graphical-session.target" ];
+      Wants = [ "graphical-session-pre.target" ];
+      After = [ "graphical-session-pre.target" ];
+    };
+  };
 
   systemd.user.startServices = "sd-switch";
 
@@ -131,7 +175,7 @@ in
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting.enable = true;
       autocd = true;
       #defaultKeymap = "vicmd";
       initExtra = ''
