@@ -39,7 +39,7 @@ in
   hardware.nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.stable;
       modesetting.enable = false;
-      open = true;
+      # open = true;
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -105,14 +105,16 @@ in
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    # displayManager.lightdm.enable = false;
-    displayManager.startx.enable = true;
+    displayManager = {
+        lightdm.enable = false;
+        startx.enable = true;
+    };
     # Enable Qtile
     windowManager.qtile = {
       enable = true;
-      extraPackages = python3Packages: with python3Packages; [
-        qtile-extras
-      ];
+      # extraPackages = python3Packages: with python3Packages; [
+      #   qtile-extras
+      # ];
     };
 
     layout = "de";
@@ -137,10 +139,7 @@ in
   services.xrdp = {
     enable = true;
     openFirewall = true;
-    # defaultWindowManager = "startplasma-x11";
-    # defaultWindowManager = "startx";
-    # defaultWindowManager = "qtile";
-    defaultWindowManager = "startx";
+    # defaultWindowManager = "qtile start";
   };
   
   # environment.etc."xrdp/startwm.sh" = {
@@ -173,6 +172,7 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   programs.zsh.enable = true;
+  programs.slock.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {

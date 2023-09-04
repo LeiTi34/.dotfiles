@@ -237,6 +237,7 @@ def get_status_bar(type="primary"):
     )
 
 def get_screen(type="primary"):
+    return Screen(top=get_status_bar(type=type))
     return Screen(top=get_status_bar(type=type), wallpaper='~/.config/qtile/wallpaper.jpg', wallpaper_mode='fill')
 
 

@@ -21,7 +21,7 @@ in
       # (import "${home-manager}/nixos")
     ];
 
-  fonts.fonts = defaultFonts;
+  fonts.packages = defaultFonts;
 
   # Nix flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

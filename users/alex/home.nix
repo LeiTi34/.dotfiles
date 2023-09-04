@@ -19,6 +19,7 @@ let
 
     picom
     starship
+    nushell
     #qtile
 
     gcc
@@ -37,18 +38,30 @@ let
     xclip
     dmenu
     picom
+    # feh
 
     udiskie
     networkmanagerapplet
     nextcloud-client
+    pulsemixer
 
     element-desktop
     remmina
+    pcmanfm
+    virtualbox
+    xfce.thunar
+    zoom-us
+
+    steam
+    protonup-qt
+    protontricks
+    gamemode
+    mangohud
+
+    discord
 
     # swayidle
     # waylock
-
-
     # mako
     # waybar
     # river
@@ -57,7 +70,6 @@ let
     # bemenu
     # swaybg
     # river
-
   ];
 in
 {
@@ -88,6 +100,25 @@ in
     file = {
       ".librewolf/librewolf.overrides.cfg".source = ../../librewolf/.librewolf/librewolf.overrides.cfg;
 
+      ".xinitrc".source = ../../qtile/.xinitrc;
+      "startwm.sh".source = ../../qtile/.xinitrc;
+    };
+
+    pointerCursor = {
+      name = "Bibata-Modern-Ice";
+      package = pkgs.bibata-cursors;
+    };
+  };
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Fluent-Dark";
+      package = pkgs.fluent-gtk-theme;
+    };
+    iconTheme = {
+      name = "Fluent-dark";
+      package = pkgs.fluent-icon-theme;
     };
   };
 
