@@ -53,7 +53,7 @@ def get_widgets(type="primary"):
         #widget.TextBox("default config", name="default"),
         #widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
         widget.Net(
-            format=" {down}",
+            format="󰇚  {down}",
             foreground=theme["yellow_hard"],
         ),
         widget.Sep(
@@ -64,7 +64,7 @@ def get_widgets(type="primary"):
         widget.TextBox(
             fontsize=20,
             foreground=theme["blue_hard"],
-            text ="龍",
+            text ="󰓅 ",
         ),
         widget.CPU(
             format="{load_percent}%",
@@ -82,7 +82,7 @@ def get_widgets(type="primary"):
         widget.TextBox(
             fontsize=20,
             foreground=theme["blue_hard"],
-            text ="",
+            text ="󰍛 ",
             padding=0,
         ),
         widget.Memory(
@@ -103,10 +103,10 @@ def get_widgets(type="primary"):
             widget.Battery(
                 font="Material Design Icons",
                 fontsize=17,
-                charge_char="",
-                discharge_char="󰁾",
-                full_char="󰁹",
-                empty_char="󰂎",
+                charge_char="󰊘 ",
+                discharge_char=" ",
+                full_char=" ",
+                empty_char=" ",
                 format="{char}",
                 show_short_text=False,
                 low_percentage=15,
@@ -129,7 +129,7 @@ def get_widgets(type="primary"):
         widget.TextBox(
             foreground=theme["red_hard"],
             fontsize=20,
-            text ="ﮮ",
+            text ="󰚰 ",
         ),
         widget.CheckUpdates(
             display_format="{updates}",
@@ -148,7 +148,7 @@ def get_widgets(type="primary"):
         widget.TextBox(
             fontsize=20,
             foreground=theme["purple_hard"],
-            text ="墳",
+            text =" ",
         ),
         # widget.PulseVolume(
         #     theme_path="~/.config/qtile/icons",
@@ -178,7 +178,7 @@ def get_widgets(type="primary"):
             widget.TextBox(
                 fontsize=20,
                 foreground=theme["purple_hard"],
-                text ="",
+                text ="󰃠 ",
             ),
             widget.Backlight(
                 foreground=theme["purple_hard"],
@@ -207,7 +207,7 @@ def get_widgets(type="primary"):
         widget.TextBox(
             fontsize=20,
             foreground=theme["green_hard"],
-            text ="",
+            text ="󰃭 ",
         ),
         widget.Clock(
             foreground=theme["green_hard"],
@@ -216,7 +216,7 @@ def get_widgets(type="primary"):
         widget.TextBox(
             foreground=theme["teal_hard"],
             fontsize=20,
-            text ="",
+            text =" ",
         ),
         widget.Clock(
             foreground=theme["teal_hard"],
