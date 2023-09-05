@@ -38,6 +38,123 @@ return require('lazy').setup({
             -- vim.colorscheme('kanagawa')
         end,
     },
+
+    -- {
+    --     'supermaven-inc/supermaven-nvim',
+    --     config = function()
+    --         require('supermaven-nvim').setup({})
+    --     end,
+    -- },
+
+    {
+      "NickvanDyke/opencode.nvim",
+      dependencies = {
+        -- Recommended for `ask()` and `select()`.
+        -- Required for `snacks` provider.
+        ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
+        { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
+      },
+      config = function()
+        ---@type opencode.Opts
+        vim.g.opencode_opts = {
+          -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition".
+        }
+
+        -- Required for `opts.events.reload`.
+        vim.o.autoread = true
+
+        -- Recommended/example keymaps.
+        vim.keymap.set({ "n", "x" }, "<C-a>", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode" })
+        vim.keymap.set({ "n", "x" }, "<C-x>", function() require("opencode").select() end,                          { desc = "Execute opencode action…" })
+        vim.keymap.set({ "n", "x" },    "ga", function() require("opencode").prompt("@this") end,                   { desc = "Add to opencode" })
+        vim.keymap.set({ "n", "t" }, "<C-.>", function() require("opencode").toggle() end,                          { desc = "Toggle opencode" })
+        vim.keymap.set("n",        "<S-C-u>", function() require("opencode").command("session.half.page.up") end,   { desc = "opencode half page up" })
+        vim.keymap.set("n",        "<S-C-d>", function() require("opencode").command("session.half.page.down") end, { desc = "opencode half page down" })
+        -- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o".
+        vim.keymap.set('n', '+', '<C-a>', { desc = 'Increment', noremap = true })
+        vim.keymap.set('n', '-', '<C-x>', { desc = 'Decrement', noremap = true })
+      end,
+    },
+
+    {
+        'Exafunction/windsurf.vim',
+        event = 'BufEnter'
+    },
+
+    {
+        'ThePrimeagen/99',
+        config = function() require('config.99') end,
+    },
+
+
+    -- {
+    --     "ravitemer/mcphub.nvim",
+    --     dependencies = {
+    --         "nvim-lua/plenary.nvim",
+    --     },
+    --     build = "bundled_build.lua",  -- Bundles `mcp-hub` binary along with the neovim plugin
+    --     config = function()
+    --         require("mcphub").setup({
+    --             use_bundled_binary = true,  -- Use local `mcp-hub` binary
+    --         })
+    --     end,
+    -- },
+    -- {
+    --     "LeiTi34/magenta.nvim",
+    --     branch = "openrouter",
+    --     lazy = false, -- you could also bind to <leader>mt
+    --     build = "npm install --frozen-lockfile",
+    --     config = function()
+    --         require('magenta').setup({
+    --             profiles = {
+    --                 {
+    --                     name = "openai",
+    --                     provider = "openrouter",
+    --                     model = "openai/gpt-5",
+    --                     fastModel = "openai/gpt-5-nano",
+    --                     baseUrl = "https://openrouter.ai/api/v1",
+    --                     apiKeyEnvVar = "OPENROUTER_API_KEY",
+    --                 },
+    --                 {
+    --                     name = "anthropic",
+    --                     provider = "openrouter",
+    --                     model = "anthropic/claude-opus-4.1",
+    --                     fastModel = "anthropic/claude-sonnet-4",
+    --                     baseUrl = "https://openrouter.ai/api/v1",
+    --                     apiKeyEnvVar = "OPENROUTER_API_KEY",
+    --                 },
+    --                 {
+    --                     name = "google",
+    --                     provider = "openrouter",
+    --                     model = "google/gemini-2.5-pro",
+    --                     fastModel = "google/gemini-2.5-flash",
+    --                     baseUrl = "https://openrouter.ai/api/v1",
+    --                     apiKeyEnvVar = "OPENROUTER_API_KEY",
+    --                 },
+    --             },
+    --             mcpServers = {
+    --                 mcphub = {
+    --                     url = "http://localhost:37373/mcp"
+    --                 }
+    --             }
+    --         })
+    --     end,
+    --     opts = {},
+    -- },
+    {
+        'stevearc/oil.nvim',
+        ---@module 'oil'
+        ---@type oil.SetupOpts
+        opts = {},
+        -- Optional dependencies
+        dependencies = { { "echasnovski/mini.icons", opts = {} } },
+        -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+        -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+        lazy = false,
+        config = function()
+            require("oil").setup()
+        end,
+    },
     -- {
     --     'NTBBloodbath/sweetie.nvim',
     --     config = function()
@@ -168,19 +285,45 @@ return require('lazy').setup({
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
-        dependencies = {
-            -- -- Neorg
-            -- 'nvim-neorg/neorg', -- TODO better lazy loading
-            -- dependencies = {
-            --     {'nvim-lua/plenary.nvim'},
-            --     {'vhyrro/neorg-telescope'}
-            -- },
-            -- config = function() require('config.neorg') end,
-        },
+        -- dependencies = {
+        --     -- Neorg
+        --     'nvim-neorg/neorg', -- TODO better lazy loading
+        --     dependencies = {
+        --         {'nvim-lua/plenary.nvim'},
+        --         {'vhyrro/neorg-telescope'}
+        --     },
+        --     config = function() require('config.neorg') end,
+        -- },
         config = function() require('config.treesitter') end,
     },
 
     'nvim-treesitter/playground',
+
+    -- -- Jupyter
+    -- {
+    --     "benlubas/molten-nvim",
+    --     version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+    --     build = ":UpdateRemotePlugins",
+    --     dependencies = {
+    --         "3rd/image.nvim",
+    --     },
+    --     init = function() require('config.molten') end,
+    -- },
+    -- {
+    --     "quarto-dev/quarto-nvim",
+    --     dependencies = {
+    --         "jmbuhr/otter.nvim",
+    --         "nvim-treesitter/nvim-treesitter",
+    --     },
+    --     config = function() require('config.quarto') end,
+    --     ft = {"quarto", "markdown"},
+    -- },
+    -- {
+    --     "GCBallesteros/jupytext.nvim",
+    --     config = function() require('config.jupytext') end,
+    --     -- Depending on your nvim distro or config you may need to make the loading not lazy
+    --     -- lazy=false,
+    -- },
 
     {
         'nvim-treesitter/nvim-treesitter-textobjects',
@@ -215,6 +358,21 @@ return require('lazy').setup({
         config = function() require('config.autopairs') end,
     },
 
+    -- {
+    --     'jcdickinson/http.nvim',
+    --     build = 'cargo build --workspace --release'
+    -- },
+    {
+        "Exafunction/windsurf.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "hrsh7th/nvim-cmp",
+        },
+        config = function()
+            require("codeium").setup({
+            })
+        end
+    },
     {
         'hrsh7th/nvim-cmp',
         dependencies = {
@@ -226,12 +384,12 @@ return require('lazy').setup({
             { 'hrsh7th/cmp-calc' },
             { 'hrsh7th/cmp-cmdline' },
             { 'hrsh7th/cmp-emoji' },
-            { 'tzachar/cmp-tabnine', build = './install.sh' },
-            {
-                'L3MON4D3/LuaSnip',
-                dependencies = 'rafamadriz/friendly-snippets',
-                config = function () require('config.luasnip') end,
-            },
+            -- { 'tzachar/cmp-tabnine', build = './install.sh' },
+            -- {
+            --     'L3MON4D3/LuaSnip',
+            --     dependencies = 'rafamadriz/friendly-snippets',
+            --     config = function () require('config.luasnip') end,
+            -- },
             { 'windwp/nvim-autopairs' },
         },
         config = function() require('config.cmp') end,
@@ -241,6 +399,7 @@ return require('lazy').setup({
     -- LSP
     'barreiroleo/ltex-extra.nvim',
     {
+        lazy = false,
         'neovim/nvim-lspconfig',
         dependencies = {
             'williamboman/mason.nvim',
@@ -250,15 +409,49 @@ return require('lazy').setup({
             'barreiroleo/ltex-extra.nvim',
             -- 'brymer-meneses/grammar-guard.nvim',
             -- 'SmiteshP/nvim-navic',
+            -- sqls
+            -- 'nanotee/sqls.nvim',
 
-            -- dap
-            'mfussenegger/nvim-dap',
-            'jayp0521/mason-nvim-dap.nvim',
-            'rcarriga/nvim-dap-ui',
+            -- -- dap
+            -- 'mfussenegger/nvim-dap',
+            -- 'jayp0521/mason-nvim-dap.nvim',
+            -- { 'rcarriga/nvim-dap-ui', dependencies = { 'nvim-neotest/nvim-nio' }},
 
             -- null-ls
-            'jose-elias-alvarez/null-ls.nvim',
-            'jayp0521/mason-null-ls.nvim',
+            -- 'jose-elias-alvarez/null-ls.nvim',
+            -- 'jayp0521/mason-null-ls.nvim',
+            'mfussenegger/nvim-lint',
+            {
+                'stevearc/conform.nvim',
+                opts = {
+                    javascript = { "prettierd", "prettier", stop_after_first = true },
+                    javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+                    typescript = { "prettierd", "prettier", stop_after_first = true },
+                    typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+                },
+                keys = {
+                    {
+                        "<leader>cf",
+                        function()
+                            require("conform").format({ lsp_format = "fallback" })
+                        end,
+                        mode = { "n" },
+                        desc = "Format Injected Langs",
+                    },
+                    {
+                        "<leader>cf",
+                        function()
+                            require("conform").format({
+                                async = true,
+                                lsp_fallback = true,
+                                range = { start = vim.fn.getpos("'<"), ["end"] = vim.fn.getpos("'>") },
+                            })
+                        end,
+                        mode = { "v" },
+                        desc = "Format Injected Langs",
+                    },
+                }
+            },
         },
         config = function() require('config.mason') end,
     },
@@ -275,27 +468,27 @@ return require('lazy').setup({
         config = function() require('config.toggleterm') end,
     },
 
-    -- Dadbod
-    {
-        'kristijanhusak/vim-dadbod-ui',
-        dependencies = {'tpope/vim-dadbod'},
-        keys = {
-
-            { '<leader>du', '<Cmd>DBUIToggle<CR>', desc='Dadbod' },
-            { '<leader>df', '<Cmd>DBUIFindBuffer<CR>', desc='Dadbod' },
-            { '<leader>dr', '<Cmd>DBUIRenameBuffer<CR>', desc='Dadbod' },
-            { '<leader>dl', '<Cmd>DBUILastQueryInfo<CR>', desc='Dadbod' },
-        },
-        cmd = {
-            'DBUI',
-            'DBUIToggle',
-            'DBUIFindBuffer',
-            'DBUIRenameBuffer',
-            'DBUILastQueryInfo',
-            'DBUIAddConnection',
-        },
-    },
-
+    -- -- Dadbod
+    -- {
+    --     'kristijanhusak/vim-dadbod-ui',
+    --     dependencies = {'tpope/vim-dadbod'},
+    --     keys = {
+    --
+    --         { '<leader>du', '<Cmd>DBUIToggle<CR>', desc='Dadbod' },
+    --         { '<leader>df', '<Cmd>DBUIFindBuffer<CR>', desc='Dadbod' },
+    --         { '<leader>dr', '<Cmd>DBUIRenameBuffer<CR>', desc='Dadbod' },
+    --         { '<leader>dl', '<Cmd>DBUILastQueryInfo<CR>', desc='Dadbod' },
+    --     },
+    --     cmd = {
+    --         'DBUI',
+    --         'DBUIToggle',
+    --         'DBUIFindBuffer',
+    --         'DBUIRenameBuffer',
+    --         'DBUILastQueryInfo',
+    --         'DBUIAddConnection',
+    --     },
+    -- },
+    --
 
     -- Harpoon
     {
@@ -331,34 +524,34 @@ return require('lazy').setup({
         config = function () require('config.alpha') end,
     },
 
-    {
-        'stevearc/overseer.nvim',
-        config = function() require('config.overseer') end,
-        keys = {
-            { '<leader>tr', function() require('overseer').run_template() end, opts, desc='Overseer run template' },
-            { '<leader>tT', function() require('overseer').toggle({ direction = 'right' }) end, opts, desc='Overseer toggle' },
-            { '<leader>ta', function() require('overseer').run_action() end, opts, desc='Overseer' },
-            { '<leader>tv', '<Cmd>OverseerQuickAction open vsplit<CR>', desc='Overseer open vsplit' },
-            { '<leader>th', '<Cmd>OverseerQuickAction open hsplit<CR>', desc='Overseer open hsplit' },
-            { '<leader>tf', '<Cmd>OverseerQuickAction open float<CR>', desc='Overseer open float' },
-            { '<leader>to', '<Cmd>OverseerQuickAction open<CR>', desc='Overseer open' },
-        },
-        cmd = {
-            'OverseerOpen',
-            'OverseerClose',
-            'OverseerToggle',
-            'OverseerSaveBundle',
-            'OverseerLoadBundle',
-            'OverseerDeleteBundle',
-            'OverseerRunCmd',
-            'OverseerRun',
-            'OverseerInfo',
-            'OverseerBuild',
-            'OverseerQuickAction',
-            'OverseerTaskAction',
-            'OverseerClearCache',
-        },
-    },
+    -- {
+    --     'stevearc/overseer.nvim',
+    --     config = function() require('config.overseer') end,
+    --     keys = {
+    --         { '<leader>tr', function() require('overseer').run_template() end, opts, desc='Overseer run template' },
+    --         { '<leader>tT', function() require('overseer').toggle({ direction = 'right' }) end, opts, desc='Overseer toggle' },
+    --         { '<leader>ta', function() require('overseer').run_action() end, opts, desc='Overseer' },
+    --         { '<leader>tv', '<Cmd>OverseerQuickAction open vsplit<CR>', desc='Overseer open vsplit' },
+    --         { '<leader>th', '<Cmd>OverseerQuickAction open hsplit<CR>', desc='Overseer open hsplit' },
+    --         { '<leader>tf', '<Cmd>OverseerQuickAction open float<CR>', desc='Overseer open float' },
+    --         { '<leader>to', '<Cmd>OverseerQuickAction open<CR>', desc='Overseer open' },
+    --     },
+    --     cmd = {
+    --         'OverseerOpen',
+    --         'OverseerClose',
+    --         'OverseerToggle',
+    --         'OverseerSaveBundle',
+    --         'OverseerLoadBundle',
+    --         'OverseerDeleteBundle',
+    --         'OverseerRunCmd',
+    --         'OverseerRun',
+    --         'OverseerInfo',
+    --         'OverseerBuild',
+    --         'OverseerQuickAction',
+    --         'OverseerTaskAction',
+    --         'OverseerClearCache',
+    --     },
+    -- },
 
     -- Lua
     {
@@ -377,13 +570,39 @@ return require('lazy').setup({
         dependencies = "kyazdani42/nvim-web-devicons",
         config = function() require('config.trouble') end,
         keys = {
-            { '<leader>td', '<Cmd>TroubleToggle<CR>', desc='Trouble toggle' },
+            {
+                "<leader>xx",
+                "<cmd>Trouble diagnostics toggle<cr>",
+                desc = "Diagnostics (Trouble)",
+            },
+            {
+                "<leader>xX",
+                "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+                desc = "Buffer Diagnostics (Trouble)",
+            },
+            {
+                "<leader>cs",
+                "<cmd>Trouble symbols toggle focus=false<cr>",
+                desc = "Symbols (Trouble)",
+            },
+            {
+                "<leader>cl",
+                "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+                desc = "LSP Definitions / references / ... (Trouble)",
+            },
+            {
+                "<leader>xL",
+                "<cmd>Trouble loclist toggle<cr>",
+                desc = "Location List (Trouble)",
+            },
+            {
+                "<leader>xQ",
+                "<cmd>Trouble qflist toggle<cr>",
+                desc = "Quickfix List (Trouble)",
+            },
         },
         cmd = {
             'Trouble',
-            'TroubleToggle',
-            'TroubleClose',
-            'TroubleRefresh',
         },
     },
 
@@ -393,17 +612,70 @@ return require('lazy').setup({
     },
 
     -- {
-    --     'barrett-ruth/import-cost.nvim',
-    --     build = 'sh install.sh npm',
-    --     config = true
-    -- },
+        --     'barrett-ruth/import-cost.nvim',
+        --     build = 'sh install.sh npm',
+        --     config = true
+        -- },
 
-    {
-        'dense-analysis/neural',
-        dependencies = {
-            'MunifTanjim/nui.nvim',
-            'ElPiloto/significant.nvim',
+        -- {
+        --     'dense-analysis/neural',
+        --     dependencies = {
+        --         'MunifTanjim/nui.nvim',
+        --         'ElPiloto/significant.nvim',
+        --     },
+        --     config = function() require('config.neural') end,
+        -- },
+
+        {
+            'mrcjkb/haskell-tools.nvim',
+            version = '^3', -- Recommended
+            ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
         },
-        config = function() require('config.neural') end,
-    }
-})
+
+        -- {
+        --     "yetone/avante.nvim",
+        --     event = "VeryLazy",
+        --     lazy = false,
+        --     version = false, -- set this if you want to always pull the latest change
+        --     opts = {
+        --         mapping = { diff = { cursor = "cC" } },
+        --     },
+        --     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+        --     build = "make",
+        --     -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+        --     dependencies = {
+        --         "nvim-treesitter/nvim-treesitter",
+        --         "stevearc/dressing.nvim",
+        --         "nvim-lua/plenary.nvim",
+        --         "MunifTanjim/nui.nvim",
+        --         --- The below dependencies are optional,
+        --         "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+        --         "zbirenbaum/copilot.lua", -- for providers='copilot'
+        --         {
+        --             -- support for image pasting
+        --             "HakonHarnes/img-clip.nvim",
+        --             event = "VeryLazy",
+        --             opts = {
+        --                 -- recommended settings
+        --                 default = {
+        --                     embed_image_as_base64 = false,
+        --                     prompt_for_file_name = false,
+        --                     drag_and_drop = {
+        --                         insert_mode = true,
+        --                     },
+        --                     -- required for Windows users
+        --                     use_absolute_path = true,
+        --                 },
+        --             },
+        --         },
+        --         {
+        --             -- Make sure to set this up properly if you have lazy=true
+        --             'MeanderingProgrammer/render-markdown.nvim',
+        --             opts = {
+        --                 file_types = { "markdown", "Avante" },
+        --             },
+        --             ft = { "markdown", "Avante" },
+        --         },
+        --     },
+        -- }
+    })

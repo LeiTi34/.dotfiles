@@ -10,7 +10,7 @@ theme = Themes.get_theme()
 
 def get_widget_defaults():
     return dict(
-        font="Hack",
+        font="Hack Nerd Font",
         fontsize=13,
         padding=3,
         foreground=theme["fg_normal"],
@@ -53,7 +53,7 @@ def get_widgets(type="primary"):
         #widget.TextBox("default config", name="default"),
         #widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
         widget.Net(
-            format="{down:6.2f}{down_suffix:<2}↓↑{up:6.2f}{up_suffix:<2}",
+            format="{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}",
             foreground=theme["yellow_hard"],
         ),
         widget.Sep(
@@ -101,7 +101,7 @@ def get_widgets(type="primary"):
                 size_percent=100,
             ),
             widget.Battery(
-                font="Material Design Icons",
+                #font="Material Design Icons",
                 fontsize=17,
                 charge_char="󰊘 ",
                 discharge_char=" ",

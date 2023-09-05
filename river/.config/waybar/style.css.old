@@ -9,94 +9,103 @@
 @define-color item_active #48857c;
 @define-color base0F #a16946;
 
-/* * { */
-/*   transition: none; */
-/*   min-height: 0; */
-/*   box-shadow: none; */
-/* } */
+* {
+  transition: none;
+  min-height: 0;
+  box-shadow: none;
+}
 
 #waybar {
 	font-family: "FiraCode Nerd Font", "Font Awesome 6 Free", Roboto, Helvetica, Arial, sans-serif;
 	font-size: 15px;
 	font-weight: 400;
     color: @light_text;
-    /* background: @bg_bar; */
-    background: transparent;
+    background: @bg_bar;
+    padding: 0;
+    margin: 0;
 }
 
-/* #workspaces { */
-/*   margin: 0; */
-/* } */
-
-#workspaces button.urgent {
-  color: @bat_critical;
-  border-radius: 15px;
+#tags {
+  margin: 0;
 }
 
-#workspaces button {
-  padding: 0 .5em;
+#tags button {
+  margin: 4px 3px;
+  padding: 0 2px;
   color: @light_text;
-  border-radius: 15px;
-  border: solid 0px transparent;
 }
 
-#workspaces button:hover {
-  /* color: @dark_text; */
-    color: transparent;
-  /* border-radius: 10px; */
-    border-radius: 15px;
+#taskbar button {
+    padding: 0 2px;
+    margin: 0 2px;
 }
 
-#workspaces button.visible {
-    border-radius: 15px;
+#taskbar {
+    margin: 2px 0px;
+}
+
+/* #tags button:hover { */
+/*     color: @dark_text; */
+/*   } */
+
+#tags button.visible {
     
 }
 
-/* #workspaces button.active { */
-/*   border-radius: 15px; */
-/*   background-color: @item_active; */
-/*   color: @dark_text; */
-/* } */
-#workspaces button.active{
-    border-radius: 15px;
-    color: @dark_text;
-    padding: 0 1em;
-    background: #833AB4;
-    background: radial-gradient(circle,
-        rgba(131, 58, 180, 1) 0%,
-        rgba(253, 29, 29, 1) 25%,
-        rgba(253, 48, 34, 1) 36%,
-        rgba(38, 67, 253, 1) 54%,
-        rgba(71, 84, 224, 1) 55%,
-        rgba(253, 48, 34, 1) 64%,
-        rgba(224, 86, 76, 1) 76%,
-        rgba(252, 176, 69, 1) 100%
-    );
-
-    background-size: 400% 400%;
-    animation: gradient_f 20s ease-in-out infinite;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+#tags button.occupied {
+  border-radius: 4px;
+  background-color: @bg_item;
 }
 
-@keyframes gradient_f {
-	0% {
-		background-position: 0% 200%;
-	}
-    50% {
-        background-position: 200% 0%;
-    }
-	100% {
-		background-position: 400% 200%;
-	}
+#tags button.focused {
+  background-color: @item_active;
+  color: @dark_text;
 }
 
-/* #workspaces button.current_output { */
-/*     background: @base0F; */
-/* } */
+#workspaces button.urgent {
+  color: @bat_critical;
+}
+
+#workspaces {
+  margin: 0;
+}
+
+#workspaces button {
+  margin: 4px 3px;
+  padding: 0 2px;
+  color: @light_text;
+}
+
+#taskbar button {
+    padding: 0 2px;
+    margin: 0 2px;
+}
+
+#taskbar {
+    margin: 2px 0px;
+}
+
+#workspaces button:hover {
+  color: @dark_text;
+}
+
+#workspaces button.visible {
+    
+}
+
+#workspaces button.active {
+  border-radius: 4px;
+  background-color: @item_active;
+  color: @dark_text;
+}
+
+#workspaces button.current_output {
+    background: @base0F;
+}
 
 #tray {
-  margin: 0 3px;
-  border-radius: 15px;
+  margin: 3px;
+  border-radius: 4px;
 }
 
 #tray * {
@@ -113,10 +122,10 @@
 }
 
 #mode, #mpd, #bluetooth, #battery, #network, #pulseaudio, #idle_inhibitor, #backlight, #custom-storage, #clock, #custom-gpu-usage, #custom-spotify, #temperature, #tray {
-  margin: 0 3px;
+  margin: 4px 3px;
   padding: 0 5px;
   background-color: @bg_item;
-  border-radius: 15px;
+  border-radius: 4px;
 }
 
 #idle_inhibitor {
@@ -127,15 +136,20 @@
     color: @dark_text;
 }
 
+#custom-spotify {
+    background: @item_active;
+    color: @dark_text;
+}
+
 #cpu, #memory, #temperature {
-    margin: 0;
+    margin: 4px 0px;
     background-color: @bg_item;
 }
 
 #cpu {
     padding-left: 2px;
     padding-right: 10px;
-    border-radius: 16px 0px 0px 16px;
+    border-radius: 4px 0px 0px 4px;
     min-width: 40px;
 } 
 
@@ -146,12 +160,13 @@
 #memory {
     padding-left: 2px;
     padding-right: 10px;
+    border-radius: 0px 4px 4px 0px;
 }
 
 #temperature {
     padding-left: 2px;
     padding-right: 10px;
-    border-radius: 0px 16px 16px 0px;
+    border-radius: 0px 4px 4px 0px;
 }
 
 #pulseaudio.speaker {
@@ -169,6 +184,10 @@
   
 }
 
+#custom-gpu-usage {
+    min-width: 70px;
+}
+
 #clock {
   min-height: 0px;
 }
@@ -180,20 +199,20 @@
     margin-right: 3px;
 }
 
-#clock-font-disable {
+#clock-fontttt-disable {
     font-family: "FiraCode Nerd Font Mono";
 }
 
-/* #window { */
-/*     margin-left: 0.5em; */
-/*     font-size: 1em; */
-/* 	font-weight: 400; */
-/* 	font-family: sans-serif; */
-/* } */
-/**/
-/* #taskbar button.active { */
-/*     background: @item_active; */
-/* } */
+#window {
+    margin-left: 0.5em;
+    font-size: 1em;
+	font-weight: 400;
+	font-family: sans-serif;
+}
+
+#taskbar button.active {
+    background: @item_active;
+}
 
 #battery.warning {
     background: @bat_warning;

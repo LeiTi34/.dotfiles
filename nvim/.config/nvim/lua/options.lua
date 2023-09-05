@@ -1,37 +1,40 @@
-local opt = vim.opt
-
 -- vim.cmd[[colorscheme sonokai]]
-opt.termguicolors = true
+vim.opt.termguicolors = true
 
-opt.modelines = 1
+vim.o.modelines = 1
 
-opt.showmode = false
-opt.ruler = false
-opt.showcmd = false
+vim.o.showmode = false
+vim.o.ruler = false
+vim.o.showcmd = false
 
-opt.splitbelow = true
+vim.o.splitbelow = true
 
-opt.laststatus = 3
+vim.o.laststatus = 3
 
-opt.number = true
-opt.relativenumber = true
+vim.o.number = true
+vim.o.relativenumber = true
 
-opt.mouse = 'a'
-opt.tabstop = 4
-opt.shiftwidth = 4
-opt.expandtab = true
+vim.o.mouse = 'a'
 
-opt.hlsearch = false
+vim.o.tabstop = 4
+vim.bo.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.bo.shiftwidth = 4
+vim.o.expandtab = true
+vim.bo.expandtab = true
 
-opt.guifont = {'Fira Code', ':h11'}
+vim.o.hlsearch = false
 
-local cache_dir = os.getenv("XDG_CACHE_HOME")
-local fallback_cache_dir = os.getenv("HOME") .. '/.cache'
-opt.undodir =  (cache_dir and cache_dir or fallback_cache_dir) .. '/nvim/undodir'
-opt.undofile = true
+-- opt.guifont = {'CaskaydiaCove Nerd Font', ':h12'}
+vim.opt.guifont = {'Fira Code', ':h11'}
+-- opt.guifont = {'VictorMono Nerd Font', ':style=Medium',':h12'}
+
+vim.o.undodir = os.getenv("XDG_CACHE_HOME") .. '/nvim/undodir'
+vim.o.undofile = true
 
 -- Wrap lines
-opt.wrap = true
+vim.o.wrap = true
 
 --[[
 vim.opt.completeopt = "menu,menuone,noselect" ]]
