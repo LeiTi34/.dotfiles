@@ -53,7 +53,7 @@ def get_widgets(type="primary"):
         #widget.TextBox("default config", name="default"),
         #widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
         widget.Net(
-            format="󰇚  {down}",
+            format="{down:6.2f}{down_suffix:<2}↓↑{up:6.2f}{up_suffix:<2}",
             foreground=theme["yellow_hard"],
         ),
         widget.Sep(

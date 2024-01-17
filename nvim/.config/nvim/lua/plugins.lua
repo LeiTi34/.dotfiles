@@ -106,6 +106,7 @@ return require('lazy').setup({
     -- LSP Status
     {
         'j-hui/fidget.nvim',
+        tag = 'legacy',
         config = function() require"fidget".setup() end,
     },
 
@@ -123,7 +124,7 @@ return require('lazy').setup({
 
     {
         'nvim-neo-tree/neo-tree.nvim',
-         branch = 'v2.x',
+         branch = 'v3.x',
          dependencies = {
             'nvim-lua/plenary.nvim',
             'kyazdani42/nvim-web-devicons', -- not strictly required, but recommended
@@ -168,13 +169,13 @@ return require('lazy').setup({
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         dependencies = {
-            -- Neorg
-            'nvim-neorg/neorg', -- TODO better lazy loading
-            dependencies = {
-                {'nvim-lua/plenary.nvim'},
-                {'vhyrro/neorg-telescope'}
-            },
-            config = function() require('config.neorg') end,
+            -- -- Neorg
+            -- 'nvim-neorg/neorg', -- TODO better lazy loading
+            -- dependencies = {
+            --     {'nvim-lua/plenary.nvim'},
+            --     {'vhyrro/neorg-telescope'}
+            -- },
+            -- config = function() require('config.neorg') end,
         },
         config = function() require('config.treesitter') end,
     },
