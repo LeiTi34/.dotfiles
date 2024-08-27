@@ -1,0 +1,5 @@
+profile default {
+    output DP-1 mode 1920x1080 position 3840,0
+    output DP-2 mode 1920x1080 position 1920,0
+    output DP-3 mode 1920x1080 position 0,0
+}

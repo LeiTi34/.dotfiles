@@ -117,7 +117,7 @@ riverctl map normal $mod Left  send-layout-cmd rivertile "main-location left"
 
 
 riverctl map normal $mod+Shift M spawn waylock
-riverctl map normal $mode+Shift S spawn scrot -se "'xclip $HOME/Pictures/screenshots/%Y-%m-%d_$wx$h_scrot.png -s -f -e -selection clipboard -t image/png -i $f'"
+riverctl map normal $mod+Shift S spawn scrot -se "'xclip $HOME/Pictures/screenshots/%Y-%m-%d_$wx$h_scrot.png -s -f -e -selection clipboard -t image/png -i $f'"
 
 # Reload river configuration
 riverctl map normal $mod+Control R spawn "~/.config/river/init"
@@ -192,6 +192,8 @@ riverctl spawn mako # notifications
 riverctl spawn "nm-applet --indicator"
 #riverctl spawn udiskie
 riverctl spawn nextcloud
+
+riverctl spawn kanshi
 
 riverctl spawn "swayidle -w \\
     timeout 900 'waylock -fork-on-lock -init-color 0x000000' \\

@@ -1,92 +1,198 @@
-#tags {
-    margin: 2px 0;
-}
+@define-color dark_text #181818;
+@define-color light_text #b8b8b8;
+
+@define-color bg_bar #17161b;
+@define-color bg_item #24222b;
+
+@define-color bat_critical #ab4642;
+@define-color bat_warning #bf7343;
+@define-color item_active #48857c;
+@define-color base0F #a16946;
 
 * {
-    border: none;
-    border-radius: 0;
-    /* `otf-font-awesome` is required to be installed for icons */
-    font-family: Hack,  "FiraCode Nerd Font",Roboto, Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    min-height: 0;
-    color: #f8f8f2;
-    /* background: #282a36; */
+  transition: none;
+  min-height: 0;
+  box-shadow: none;
 }
 
+#waybar {
+	font-family: "FiraCode Nerd Font", "Font Awesome 6 Free", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+    color: @light_text;
+    background: @bg_bar;
+    padding: 0;
+    margin: 0;
+}
 
-#tags button  {
-    background-color: #2e2c2f;
-    padding: 6px;
-    border-radius: 10px;
+#tags {
+  margin: 0;
+}
+
+#tags button {
+  margin: 4px 3px;
+  padding: 0 2px;
+  color: @light_text;
+}
+
+#taskbar button {
+    padding: 0 2px;
+    margin: 0 2px;
+}
+
+#taskbar {
+    margin: 2px 0px;
+}
+
+/* #tags button:hover { */
+/*     color: @dark_text; */
+/*   } */
+
+#tags button.visible {
     
 }
-window#waybar {
-    /* background-color: #161417; */
-    background: transparent;
-    color: #f8f8f2;
-    transition-property: background-color;
-    transition-duration: .5s;
+
+#tags button.occupied {
+  border-radius: 4px;
+  background-color: @bg_item;
 }
 
-#tags button.occupied  {
-    background-color: #44475a;
-
+#tags button.focused {
+  background-color: @item_active;
+  color: @dark_text;
 }
 
-#tags button.focused  {
-    background-color: #6272a4; 
-}
-
-#pulseaudio,
-#backlight,
-#temperature,
-#battery,
-#clock,
-#cpu,
-#memory,
-#network,
-#tray
-{
-    padding: 0 10px;
-    margin: 2px 0;
-    background: #2e2c2f; 
-    /* border-radius: 10px; */
-    /* margin: 5px; */
-    /* margin-left: 5px; */
-    /* margin-right: 5px; */
+#workspaces button.urgent {
+  color: @bat_critical;
 }
 
 #tray {
-    border-radius: 16px;
+  margin: 3px;
+  border-radius: 4px;
 }
 
-#clock {
-    border-radius: 0 16px 16px 0;
-    /* padding-right: 20px; */
-    /* margin-right: 20px; */
+#tray * {
+  padding: 0 6px;
 }
 
-#pulseaudio {
-    border-radius: 20px 0 0 20px;
+#bluetooth.disabled, #bluetooth.off {
+  color: #413c4d;
 }
 
-#battery {
-    color: #88b18f; 
+#bluetooth.connected {
+    background: @item_active;
+    color: @dark_text;
 }
 
-#clock {
-    color: #489ca5;
+#mode, #mpd, #bluetooth, #battery, #network, #pulseaudio, #idle_inhibitor, #backlight, #custom-storage, #clock, #custom-gpu-usage, #custom-spotify, #temperature, #tray {
+  margin: 4px 3px;
+  padding: 0 5px;
+  background-color: @bg_item;
+  border-radius: 4px;
+}
+
+#idle_inhibitor {
+    min-width: 20px;
+}
+#idle_inhibitor.activated {
+    background: @item_active;
+    color: @dark_text;
+}
+
+#custom-spotify {
+    background: @item_active;
+    color: @dark_text;
+}
+
+#cpu, #memory, #temperature {
+    margin: 4px 0px;
+    background-color: @bg_item;
 }
 
 #cpu {
-    color: #8c6aa8
-}
-#memory {
-    color: #ff79c6; 
-}
+    padding-left: 2px;
+    padding-right: 10px;
+    border-radius: 4px 0px 0px 4px;
+    min-width: 40px;
+} 
+
 #network {
-    color: #ffb86c; 
+    padding-right: 10px;
 }
-/* #tray { */
-/*     margin-left: 10px; */
-/* } */
+
+#memory {
+    padding-left: 2px;
+    padding-right: 10px;
+    border-radius: 0px 4px 4px 0px;
+}
+
+#temperature {
+    padding-left: 2px;
+    padding-right: 10px;
+    border-radius: 0px 4px 4px 0px;
+}
+
+#pulseaudio.speaker {
+    background: @item_active;
+    color: @dark_text;
+}
+
+#pulseaudio.speaker.muted {
+    background-color: @bg_item;
+    color: @light_text;
+}
+
+
+#pulseaudio.bluetooth {
+  
+}
+
+#custom-gpu-usage {
+    min-width: 70px;
+}
+
+#clock {
+  min-height: 0px;
+}
+
+#clock.time {
+    background: @item_active;
+    color: @dark_text;
+    min-width: 60px;
+    margin-right: 3px;
+}
+
+#clock-fontttt-disable {
+    font-family: "FiraCode Nerd Font Mono";
+}
+
+#window {
+    margin-left: 0.5em;
+    font-size: 1em;
+	font-weight: 400;
+	font-family: sans-serif;
+}
+
+#taskbar button.active {
+    background: @item_active;
+}
+
+#battery.warning {
+    background: @bat_warning;
+    color: @dark_text;
+}
+
+#battery.critical {
+    background: @bat_critical;
+    color: @dark_text;
+}
+
+#battery.charging {
+    background: @item_active;
+    color: @dark_text;
+}
+
+#battery.charging.full {
+    background: @item_active;
+    color: @dark_text;
+}

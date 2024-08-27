@@ -38,6 +38,14 @@ return require('lazy').setup({
             -- vim.colorscheme('kanagawa')
         end,
     },
+
+    {
+      'supermaven-inc/supermaven-nvim',
+      config = function()
+        require('supermaven-nvim').setup({})
+      end,
+    },
+
     -- {
     --     'NTBBloodbath/sweetie.nvim',
     --     config = function()
@@ -123,7 +131,7 @@ return require('lazy').setup({
 
     {
         'nvim-neo-tree/neo-tree.nvim',
-         branch = 'v2.x',
+         branch = 'v3.x',
          dependencies = {
             'nvim-lua/plenary.nvim',
             'kyazdani42/nvim-web-devicons', -- not strictly required, but recommended
@@ -138,6 +146,25 @@ return require('lazy').setup({
             { '<leader>nd', '<Cmd>Neotree reveal bottom toggle source=diagnostics<CR>', opts, desc='Neotree diagnostics' },
         },
         cmd = 'Neotree',
+    },
+    {
+        "antosha417/nvim-lsp-file-operations",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-neo-tree/neo-tree.nvim",
+        },
+        config = function()
+            require("lsp-file-operations").setup()
+        end,
+    },
+    {
+        'stevearc/oil.nvim',
+        opts = {},
+        -- Optional dependencies
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            require("oil").setup()
+        end,
     },
 
     -- Telescope
@@ -167,15 +194,15 @@ return require('lazy').setup({
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
-        dependencies = {
-            -- Neorg
-            'nvim-neorg/neorg', -- TODO better lazy loading
-            dependencies = {
-                {'nvim-lua/plenary.nvim'},
-                {'vhyrro/neorg-telescope'}
-            },
-            config = function() require('config.neorg') end,
-        },
+        -- dependencies = {
+        --     -- Neorg
+        --     'nvim-neorg/neorg', -- TODO better lazy loading
+        --     dependencies = {
+        --         {'nvim-lua/plenary.nvim'},
+        --         {'vhyrro/neorg-telescope'}
+        --     },
+        --     config = function() require('config.neorg') end,
+        -- },
         config = function() require('config.treesitter') end,
     },
 
@@ -229,6 +256,7 @@ return require('lazy').setup({
             {
                 'L3MON4D3/LuaSnip',
                 dependencies = 'rafamadriz/friendly-snippets',
+                build = 'make install_jsregexp',
                 config = function () require('config.luasnip') end,
             },
             { 'windwp/nvim-autopairs' },
@@ -251,6 +279,7 @@ return require('lazy').setup({
             -- 'SmiteshP/nvim-navic',
 
             -- dap
+            'nvim-neotest/nvim-nio',
             'mfussenegger/nvim-dap',
             'jayp0521/mason-nvim-dap.nvim',
             'rcarriga/nvim-dap-ui',

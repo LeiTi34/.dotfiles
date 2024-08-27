@@ -7,10 +7,12 @@ let
   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
 
   defaultFonts = with pkgs; [
+    corefonts
+    open-sans
     (nerdfonts.override { fonts = [
       "FiraCode"
       "Hack"
-    ]; })
+    ]; }) 
   ];
 
 in
@@ -20,26 +22,29 @@ in
       ./hardware-configuration.nix
     ];
 
-  fonts.fonts = defaultFonts;
+  fonts.packages = defaultFonts;
 
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
 
   # Nix flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  nixpkgs.config.packageOverrides = pkgs: {
-    nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
-      inherit pkgs;
-    };
-  };
+  # nixpkgs.config.packageOverrides = pkgs: {
+  #   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
+  #     inherit pkgs;
+  #   };
+  # };
 
   # NVIDIA GPU
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
   hardware.nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-      modesetting.enable = false;
-      # open = true;
+      package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
+      modesetting.enable = true;
+      open = false;
+      powerManagement.enable = false;
+      powerManagement.finegrained = false;
+      nvidiaSettings = true;
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -74,11 +79,10 @@ in
   #   extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
   # };
 
-  #environment.variables.WLR_BACKENDS = "headless";
-  #environment.variables.WLR_RENDERER = "pixman";
-  #environment.variables.WLR_LIBINPUT_NO_DEVICES = "1";
-
-
+  # environment.variables.WLR_BACKENDS = "headless";
+  # environment.variables.WLR_RENDERER = "pixman";
+  # environment.variables.WLR_LIBINPUT_NO_DEVICES = "1";
+  #
   # services.xserver.displayManager.sessionPackages = [
   #   (pkgs.river.overrideAttrs
   #     (prevAttrs: rec {
@@ -108,6 +112,9 @@ in
     displayManager = {
         lightdm.enable = false;
         startx.enable = true;
+        sessionCommands = ''
+            ${pkgs.x11vnc}/bin/x11vnc -rfbauth $HOME/.vnc/passwd &
+        '';
     };
     # Enable Qtile
     windowManager.qtile = {
@@ -117,7 +124,7 @@ in
       # ];
     };
 
-    layout = "de";
+    xkb.layout = "de";
   };
   hardware.opengl.driSupport32Bit = true;
   hardware.opengl.driSupport = true;
@@ -157,9 +164,12 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  security.pam.services.waylock = {};
+
   # Enable sound.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
+
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -174,6 +184,9 @@ in
   programs.zsh.enable = true;
   programs.slock.enable = true;
 
+  programs.river.enable = true;
+  programs.xwayland.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
     defaultUserShell = pkgs.zsh;
@@ -186,7 +199,7 @@ in
           "video"
           "optical"
           "network"
-          "libvirt"
+          # "libvirtd"
           "storage"
           "kvm"
           "audio"
@@ -211,18 +224,49 @@ in
     #   enable = true;
     #   setSocketVariable = true;
     # };
+    enableNvidia = true;
   };
   users.extraGroups.docker.members = [ "alex" ];
 
-  # Libvirt
-  virtualisation.libvirtd.enable = true;
+  # # Libvirt
+  # virtualisation.libvirtd = {
+  #   enable = true;
+  #
+  #   onShutdown = "suspend";
+  #   onBoot = "ignore";
+  #
+  #   qemu = {
+  #     package = pkgs.qemu_kvm;
+  #
+  #     swtpm.enable = true;
+  #
+  #     ovmf.enable = true;
+  #     ovmf.packages = [ pkgs.OVMFFull.fd ];
+  #   };
+  # };
   programs.dconf.enable = true;
+
+  # VirtualBox
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  users.extraGroups.vboxusers.members = [ "alex" ];
 
   # Cockpit
   services.cockpit = {
     enable = true;
     openFirewall = true;
     port = 9090;
+  };
+
+  # For mount.cifs, required unless domain name resolution is not needed.
+  fileSystems."/mnt/share" = {
+    device = "//BAB.network/fileshares";
+    fsType = "cifs";
+    options = let
+# this line prevents hanging on network split
+      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
   };
   
   # List packages installed in system profile. To search, run:
@@ -235,17 +279,19 @@ in
     htop
     qtile
 
-    virt-manager
+    # virt-manager
+    # quickemu
+    cifs-utils
 
-    # foot #terminal
-    # wayvnc
-    # waybar
-    # bemenu
-    # swaybg
+    foot #terminal
+    wayvnc
+    waybar
+    bemenu
+    swaybg
     # wlroots #not really sure if this is required to prevent WLR rendererCreateError
     vulkan-tools
-    # river
-
+    x11vnc
+    river
 
     # (river.overrideAttrs (prevAttrs: rec {
     #   postInstall =
@@ -292,6 +338,27 @@ in
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  # services.postgresql = {
+  #   enable = true;
+  #   enableTCPIP = true;
+  # };
+  networking = {
+    firewall.allowedTCPPorts = [
+      5432
+      8080
+      3000
+      3009
+      3001
+      5900
+      11434
+    ];
+    # Add route or VPN
+    interfaces."enp21s0f1".ipv4.routes = [{
+        address = "10.242.2.0";
+        prefixLength = 24;
+        via = "10.242.2.1";
+     }];
+  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

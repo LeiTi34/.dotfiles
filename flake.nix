@@ -2,7 +2,7 @@
   description = "My System Config";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.05";
+    nixpkgs.url = "nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nurpkgs.url = "github:nix-community/NUR";
 

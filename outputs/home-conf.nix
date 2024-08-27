@@ -30,10 +30,4 @@ let
 in
 {
   alex = mkHome;
-  # alex =
-  #   home-manager.lib.homeManagerConfiguration {
-  #     inherit pkgs;
-  #
-  #     modules = [{ inherit imports; }];
-  #   };
 }

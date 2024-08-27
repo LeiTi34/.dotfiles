@@ -11,11 +11,15 @@ let
   configHome = "${homeDirectory}/.config";
 
   defaultPkgs = with pkgs; [
+    gnumake
     alacritty
     librewolf
+    libreoffice-fresh
     neovide
     #neovim
     jetbrains.datagrip
+    postgresql_14
+    pgadmin4-desktopmode
 
     picom
     starship
@@ -26,11 +30,17 @@ let
     go
     cargo
     nodejs
+    nodePackages."@angular/cli"
     python3
     zig
+    dig
 
     unzip
+    p7zip
+
+    fortune
     git
+    git-lfs
     git-crypt
     gnupg
     ripgrep
@@ -38,6 +48,7 @@ let
     xclip
     dmenu
     picom
+    scrot
     # feh
 
     udiskie
@@ -48,8 +59,8 @@ let
     element-desktop
     remmina
     pcmanfm
-    virtualbox
     xfce.thunar
+    nautilus
     zoom-us
 
     steam
@@ -59,25 +70,42 @@ let
     mangohud
 
     discord
+    obsidian
 
-    # swayidle
-    # waylock
-    # mako
-    # waybar
-    # river
-    # foot
-    # wayvnc
-    # bemenu
-    # swaybg
-    # river
+    seatd
+    swayidle
+    waylock
+    mako
+    waybar
+    kanshi
+    wlr-randr
+    river
+    foot
+    wayvnc
+    bemenu
+    swaybg
+    pavucontrol
+    fuzzel
+
+    calc
+    chromium
+    #postman
+    pwgen
+    neofetch
+    gimp
   ];
 in
 {
+
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-25.9.0" # Required for Obsidian
+  ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
 
   # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
+  # compatible with. this helps avoid breakage when a new home manager release
   # introduces backwards incompatible changes.
   #
   # You should not change this value, even if you update Home Manager. If you do
@@ -97,16 +125,23 @@ in
       XDG_STATE_HOME  = "$HOME/.local/state";
     };
 
+    # nixpkgs.config.allowUnfreePredicate = _: true;
+
+
     file = {
       ".librewolf/librewolf.overrides.cfg".source = ../../librewolf/.librewolf/librewolf.overrides.cfg;
 
       ".xinitrc".source = ../../qtile/.xinitrc;
       "startwm.sh".source = ../../qtile/.xinitrc;
+      "reconnectwm.sh".source = ../../qtile/.xinitrc;
     };
 
     pointerCursor = {
-      name = "Bibata-Modern-Ice";
       package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 16;
+      x11.enable = true;
+      gtk.enable = true;
     };
   };
 
@@ -152,6 +187,10 @@ in
         source = ../../river/.config/waybar;
         recursive = true;
       };
+      "kanshi" = {
+        source = ../../river/.config/kanshi;
+        recursive = true;
+      };
     };
   };
 
@@ -183,6 +222,14 @@ in
       enableZshIntegration = true;
       enableBashIntegration = true;
     };
+    thefuck.enable = true;
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      enableBashIntegration = true;
+      enableNushellIntegration = true;
+      options = [ "--cmd cd" ];
+    };
     home-manager.enable = true;
     htop.enable = true;
     neovim = {
@@ -204,7 +251,7 @@ in
     zathura.enable = true;
     zsh = {
       enable = true;
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       enableCompletion = true;
       syntaxHighlighting.enable = true;
       autocd = true;
@@ -222,6 +269,7 @@ in
       enable = true;
       userEmail = "a@b.c";
       userName = "Alex Leidwein";
+      lfs.enable = true;
       extraConfig = {
         credential = {
           credentialStore = "secretservice";
@@ -242,6 +290,13 @@ in
       enableSshSupport = true;
     };
   };
+
+  # dconf.settings = {
+  #   "org/virt-manager/virt-manager/connections" = {
+  #     autoconnect = ["qemu:///system"];
+  #     uris = ["qemu:///system"];
+  #   };
+  # };
 
   # # The home.packages option allows you to install Nix packages into your
   # # environment.
