@@ -1,10 +1,9 @@
 import os
 from libqtile.config import Key
-from libqtile.utils import guess_terminal
 from libqtile.lazy import lazy
 
 mod = "mod4"
-terminal = guess_terminal()
+terminal = "ghostty"
 
 home = os.path.expanduser("~")
 scripts = home + '/.scripts/'

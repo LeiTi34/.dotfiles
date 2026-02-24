@@ -18,8 +18,7 @@ def idle_dialogues(window):
       (window.window.get_name() == 'IDLE Preferences')):
         window.floating = True
 
-
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~/.config/qtile/autostart.sh')
-    subprocess.Popen([home])
+    home = os.path.expanduser('~')
+    subprocess.Popen([home, '/.config/qtile/autostart.sh'])

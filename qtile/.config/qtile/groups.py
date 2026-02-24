@@ -47,7 +47,7 @@ def get_scratchpad_groups():
             # it is placed in the upper third of screen by default.
             DropDown(
                 "term",
-                "alacritty",
+                "ghostty",
                 opacity = 1,
                 height = 0.5,
                 width = 0.99,

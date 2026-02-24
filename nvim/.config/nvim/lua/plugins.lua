@@ -46,6 +46,30 @@ return require('lazy').setup({
       end,
     },
 
+    {
+		'ThePrimeagen/99',
+        config = function()
+            require('config.99')
+        end,
+    },
+
+    -- {
+    --     'Exafunction/windsurf.vim',
+    --     event = 'BufEnter'
+    -- },
+
+    -- {
+    --     "monkoose/neocodeium",
+    --     event = "VeryLazy",
+    --     config = function()
+    --         local neocodeium = require("neocodeium")
+    --         neocodeium.setup()
+    --         vim.keymap.set("i", "<A-f>", neocodeium.accept)
+    --     end,
+    -- },
+
+
+
     -- {
     --     'NTBBloodbath/sweetie.nvim',
     --     config = function()

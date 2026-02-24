@@ -1,4 +1,4 @@
-{ system, nixpkgs-unstable, nurpkgs, home-manager, ... }:
+{ system, nixpkgs-unstable, nurpkgs, home-manager, zen-browser, ... }:
 
 let
   username = "alex";
@@ -9,13 +9,15 @@ let
     inherit system;
     config.allowUnfree = true;
     config.xdg.configHome = configHome;
-    overlays = [ nurpkgs.overlay ];
+    overlays = [ nurpkgs.overlays.default ];
   };
 
   nur = import nurpkgs {
     inherit pkgs;
     nurpkgs = pkgs;
   };
+
+  extraSpecialArgs = { inherit zen-browser system; };
 
   imports = [
     ../users/alex/home.nix
@@ -24,7 +26,7 @@ let
   mkHome =
     home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
-
+      extraSpecialArgs = extraSpecialArgs;
       modules = [{ inherit imports; }];
     };
 in

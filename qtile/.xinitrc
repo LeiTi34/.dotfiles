@@ -7,6 +7,15 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+if test -z "$DBUS_SESSION_BUS_ADDRESS"; then
+	eval $(dbus-launch --exit-with-session --sh-syntax)
+fi
+systemctl --user import-environment DISPLAY XAUTHORITY
+
+if command -v dbus-update-activation-environment >/dev/null 2>&1; then
+        dbus-update-activation-environment DISPLAY XAUTHORITY
+fi
+
 # Swap ESC with Caps
 #setxkbmap -option caps:swapescape
  #[ -f ~/.Xmodmap ] && xmodmap ~/.Xmodmap
@@ -14,7 +23,7 @@ fi
 setxkbmap de
 
 # gnome-keyring
-eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+eval $(/usr/bin/gnome-keyring-daemon --login --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 
 # Dotnet Core
@@ -39,7 +48,7 @@ elif [ $(</etc/hostname) =  "PCNX-LeiAle1" ]; then
     xrandr --output DP-4 --left-of DP-2 --auto
     xrandr --output DP-0 --right-of DP-2 --auto
     # bg
-    feh --bg-fill .config/qtile/wallpaper.jpg &
+    feh --bg-fill "$XDG_CONFIG_HOME/qtile/wallpaper.jpg" &
     # Keymap
     exec setxkbmap de &
 fi

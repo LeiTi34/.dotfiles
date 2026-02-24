@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, zen-browser, ... }:
 
 let
   mkOutOfStoreSymlink = config.lib.file.mkOutOfStoreSymlink;
@@ -11,8 +11,13 @@ let
   configHome = "${homeDirectory}/.config";
 
   defaultPkgs = with pkgs; [
+    zen-browser.packages.${stdenv.hostPlatform.system}.default
+
+    devenv
+
     gnumake
     alacritty
+    ghostty
     librewolf
     libreoffice-fresh
     neovide
@@ -20,6 +25,11 @@ let
     jetbrains.datagrip
     postgresql_14
     pgadmin4-desktopmode
+
+    lens
+
+    fd
+    ripgrep
 
     picom
     starship
@@ -30,7 +40,9 @@ let
     go
     cargo
     nodejs
-    nodePackages."@angular/cli"
+    pnpm
+    php
+    php84Packages.composer
     python3
     zig
     dig
@@ -59,7 +71,7 @@ let
     element-desktop
     remmina
     pcmanfm
-    xfce.thunar
+    thunar
     nautilus
     zoom-us
 
@@ -79,7 +91,6 @@ let
     waybar
     kanshi
     wlr-randr
-    river
     foot
     wayvnc
     bemenu
@@ -92,7 +103,12 @@ let
     #postman
     pwgen
     neofetch
-    gimp
+    # gimp
+
+    azure-functions-core-tools
+
+    opencode
+    claude-code
   ];
 in
 {
@@ -113,7 +129,7 @@ in
   # release notes.
   home = {
     inherit username homeDirectory;
-    stateVersion = "23.05"; # Please read the comment before changing.
+    stateVersion = "25.05"; # Please read the comment before changing.
 
     packages = defaultPkgs;
 
@@ -158,10 +174,32 @@ in
   };
 
   xdg = {
+    # portal = {
+    #   enable = true;
+    #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    #   config = {
+    #     common = {
+    #       default = [
+    #         "gtk"
+    #       ];
+    #       "org.freedesktop.impl.portal.Secret" = [
+    #         "gnome-keyring"
+    #       ];
+    #     };
+    #   };
+    # };
     #inherit configHome;
     #enable = true;
     configFile = {
-      "alacritty".source = ../../alacritty/.config/alacritty/alacritty.yml;
+      "alacritty" = {
+        source = ../../alacritty/.config/alacritty;
+        recursive = true;
+      };
+
+      "ghostty" = {
+        source = ../../ghostty/.config/ghostty;
+        recursive = true;
+      };
 
       # "nvim" = {
       #   source = ../../nvim/.config/nvim;
@@ -222,7 +260,7 @@ in
       enableZshIntegration = true;
       enableBashIntegration = true;
     };
-    thefuck.enable = true;
+    pay-respects.enable = true;
     zoxide = {
       enable = true;
       enableZshIntegration = true;
@@ -232,6 +270,9 @@ in
     };
     home-manager.enable = true;
     htop.enable = true;
+    tmux = {
+      enable = true;
+    };
     neovim = {
       enable = true;
       viAlias = true;
@@ -256,7 +297,7 @@ in
       syntaxHighlighting.enable = true;
       autocd = true;
       #defaultKeymap = "vicmd";
-      initExtra = ''
+      initContent = ''
         eval "$(starship init zsh)"
 
         if [ -n "''${commands[fzf-share]}" ]; then
@@ -267,14 +308,16 @@ in
     };
     git = {
       enable = true;
-      userEmail = "a@b.c";
-      userName = "Alex Leidwein";
       lfs.enable = true;
-      extraConfig = {
+      settings = {
+        user = {
+            email = "a@b.c";
+            name = "Alex Leidwein";
+        };
         credential = {
           credentialStore = "secretservice";
           helper = "${
-            pkgs.nur.repos.utybo.git-credential-manager
+            pkgs.git-credential-manager
           }/bin/git-credential-manager";
         #   helper = "${
         #       pkgs.git.override { withLibsecret = true; }

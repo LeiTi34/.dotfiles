@@ -4,30 +4,38 @@
 
 { config, pkgs, ... }:
 let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz";
 
-  defaultFonts = with pkgs; [
-    corefonts
-    open-sans
-    (nerdfonts.override { fonts = [
-      "FiraCode"
-      "Hack"
-    ]; }) 
-  ];
 
 in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      # ./../../qtile/qtile.nix
     ];
 
-  fonts.packages = defaultFonts;
-
-  # nixpkgs.config.allowUnfree = true;
-
+  fonts.packages = with pkgs; [
+    corefonts
+    open-sans
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+  ];
   # Nix flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.trusted-users = [ "root" "alex" ];
+
+  # Optimising the Nix store
+  nix.optimise = {
+   automatic = true;
+   dates = [ "04:00" ];
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "03:00";
+    options = "--delete-older-than 30d";
+  };
 
   # nixpkgs.config.packageOverrides = pkgs: {
   #   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
@@ -37,24 +45,38 @@ in
 
   # NVIDIA GPU
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-  hardware.nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
-      modesetting.enable = true;
-      open = false;
-      powerManagement.enable = false;
-      powerManagement.finegrained = false;
-      nvidiaSettings = true;
+  hardware = {
+      graphics = {
+          enable = true;
+          enable32Bit = true;
+      };
+      nvidia = {
+          # package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
+          package = config.boot.kernelPackages.nvidiaPackages.stable;
+          modesetting.enable = true;
+          open = false;
+          powerManagement.enable = false;
+          powerManagement.finegrained = false;
+          nvidiaSettings = true;
+      };
+      nvidia-container-toolkit.enable = true;
   };
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+  };
 
-  networking.hostName = "PCNX-LeiAle1"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking = {
+      hostName = "PCNX-LeiAle1"; # Define your hostname.
+      # Pick only one of the below networking options.
+      # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+      networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+      extraHosts = ''
+        172.17.0.1 host.docker.internal
+      '';
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Vienna";
@@ -67,16 +89,32 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
-    # keyMap = "de";
-    useXkbConfig = true; # use xkbOptions in tty.
+    keyMap = "de";
+    #useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  # services.dbus.enable = true;
+  services.dbus.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config = {
+      common = {
+        default = [
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.Secret" = [
+          "gnome-keyring"
+        ];
+      };
+    };
+  };
+
   # xdg.portal = {
   #   enable = true;
-  #   wlr.enable = true;
+  #   # wlr.enable = true;
   #   # gtk portal needed to make gtk apps happy
-  #   extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+  #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # };
 
   # environment.variables.WLR_BACKENDS = "headless";
@@ -110,24 +148,26 @@ in
   services.xserver = {
     enable = true;
     displayManager = {
-        lightdm.enable = false;
-        startx.enable = true;
-        sessionCommands = ''
-            ${pkgs.x11vnc}/bin/x11vnc -rfbauth $HOME/.vnc/passwd &
-        '';
+         lightdm.enable = false;
+         startx.enable = true;
+    #     sessionCommands = ''
+    #         ${pkgs.x11vnc}/bin/x11vnc -rfbauth $HOME/.vnc/passwd &
+    #     '';
     };
     # Enable Qtile
+    # displayManager.setupCommands = ''
+    #   "$XDG_CONFIG_HOME/qtile/display-setup.sh"
+    # '';
     windowManager.qtile = {
       enable = true;
-      # extraPackages = python3Packages: with python3Packages; [
-      #   qtile-extras
-      # ];
+      extraPackages = python3Packages: with python3Packages; [
+        qtile-extras
+      ];
     };
 
     xkb.layout = "de";
   };
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.driSupport = true;
+
 
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
@@ -140,7 +180,7 @@ in
   # RDP
   # services.x2goserver.enable = true;
   # services.xserver.desktopManager.xfce.enable = true;
-  # services.xrdp.enable = true;
+  # services.xrdp.enable = true
   # services.xrdp.defaultWindowManager = "qtile";
 
   services.xrdp = {
@@ -165,10 +205,10 @@ in
   services.printing.enable = true;
 
   security.pam.services.waylock = {};
+  # security.pam.services.login.enableGnomeKeyring = true;
 
   # Enable sound.
-  # sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -181,11 +221,15 @@ in
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-  programs.zsh.enable = true;
-  programs.slock.enable = true;
+  programs = {
+      zsh.enable = true;
+      slock.enable = true;
 
-  programs.river.enable = true;
-  programs.xwayland.enable = true;
+      river.enable = true;
+      xwayland.enable = true;
+
+      nix-ld.enable = true;
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
@@ -209,7 +253,7 @@ in
         tree
         librewolf
         neovim
-        qtile
+        # python312Packages.qtile
       ];
     };
   };
@@ -220,11 +264,11 @@ in
   virtualisation.docker = {
     enable = true;
     storageDriver = "btrfs";
+    daemon.settings.features.cdi = true;
     # rootless = {
     #   enable = true;
     #   setSocketVariable = true;
     # };
-    enableNvidia = true;
   };
   users.extraGroups.docker.members = [ "alex" ];
 
@@ -247,15 +291,43 @@ in
   programs.dconf.enable = true;
 
   # VirtualBox
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.virtualbox.host = {
+      enable = true;
+      enableExtensionPack = true;
+  };
   users.extraGroups.vboxusers.members = [ "alex" ];
 
-  # Cockpit
-  services.cockpit = {
-    enable = true;
-    openFirewall = true;
-    port = 9090;
+  services = {
+      avahi = {
+        enable = true;
+        nssmdns4 = true;  # Enable multicast DNS NSS lookup
+        openFirewall = true;
+        publish = {
+          enable = true;
+          addresses = true;
+          domain = true;
+          workstation = true;
+        };
+      };
+      gvfs = {
+        enable = true;
+        package = pkgs.gnome.gvfs;
+      };
+      samba = {
+        enable = true;
+        openFirewall = true;
+      };
+      dbus.packages = with pkgs; [
+        gnome.gvfs
+      ];
+      gnome.core-apps.enable = true;
+
+      # Cockpit
+      cockpit = {
+        enable = true;
+        openFirewall = true;
+        port = 9090;
+      };
   };
 
   # For mount.cifs, required unless domain name resolution is not needed.
@@ -277,7 +349,7 @@ in
     git
     starship
     htop
-    qtile
+    # python312Packages.qtile
 
     # virt-manager
     # quickemu
@@ -310,6 +382,13 @@ in
     #     '';
     #   passthru.providedSessions = [ "river" ];
     # }))
+
+    nautilus
+    gvfs
+    samba
+    # Add these specific GVFS packages
+    gnome.gvfs
+    gnome-online-accounts
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -343,21 +422,24 @@ in
   #   enableTCPIP = true;
   # };
   networking = {
-    firewall.allowedTCPPorts = [
-      5432
-      8080
-      3000
-      3009
-      3001
-      5900
-      11434
-    ];
-    # Add route or VPN
-    interfaces."enp21s0f1".ipv4.routes = [{
-        address = "10.242.2.0";
-        prefixLength = 24;
-        via = "10.242.2.1";
-     }];
+    firewall = {
+      allowedTCPPorts = [
+        5432
+        8080
+        3000
+        3009
+        3001
+        5900
+        11434
+      ];
+    };
+
+    # # Add route or VPN
+    # interfaces."enp21s0f1".ipv4.routes = [{
+    #     address = "10.242.2.0";
+    #     prefixLength = 24;
+    #     via = "10.242.2.1";
+    #  }];
   };
 
   # Copy the NixOS configuration file and link it from the resulting system
