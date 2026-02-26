@@ -1,31 +1,31 @@
 local tsparsers = require('nvim-treesitter.parsers')
 if not tsparsers then return end
 
-local parser_configs = tsparsers.get_parser_configs()
+-- local parser_configs = tsparsers.get_parser_configs()
 
-parser_configs.norg = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg",
-        files = { "src/parser.c", "src/scanner.cc" },
-        branch = "main"
-    },
-}
-
-parser_configs.norg_meta = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
-        files = { "src/parser.c" },
-        branch = "main"
-    },
-}
-
-parser_configs.norg_table = {
-    install_info = {
-        url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
-        files = { "src/parser.c" },
-        branch = "main"
-    },
-}
+-- parser_configs.norg = {
+--     install_info = {
+--         url = "https://github.com/nvim-neorg/tree-sitter-norg",
+--         files = { "src/parser.c", "src/scanner.cc" },
+--         branch = "main"
+--     },
+-- }
+--
+-- parser_configs.norg_meta = {
+--     install_info = {
+--         url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
+--         files = { "src/parser.c" },
+--         branch = "main"
+--     },
+-- }
+--
+-- parser_configs.norg_table = {
+--     install_info = {
+--         url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
+--         files = { "src/parser.c" },
+--         branch = "main"
+--     },
+-- }
 
 local tsconfig = require('nvim-treesitter.configs')
 if not tsconfig then return end
@@ -33,7 +33,7 @@ if not tsconfig then return end
 tsconfig.setup {
   ensure_installed = {
       "c", "lua", "rust", "c", "cpp", "python", "java", "javascript", "typescript", "latex", "make", "nix",
-      "php", "query", "norg", "norg_meta", "norg_table", "r", "scss", "yaml", "json", "html", "css",
+      "php", "query", "r", "scss", "yaml", "json", "html", "css",
       "toml", "vue", "svelte", "ql", "bibtex", "bash", "cmake", "vim", "verilog", "comment",
       "markdown", "markdown_inline"
   }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages

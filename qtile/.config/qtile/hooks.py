@@ -2,6 +2,7 @@ import os
 import subprocess
 
 from libqtile import hook
+from libqtile.lazy import lazy
 
 @hook.subscribe.client_new
 def floating_dialogs(window):

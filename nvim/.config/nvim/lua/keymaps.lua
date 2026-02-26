@@ -7,6 +7,8 @@ local opts = options
 map('n', '<Space>', '', opts)
 vim.g.mapleader = ' '
 
+vim.g.maplocalleader = ' p'
+
 -- Window navigation
 map('n', '<leader>h', '<Cmd>wincmd h<CR>', opts)
 map('n', '<leader>j', '<Cmd>wincmd j<CR>', opts)

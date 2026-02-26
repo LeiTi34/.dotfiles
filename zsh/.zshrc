@@ -1,3 +1,5 @@
+# zmodload zsh/zprof
+
 # Filename:      /etc/skel/.zshrc
 # Purpose:       config file for zsh (z shell)
 # Authors:       (c) grml-team (grml.org)
@@ -400,3 +402,15 @@ alias arw='autorandr -c work'
 
 # Load Angular CLI autocompletion.
 #source <(ng completion script)
+
+# zprof
+
+# bun completions
+[ -s "/home/alex/.bun/_bun" ] && source "/home/alex/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# zoxide
+eval "$(zoxide init zsh)"
