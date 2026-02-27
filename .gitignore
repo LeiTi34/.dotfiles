@@ -1,3 +1,5 @@
 *.yml.swp
 *.conf.old
 result
+__pycache__/
+node_modules/
