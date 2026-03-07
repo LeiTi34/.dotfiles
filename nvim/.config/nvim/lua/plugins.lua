@@ -83,11 +83,10 @@ return require('lazy').setup({
         end,
     },
 
-    {
-
-        'Exafunction/windsurf.vim',
-        event = 'BufEnter'
-    },
+    -- {
+    --     'Exafunction/windsurf.vim',
+    --     event = 'BufEnter'
+    -- },
 
     -- {
     --     "ravitemer/mcphub.nvim",
