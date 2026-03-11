@@ -102,7 +102,7 @@ let
     chromium
     #postman
     pwgen
-    neofetch
+    fastfetch
     # gimp
 
     azure-functions-core-tools
