@@ -109,6 +109,8 @@ let
 
     opencode
     claude-code
+
+    opentofu
   ];
 in
 {
