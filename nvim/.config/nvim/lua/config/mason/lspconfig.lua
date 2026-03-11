@@ -126,9 +126,6 @@ vim.lsp.config('lua_ls', {
     },
 })
 
-local env = vim.fn['stdpath']('config')..'/lua/env.lua'
-dofile(env)
-
 local connections = {}
 
 if vim.env.POSTGRES_CONNECTION_STRING ~= nil then
