@@ -125,8 +125,8 @@ vim.lsp.config('lua_ls', {
     },
 })
 
-local env = vim.fn['stdpath']('config')..'/lua/env.lua'
-dofile(env)
+-- local env = vim.fn['stdpath']('config')..'/lua/env.lua'
+-- dofile(env)
 
 local connections = {}
 
