@@ -111,6 +111,13 @@ let
     claude-code
 
     opentofu
+    uv
+    sops
+    age
+    argocd
+    kubectl
+    kubernetes-helm
+    velero
   ];
 in
 {
