@@ -92,3 +92,21 @@ toolbar .toolbarbutton-1 {
 #zen-appcontent-navbar-container {
   background-color: #0e1416 !important;
 }
+
+#PanelUI-menu-button .toolbarbutton-icon,
+#downloads-button .toolbarbutton-icon,
+#unified-extensions-button .toolbarbutton-icon {
+  fill: #00bcd4 !important;
+  color: #00bcd4 !important;
+}
+
+#PanelUI-menu-button .toolbarbutton-badge-stack,
+#downloads-button .toolbarbutton-badge-stack,
+#unified-extensions-button .toolbarbutton-badge-stack {
+  fill: #00bcd4 !important;
+  color: #00bcd4 !important;
+}
+
+toolbar .toolbarbutton-1 > .toolbarbutton-icon {
+  fill: #00bcd4 !important;
+}

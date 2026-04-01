@@ -1,5 +1,6 @@
 {
   "claudeCodeUsage": {
-    "enabled": true
+    "enabled": true,
+    "refreshInterval": 2
   }
 }

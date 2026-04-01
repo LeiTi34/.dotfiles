@@ -156,6 +156,17 @@
   "centeringMode": "index",
   "clockDateFormat": "",
   "lockDateFormat": "",
+  "greeterRememberLastSession": true,
+  "greeterRememberLastUser": true,
+  "greeterEnableFprint": false,
+  "greeterEnableU2f": false,
+  "greeterWallpaperPath": "",
+  "greeterUse24HourClock": true,
+  "greeterShowSeconds": false,
+  "greeterPadHours12Hour": false,
+  "greeterLockDateFormat": "",
+  "greeterFontFamily": "",
+  "greeterWallpaperFillMode": "",
   "mediaSize": 1,
   "appLauncherViewMode": "grid",
   "spotlightModalViewMode": "list",
@@ -266,6 +277,7 @@
   "matugenTemplateKcolorscheme": true,
   "matugenTemplateVscode": true,
   "matugenTemplateEmacs": true,
+  "matugenTemplateZed": true,
   "showDock": false,
   "dockAutoHide": false,
   "dockSmartAutoHide": false,
@@ -307,6 +319,8 @@
   "lockAtStartup": false,
   "enableFprint": false,
   "maxFprintTries": 15,
+  "enableU2f": false,
+  "u2fMode": "or",
   "lockScreenActiveMonitor": "all",
   "lockScreenInactiveColor": "#000000",
   "lockScreenNotificationMode": 0,
@@ -377,8 +391,34 @@
       "disabled": false
     }
   },
-  "displayProfiles": {},
-  "activeDisplayProfile": {},
+  "displayProfiles": {
+    "hyprland": {
+      "profile_1774419197834_ave16d": {
+        "id": "profile_1774419197834_ave16d",
+        "name": "docked",
+        "outputSet": [
+          "DP-6",
+          "HDMI-A-1",
+          "eDP-1"
+        ],
+        "createdAt": 1774419197834,
+        "updatedAt": 1774419197834
+      },
+      "profile_1774419248027_3eeaff": {
+        "id": "profile_1774419248027_3eeaff",
+        "name": "default",
+        "outputSet": [
+          "DP-6",
+          "eDP-1"
+        ],
+        "createdAt": 1774419248027,
+        "updatedAt": 1774419248027
+      }
+    }
+  },
+  "activeDisplayProfile": {
+    "hyprland": "profile_1774419248027_3eeaff"
+  },
   "displayProfileAutoSelect": false,
   "displayShowDisconnected": false,
   "displaySnapToEdge": true,
@@ -401,6 +441,10 @@
         "weather"
       ],
       "rightWidgets": [
+        {
+          "id": "network_speed_monitor",
+          "enabled": true
+        },
         {
           "id": "systemTray",
           "enabled": true
@@ -600,6 +644,24 @@
           "height": 120,
           "x": 0,
           "y": 0
+        },
+        "DP-5": {
+          "width": 200,
+          "height": 200,
+          "x": 860,
+          "y": 440
+        },
+        "DP-6": {
+          "width": 200,
+          "height": 200,
+          "x": 860,
+          "y": 440
+        },
+        "WAYLAND-1": {
+          "width": 200,
+          "height": 200,
+          "x": 326.5,
+          "y": 183.5
         }
       }
     },
@@ -674,6 +736,24 @@
           "height": 180,
           "x": 0,
           "y": 0
+        },
+        "DP-5": {
+          "width": 320,
+          "height": 480,
+          "x": 800,
+          "y": 300
+        },
+        "DP-6": {
+          "width": 320,
+          "height": 480,
+          "x": 800,
+          "y": 300
+        },
+        "WAYLAND-1": {
+          "width": 320,
+          "height": 480,
+          "x": 266.5,
+          "y": 43.5
         }
       }
     }

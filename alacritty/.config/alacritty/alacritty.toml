@@ -41,6 +41,9 @@ unfocused_hollow = true
 [env]
 TERM = "xterm-256color"
 
+[terminal]
+osc52 = "CopyPaste"
+
 [font]
 size = 11.0
 
