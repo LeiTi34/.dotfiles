@@ -228,7 +228,13 @@ in
       river.enable = true;
       xwayland.enable = true;
 
-      nix-ld.enable = true;
+      nix-ld = {
+          enable = true;
+          libraries = with pkgs; [
+            stdenv.cc.cc.lib
+            zlib # often needed by other Python packages
+          ];
+      };
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
