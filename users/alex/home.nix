@@ -180,6 +180,7 @@ in
       name = "Fluent-dark";
       package = pkgs.fluent-icon-theme;
     };
+    gtk4.theme = config.gtk.theme;
   };
 
   xdg = {
