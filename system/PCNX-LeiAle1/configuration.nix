@@ -78,6 +78,12 @@ in
       '';
   };
 
+  zramSwap = {
+    enable = true;
+    memoryPercent = 25;
+    memoryMax = 68719476736;
+  };
+
   # Set your time zone.
   time.timeZone = "Europe/Vienna";
 
