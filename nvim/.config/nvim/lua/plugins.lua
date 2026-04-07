@@ -14,6 +14,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- vim.cmd("packadd nvim.undotree")
+-- vim.keymap.set("n", "<leader>u", require("undotree").open)
+--
+-- vim.cmd("packadd nvim.difftool")
+
 return require('lazy').setup({
     {
         'rebelot/kanagawa.nvim',
