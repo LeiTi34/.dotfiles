@@ -1,4 +1,4 @@
-local tsconfigs = require('nvim-treesitter.configs')
+local tsconfigs = require('nvim-treesitter')
 if not tsconfigs then return end
 
 tsconfigs.setup {

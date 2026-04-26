@@ -14,10 +14,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- vim.cmd("packadd nvim.undotree")
--- vim.keymap.set("n", "<leader>u", require("undotree").open)
---
--- vim.cmd("packadd nvim.difftool")
+vim.cmd("packadd nvim.undotree")
+vim.keymap.set("n", "<leader>u", require("undotree").open)
+vim.cmd("packadd nvim.difftool")
 
 return require('lazy').setup({
     {
@@ -309,6 +308,7 @@ return require('lazy').setup({
     -- Treesitter
     {
         'nvim-treesitter/nvim-treesitter',
+        branch = 'main',
         build = ':TSUpdate',
         -- dependencies = {
         --     -- Neorg
@@ -322,37 +322,10 @@ return require('lazy').setup({
         config = function() require('config.treesitter') end,
     },
 
-    'nvim-treesitter/playground',
-
-    -- -- Jupyter
-    -- {
-    --     "benlubas/molten-nvim",
-    --     version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
-    --     build = ":UpdateRemotePlugins",
-    --     dependencies = {
-    --         "3rd/image.nvim",
-    --     },
-    --     init = function() require('config.molten') end,
-    -- },
-    -- {
-    --     "quarto-dev/quarto-nvim",
-    --     dependencies = {
-    --         "jmbuhr/otter.nvim",
-    --         "nvim-treesitter/nvim-treesitter",
-    --     },
-    --     config = function() require('config.quarto') end,
-    --     ft = {"quarto", "markdown"},
-    -- },
-    -- {
-    --     "GCBallesteros/jupytext.nvim",
-    --     config = function() require('config.jupytext') end,
-    --     -- Depending on your nvim distro or config you may need to make the loading not lazy
-    --     -- lazy=false,
-    -- },
-
     {
         'nvim-treesitter/nvim-treesitter-textobjects',
         config = function() require('config.treesitter-textobjects') end,
+        branch = 'main',
     },
 
     {
@@ -383,21 +356,6 @@ return require('lazy').setup({
         config = function() require('config.autopairs') end,
     },
 
-    -- {
-    --     'jcdickinson/http.nvim',
-    --     build = 'cargo build --workspace --release'
-    -- },
-    -- {
-    --     "Exafunction/windsurf.nvim",
-    --     dependencies = {
-    --         "nvim-lua/plenary.nvim",
-    --         "hrsh7th/nvim-cmp",
-    --     },
-    --     config = function()
-    --         require("codeium").setup({
-    --         })
-    --     end
-    -- },
     {
         'hrsh7th/nvim-cmp',
         dependencies = {
@@ -487,28 +445,6 @@ return require('lazy').setup({
         config = function() require('config.toggleterm') end,
     },
 
-    -- -- Dadbod
-    -- {
-    --     'kristijanhusak/vim-dadbod-ui',
-    --     dependencies = {'tpope/vim-dadbod'},
-    --     keys = {
-    --
-    --         { '<leader>du', '<Cmd>DBUIToggle<CR>', desc='Dadbod' },
-    --         { '<leader>df', '<Cmd>DBUIFindBuffer<CR>', desc='Dadbod' },
-    --         { '<leader>dr', '<Cmd>DBUIRenameBuffer<CR>', desc='Dadbod' },
-    --         { '<leader>dl', '<Cmd>DBUILastQueryInfo<CR>', desc='Dadbod' },
-    --     },
-    --     cmd = {
-    --         'DBUI',
-    --         'DBUIToggle',
-    --         'DBUIFindBuffer',
-    --         'DBUIRenameBuffer',
-    --         'DBUILastQueryInfo',
-    --         'DBUIAddConnection',
-    --     },
-    -- },
-    --
-
     -- Harpoon
     {
         'ThePrimeagen/harpoon',
@@ -542,35 +478,6 @@ return require('lazy').setup({
         dependencies = 'kyazdani42/nvim-web-devicons',
         config = function () require('config.alpha') end,
     },
-
-    -- {
-    --     'stevearc/overseer.nvim',
-    --     config = function() require('config.overseer') end,
-    --     keys = {
-    --         { '<leader>tr', function() require('overseer').run_template() end, opts, desc='Overseer run template' },
-    --         { '<leader>tT', function() require('overseer').toggle({ direction = 'right' }) end, opts, desc='Overseer toggle' },
-    --         { '<leader>ta', function() require('overseer').run_action() end, opts, desc='Overseer' },
-    --         { '<leader>tv', '<Cmd>OverseerQuickAction open vsplit<CR>', desc='Overseer open vsplit' },
-    --         { '<leader>th', '<Cmd>OverseerQuickAction open hsplit<CR>', desc='Overseer open hsplit' },
-    --         { '<leader>tf', '<Cmd>OverseerQuickAction open float<CR>', desc='Overseer open float' },
-    --         { '<leader>to', '<Cmd>OverseerQuickAction open<CR>', desc='Overseer open' },
-    --     },
-    --     cmd = {
-    --         'OverseerOpen',
-    --         'OverseerClose',
-    --         'OverseerToggle',
-    --         'OverseerSaveBundle',
-    --         'OverseerLoadBundle',
-    --         'OverseerDeleteBundle',
-    --         'OverseerRunCmd',
-    --         'OverseerRun',
-    --         'OverseerInfo',
-    --         'OverseerBuild',
-    --         'OverseerQuickAction',
-    --         'OverseerTaskAction',
-    --         'OverseerClearCache',
-    --     },
-    -- },
 
     -- Lua
     {
@@ -630,71 +537,9 @@ return require('lazy').setup({
         config = function() require('config.colorizer') end,
     },
 
-    -- {
-        --     'barrett-ruth/import-cost.nvim',
-        --     build = 'sh install.sh npm',
-        --     config = true
-        -- },
-
-        -- {
-        --     'dense-analysis/neural',
-        --     dependencies = {
-        --         'MunifTanjim/nui.nvim',
-        --         'ElPiloto/significant.nvim',
-        --     },
-        --     config = function() require('config.neural') end,
-        -- },
-
-        {
-            'mrcjkb/haskell-tools.nvim',
-            version = '^3', -- Recommended
-            ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
-        },
-
-        -- {
-        --     "yetone/avante.nvim",
-        --     event = "VeryLazy",
-        --     lazy = false,
-        --     version = false, -- set this if you want to always pull the latest change
-        --     opts = {
-        --         mapping = { diff = { cursor = "cC" } },
-        --     },
-        --     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-        --     build = "make",
-        --     -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-        --     dependencies = {
-        --         "nvim-treesitter/nvim-treesitter",
-        --         "stevearc/dressing.nvim",
-        --         "nvim-lua/plenary.nvim",
-        --         "MunifTanjim/nui.nvim",
-        --         --- The below dependencies are optional,
-        --         "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-        --         "zbirenbaum/copilot.lua", -- for providers='copilot'
-        --         {
-        --             -- support for image pasting
-        --             "HakonHarnes/img-clip.nvim",
-        --             event = "VeryLazy",
-        --             opts = {
-        --                 -- recommended settings
-        --                 default = {
-        --                     embed_image_as_base64 = false,
-        --                     prompt_for_file_name = false,
-        --                     drag_and_drop = {
-        --                         insert_mode = true,
-        --                     },
-        --                     -- required for Windows users
-        --                     use_absolute_path = true,
-        --                 },
-        --             },
-        --         },
-        --         {
-        --             -- Make sure to set this up properly if you have lazy=true
-        --             'MeanderingProgrammer/render-markdown.nvim',
-        --             opts = {
-        --                 file_types = { "markdown", "Avante" },
-        --             },
-        --             ft = { "markdown", "Avante" },
-        --         },
-        --     },
-        -- }
-    })
+    {
+        'mrcjkb/haskell-tools.nvim',
+        version = '^3', -- Recommended
+        ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
+    },
+})

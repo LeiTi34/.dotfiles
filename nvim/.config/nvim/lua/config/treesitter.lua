@@ -27,24 +27,35 @@ if not tsparsers then return end
 --     },
 -- }
 
-local tsconfig = require('nvim-treesitter.configs')
-if not tsconfig then return end
+local ts = require('nvim-treesitter')
+if not ts then return end
 
-tsconfig.setup {
-  ensure_installed = {
-      "c", "lua", "rust", "c", "cpp", "python", "java", "javascript", "typescript", "latex", "make", "nix",
-      "php", "query", "r", "scss", "yaml", "json", "html", "css",
-      "toml", "vue", "svelte", "ql", "bibtex", "bash", "cmake", "vim", "verilog", "comment",
-      "markdown", "markdown_inline"
-  }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  -- ignore_install = { "javascript" }, -- List of parsers to ignore installing
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    -- disable = { "c", "rust" },  -- list of language that will be disabled
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
+ts.setup()
+vim.api.nvim_create_autocmd('FileType', {
+    callback = function()
+        -- Enable treesitter highlighting and disable regex syntax
+        pcall(vim.treesitter.start)
+        -- Enable treesitter-based indentation
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
+})
+
+local ok, treesitter = pcall(require, "nvim-treesitter")
+if not ok then return end
+
+local ensureInstalled = {
+  "c", "lua", "rust", "c", "cpp", "python", "java", "javascript", "typescript", "latex", "make", "nix",
+  "php", "query", "r", "scss", "yaml", "json", "html", "css",
+  "toml", "vue", "svelte", "ql", "bibtex", "bash", "cmake", "vim", "verilog", "comment",
+  "markdown", "markdown_inline"
 }
+
+local alreadyInstalled = treesitter.get_installed()
+local parsersToInstall = vim.iter(ensureInstalled)
+    :filter(function(parser)
+      return not vim.tbl_contains(alreadyInstalled, parser)
+    end)
+    :totable()
+
+ts.install(parsersToInstall)
+
