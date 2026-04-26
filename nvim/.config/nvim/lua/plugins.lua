@@ -22,25 +22,9 @@ return require('lazy').setup({
     {
         'rebelot/kanagawa.nvim',
         config = function()
-            require('kanagawa').setup({
-                overrides = function(colors)
-                    local theme = colors.theme
-                    return {
-                        -- FoldColumn = { bg = theme.ui.bg },
-                        -- LineNr = { fg = theme.ui.fg, bg = theme.ui.bg },
-                        -- SignColumn = { bg = theme.ui.bg },
-                        -- CursorLineNr = { bg = theme.ui.bg },
-                        -- DiagnosticSignError = { bg = theme.ui.bg },
-                        -- DiagnosticSignWarn = { bg = theme.ui.bg },
-                        -- DiagnosticSignInfo = { bg = theme.ui.bg },
-                        -- DiagnosticSignHint = { bg = theme.ui.bg },
-                    }
-                end,
-            })
+            require('kanagawa').setup()
             vim.cmd("colorscheme kanagawa-dragon")
-            -- require('kanagawa').setup()
-            -- vim.colorscheme('kanagawa')
-        end,
+        end
     },
 
     {
@@ -51,101 +35,12 @@ return require('lazy').setup({
     },
 
     {
-      "NickvanDyke/opencode.nvim",
-      dependencies = {
-        -- Recommended for `ask()` and `select()`.
-        -- Required for `snacks` provider.
-        ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
-        { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
-      },
-      config = function()
-        ---@type opencode.Opts
-        vim.g.opencode_opts = {
-          -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition".
-        }
-
-        -- Required for `opts.events.reload`.
-        vim.o.autoread = true
-
-        -- Recommended/example keymaps.
-        vim.keymap.set({ "n", "x" }, "<C-a>", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask opencode" })
-        vim.keymap.set({ "n", "x" }, "<C-x>", function() require("opencode").select() end,                          { desc = "Execute opencode action…" })
-        vim.keymap.set({ "n", "x" },    "ga", function() require("opencode").prompt("@this") end,                   { desc = "Add to opencode" })
-        vim.keymap.set({ "n", "t" }, "<C-.>", function() require("opencode").toggle() end,                          { desc = "Toggle opencode" })
-        vim.keymap.set("n",        "<S-C-u>", function() require("opencode").command("session.half.page.up") end,   { desc = "opencode half page up" })
-        vim.keymap.set("n",        "<S-C-d>", function() require("opencode").command("session.half.page.down") end, { desc = "opencode half page down" })
-        -- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o".
-        vim.keymap.set('n', '+', '<C-a>', { desc = 'Increment', noremap = true })
-        vim.keymap.set('n', '-', '<C-x>', { desc = 'Decrement', noremap = true })
-      end,
-    },
-
-    {
 		'ThePrimeagen/99',
         config = function()
             require('config.99')
         end,
     },
 
-    -- {
-    --     'Exafunction/windsurf.vim',
-    --     event = 'BufEnter'
-    -- },
-
-    -- {
-    --     "ravitemer/mcphub.nvim",
-    --     dependencies = {
-    --         "nvim-lua/plenary.nvim",
-    --     },
-    --     build = "bundled_build.lua",  -- Bundles `mcp-hub` binary along with the neovim plugin
-    --     config = function()
-    --         require("mcphub").setup({
-    --             use_bundled_binary = true,  -- Use local `mcp-hub` binary
-    --         })
-    --     end,
-    -- },
-    -- {
-    --     "LeiTi34/magenta.nvim",
-    --     branch = "openrouter",
-    --     lazy = false, -- you could also bind to <leader>mt
-    --     build = "npm install --frozen-lockfile",
-    --     config = function()
-    --         require('magenta').setup({
-    --             profiles = {
-    --                 {
-    --                     name = "openai",
-    --                     provider = "openrouter",
-    --                     model = "openai/gpt-5",
-    --                     fastModel = "openai/gpt-5-nano",
-    --                     baseUrl = "https://openrouter.ai/api/v1",
-    --                     apiKeyEnvVar = "OPENROUTER_API_KEY",
-    --                 },
-    --                 {
-    --                     name = "anthropic",
-    --                     provider = "openrouter",
-    --                     model = "anthropic/claude-opus-4.1",
-    --                     fastModel = "anthropic/claude-sonnet-4",
-    --                     baseUrl = "https://openrouter.ai/api/v1",
-    --                     apiKeyEnvVar = "OPENROUTER_API_KEY",
-    --                 },
-    --                 {
-    --                     name = "google",
-    --                     provider = "openrouter",
-    --                     model = "google/gemini-2.5-pro",
-    --                     fastModel = "google/gemini-2.5-flash",
-    --                     baseUrl = "https://openrouter.ai/api/v1",
-    --                     apiKeyEnvVar = "OPENROUTER_API_KEY",
-    --                 },
-    --             },
-    --             mcpServers = {
-    --                 mcphub = {
-    --                     url = "http://localhost:37373/mcp"
-    --                 }
-    --             }
-    --         })
-    --     end,
-    --     opts = {},
-    -- },
     {
         'stevearc/oil.nvim',
         ---@module 'oil'
@@ -160,43 +55,6 @@ return require('lazy').setup({
             require("oil").setup()
         end,
     },
-    -- {
-    --     'NTBBloodbath/sweetie.nvim',
-    --     config = function()
-    --         require('sweetie.nvim').setup()
-    --         vim.cmd.colorscheme('sweetie')
-    --     end
-    -- },
-
-    -- {
-    --     'navarasu/onedark.nvim',
-    --     config = function()
-    --         local onedark = require('onedark')
-    --         onedark.setup({
-    --             style = 'warmer'
-    --         })
-    --         onedark.load()
-    --     end,
-    -- },
-
-    -- {
-    --     '2nthony/vitesse.nvim',
-    --     dependencies = {
-    --         'tjdevries/colorbuddy.nvim'
-    --     },
-    --     config = function()
-    --         require("vitesse").setup {
-    --             comment_italics = true,
-    --             float_background = false,
-    --             reverse_visual = false,
-    --         }
-    --     end,
-    -- },
-
-    -- {
-    --     'arturgoms/moonbow.nvim'
-    -- },
-    -- install = { colorscheme = { 'moonbow' } },
 
     -- Lualine
     {
@@ -384,19 +242,6 @@ return require('lazy').setup({
             -- lspconfig
             'williamboman/mason-lspconfig.nvim',
             'barreiroleo/ltex-extra.nvim',
-            -- 'brymer-meneses/grammar-guard.nvim',
-            -- 'SmiteshP/nvim-navic',
-            -- sqls
-            -- 'nanotee/sqls.nvim',
-
-            -- -- dap
-            -- 'mfussenegger/nvim-dap',
-            -- 'jayp0521/mason-nvim-dap.nvim',
-            -- { 'rcarriga/nvim-dap-ui', dependencies = { 'nvim-neotest/nvim-nio' }},
-
-            -- null-ls
-            -- 'jose-elias-alvarez/null-ls.nvim',
-            -- 'jayp0521/mason-null-ls.nvim',
             'mfussenegger/nvim-lint',
             {
                 'stevearc/conform.nvim',
@@ -535,11 +380,5 @@ return require('lazy').setup({
     {
         'NvChad/nvim-colorizer.lua',
         config = function() require('config.colorizer') end,
-    },
-
-    {
-        'mrcjkb/haskell-tools.nvim',
-        version = '^3', -- Recommended
-        ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
     },
 })
