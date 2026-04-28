@@ -1,4 +1,4 @@
-{ config, pkgs, zen-browser, ... }:
+{ config, lib, pkgs, zen-browser, ... }:
 
 let
   mkOutOfStoreSymlink = config.lib.file.mkOutOfStoreSymlink;
@@ -22,6 +22,7 @@ let
     libreoffice-fresh
     neovide
     #neovim
+    tree-sitter
     jetbrains.datagrip
     postgresql_14
     pgadmin4-desktopmode
@@ -148,6 +149,7 @@ in
       XDG_CONFIG_HOME = "$HOME/.config";
       XDG_DATA_HOME   = "$HOME/.local/share";
       XDG_STATE_HOME  = "$HOME/.local/state";
+      MOZ_ENABLE_WAYLAND = "0";
     };
 
     # nixpkgs.config.allowUnfreePredicate = _: true;
@@ -298,6 +300,9 @@ in
         unzip
         ripgrep
       ];
+      withPython3 = true;
+      withRuby = false;
+      initLua = lib.mkForce "";
     };
     zathura.enable = true;
     zsh = {
