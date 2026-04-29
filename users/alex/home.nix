@@ -17,11 +17,6 @@ let
 
     lens
 
-    fd
-    ripgrep
-
-    starship
-    nushell
     #qtile
 
     gcc
@@ -43,9 +38,6 @@ let
     git-lfs
     git-crypt
     gnupg
-    ripgrep
-    fzf
-    xclip
     dmenu
     scrot
     # feh
@@ -88,8 +80,6 @@ let
     calc
     chromium
     #postman
-    pwgen
-    fastfetch
     # gimp
 
     azure-functions-core-tools
@@ -200,57 +190,12 @@ in
 
       "tridactyl".source = ../../librewolf/.config/tridactyl/tridactylrc;
 
-      "river" = {
-        source = ../../river/.config/river;
-        recursive = true;
-      };
-      "waybar" = {
-        source = ../../river/.config/waybar;
-        recursive = true;
-      };
-      "kanshi" = {
-        source = ../../river/.config/kanshi;
-        recursive = true;
-      };
-    };
-  };
-
-  # lets create a target session for river
-  systemd.user.targets.river-session = {
-    Unit = {
-      Description = "River Compositor Session";
-      Documentation = [ "man:systemd.special(7)" ];
-      BindsTo = [ "graphical-session.target" ];
-      Wants = [ "graphical-session-pre.target" ];
-      After = [ "graphical-session-pre.target" ];
     };
   };
 
   systemd.user.startServices = "sd-switch";
 
   programs = {
-    starship = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-      settings = {
-        line_break.disabled = true;
-        character.success_symbol = "[➜](bold green)";
-      };
-    };
-    fzf = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-    };
-    pay-respects.enable = true;
-    zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-      enableNushellIntegration = true;
-      options = [ "--cmd cd" ];
-    };
     home-manager.enable = true;
     htop.enable = true;
     tmux = {
@@ -258,22 +203,6 @@ in
     };
     zed-editor.enable = true;
     zathura.enable = true;
-    zsh = {
-      enable = true;
-      autosuggestion.enable = true;
-      enableCompletion = true;
-      syntaxHighlighting.enable = true;
-      autocd = true;
-      #defaultKeymap = "vicmd";
-      initContent = ''
-        eval "$(starship init zsh)"
-
-        if [ -n "''${commands[fzf-share]}" ]; then
-          source "$(fzf-share)/key-bindings.zsh"
-          source "$(fzf-share)/completion.zsh"
-        fi
-      '';
-    };
     git = {
       enable = true;
       lfs.enable = true;

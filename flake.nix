@@ -25,6 +25,7 @@
         ./modules/configurations/nixos.nix
         ./modules/users/alex.nix
         ./modules/features/home-manager.nix
+        ./modules/features/shell.nix
         ./modules/features/unfree.nix
         ./modules/features/neovim.nix
         ./modules/features/xorg.nix

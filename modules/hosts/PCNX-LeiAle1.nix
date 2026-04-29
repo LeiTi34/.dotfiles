@@ -9,6 +9,7 @@
         config.flake.modules.nixos.home-manager
         config.flake.modules.nixos.neovim
         config.flake.modules.nixos.qtile
+        config.flake.modules.nixos.shell
       ];
     };
   };
