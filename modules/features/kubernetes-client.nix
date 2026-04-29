@@ -9,6 +9,7 @@
         age
         sops
         velero
+        lens
       ];
     };
   };
