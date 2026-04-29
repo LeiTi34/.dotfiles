@@ -155,7 +155,6 @@ require('mason-lspconfig').setup({
         'cssls',
         'cssmodules_ls',
         'dockerls',
-        'hls',
         'emmet_ls',
         'gopls',
         'html',

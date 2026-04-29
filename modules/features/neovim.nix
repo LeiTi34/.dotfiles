@@ -14,6 +14,7 @@
         zig
         unzip
         ripgrep
+        tree-sitter
       ];
       withPython3 = true;
       withRuby = false;
@@ -22,6 +23,13 @@
 
     xdg.configFile."nvim".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim/.config/nvim";
+
+    home = {
+      sessionVariables.EDITOR = "nvim";
+      packages = with pkgs; [
+        neovide
+      ];
+    };
   };
 
   flake.modules.nixos.neovim = {
