@@ -8,6 +8,7 @@
         config.flake.modules.nixos.unfree
         config.flake.modules.nixos.home-manager
         config.flake.modules.nixos.neovim
+        config.flake.modules.nixos.zen-browser
       ];
     };
   };

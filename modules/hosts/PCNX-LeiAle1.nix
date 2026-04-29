@@ -10,6 +10,7 @@
         config.flake.modules.nixos.neovim
         config.flake.modules.nixos.qtile
         config.flake.modules.nixos.shell
+        config.flake.modules.nixos.zen-browser
       ];
     };
   };

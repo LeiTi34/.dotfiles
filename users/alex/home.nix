@@ -1,9 +1,7 @@
-{ config, pkgs, zen-browser, ... }:
+{ config, pkgs, ... }:
 
 let
   defaultPkgs = with pkgs; [
-    zen-browser.packages.${stdenv.hostPlatform.system}.default
-
     devenv
 
     gnumake

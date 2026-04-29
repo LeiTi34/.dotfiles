@@ -32,7 +32,6 @@ in
     }: {
       _module.args = {
         pkgsPath = inputs.nixpkgs-unstable.outPath;
-        zen-browser = inputs.zen-browser;
       };
 
       home.enableNixpkgsReleaseCheck = false;
