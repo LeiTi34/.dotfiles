@@ -24,7 +24,6 @@ let
     fd
     ripgrep
 
-    picom
     starship
     nushell
     #qtile
@@ -52,7 +51,6 @@ let
     fzf
     xclip
     dmenu
-    picom
     scrot
     # feh
 
@@ -148,10 +146,6 @@ in
 
     file = {
       ".librewolf/librewolf.overrides.cfg".source = ../../librewolf/.librewolf/librewolf.overrides.cfg;
-
-      ".xinitrc".source = ../../qtile/.xinitrc;
-      "startwm.sh".source = ../../qtile/.xinitrc;
-      "reconnectwm.sh".source = ../../qtile/.xinitrc;
     };
 
     pointerCursor = {
@@ -208,13 +202,6 @@ in
       #   source = ../../nvim/.config/nvim;
       #   recursive = true;
       # };
-
-      "picom".source = ../../picom/.config/picom/picom.conf;
-
-      "qtile" = {
-        source = ../../qtile/.config/qtile;
-        recursive = true;
-      };
 
       "tridactyl".source = ../../librewolf/.config/tridactyl/tridactylrc;
 

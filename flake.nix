@@ -26,6 +26,9 @@
         ./modules/users/alex.nix
         ./modules/features/unfree.nix
         ./modules/features/neovim.nix
+        ./modules/features/xorg.nix
+        ./modules/features/xorg-utils.nix
+        ./modules/features/qtile.nix
         ./modules/hosts/PCNX-LeiAle1.nix
         ./modules/hosts/vm.nix
       ];

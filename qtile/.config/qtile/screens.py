@@ -184,7 +184,7 @@ def get_widgets(type="primary"):
                 foreground=theme["purple_hard"],
                 brightness_file = backlight_path + "/brightness",
                 max_brightness_file = backlight_path + "/max_brightness",
-                change_command="light -S {}",
+                change_command="brightnessctl set {}%",
             )
         ])
 

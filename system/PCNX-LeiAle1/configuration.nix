@@ -152,25 +152,6 @@ in
 
   # Enable the X11 windowing system.
   services.xserver = {
-    enable = true;
-    displayManager = {
-         lightdm.enable = false;
-         startx.enable = true;
-    #     sessionCommands = ''
-    #         ${pkgs.x11vnc}/bin/x11vnc -rfbauth $HOME/.vnc/passwd &
-    #     '';
-    };
-    # Enable Qtile
-    # displayManager.setupCommands = ''
-    #   "$XDG_CONFIG_HOME/qtile/display-setup.sh"
-    # '';
-    windowManager.qtile = {
-      enable = true;
-      extraPackages = python3Packages: with python3Packages; [
-        qtile-extras
-      ];
-    };
-
     xkb.layout = "de";
   };
 

@@ -79,8 +79,8 @@ def get_keys():
         #Key([], "XF86AudioMicMute", lazy.spawn("pulsemixer --toggle-mute-microphone"), desc="Mute/Unmute Microphone"),
         Key([], "XF86AudioMicMute", lazy.spawn("pamixer --default-source -t"), desc="Mute/Unmute Microphone"),
         # Brightness Keys
-        Key([], "XF86MonBrightnessDown", lazy.spawn("light -U 10"), desc="Lower Monitor Brightness"),
-        Key([], "XF86MonBrightnessUp", lazy.spawn("light -A 10"), desc="Raise Monitor Brightness"),
+        Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-"), desc="Lower Monitor Brightness"),
+        Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%"), desc="Raise Monitor Brightness"),
 
         # Take a screenshot
         Key([mod, "shift"], "s", lazy.spawn("scrot " + home + "'/Pictures/screenshots/%Y-%m-%d_$wx$h_scrot.png' -s -f -e 'xclip -selection clipboard -t image/png -i $f'"), desc="Take a screenshot"),
@@ -88,4 +88,3 @@ def get_keys():
         # ScratchPad
         Key([mod], "s", lazy.group["scratchpad"].dropdown_toggle("term")),
     ]
-
