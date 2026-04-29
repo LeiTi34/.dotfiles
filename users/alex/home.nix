@@ -32,9 +32,6 @@ let
     p7zip
 
     fortune
-    git
-    git-lfs
-    git-crypt
     gnupg
     dmenu
     scrot
@@ -201,25 +198,6 @@ in
     };
     zed-editor.enable = true;
     zathura.enable = true;
-    git = {
-      enable = true;
-      lfs.enable = true;
-      settings = {
-        user = {
-            email = "a@b.c";
-            name = "Alex Leidwein";
-        };
-        credential = {
-          credentialStore = "secretservice";
-          helper = "${
-            pkgs.git-credential-manager
-          }/bin/git-credential-manager";
-        #   helper = "${
-        #       pkgs.git.override { withLibsecret = true; }
-        #     }/bin/git-credential-libsecret";
-        };
-      };
-    };
   };
 
   services = {
