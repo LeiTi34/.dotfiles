@@ -1,11 +1,6 @@
-{ config, lib, pkgs, zen-browser, ... }:
+{ config, pkgs, zen-browser, ... }:
 
 let
-  mkOutOfStoreSymlink = config.lib.file.mkOutOfStoreSymlink;
-  dotfilesDirectory = "${homeDirectory}/.dotfiles/";
-
-  fullPath = path: dotfilesDirectory + path;
-
   username = "alex";
   homeDirectory = "/home/${username}";
   configHome = "${homeDirectory}/.config";
@@ -227,8 +222,6 @@ in
 
       "tridactyl".source = ../../librewolf/.config/tridactyl/tridactylrc;
 
-      "nvim".source = mkOutOfStoreSymlink (fullPath "nvim/.config/nvim");
-
       "river" = {
         source = ../../river/.config/river;
         recursive = true;
@@ -285,25 +278,7 @@ in
     tmux = {
       enable = true;
     };
-    neovim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-      extraPackages = with pkgs; [
-        gcc
-        go
-        cargo
-        nodejs
-        python3
-        zig
-
-        unzip
-        ripgrep
-      ];
-      withPython3 = true;
-      withRuby = false;
-      initLua = lib.mkForce "";
-    };
+    zed-editor.enable = true;
     zathura.enable = true;
     zsh = {
       enable = true;

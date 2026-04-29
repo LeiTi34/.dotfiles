@@ -2,6 +2,8 @@
   description = "My System Config";
 
   inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
     nixpkgs.url = "nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nurpkgs.url = "github:nix-community/NUR";
@@ -14,19 +16,18 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, nixpkgs-unstable, nurpkgs, home-manager, zen-browser, ... }:
-    let
-      system = "x86_64-linux";
-    in
-    rec {
-      homeConfiguration = 
-       import ./outputs/home-conf.nix {
-          inherit system nixpkgs-unstable nurpkgs home-manager zen-browser;
-       };
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
 
-      nixosConfigurations =
-        import ./outputs/nix-conf.nix {
-          inherit inputs system nixpkgs-unstable;
-      };
+      imports = [
+        ./modules/flake-parts.nix
+        ./modules/configurations/nixos.nix
+        ./modules/users/alex.nix
+        ./modules/features/unfree.nix
+        ./modules/features/neovim.nix
+        ./modules/hosts/PCNX-LeiAle1.nix
+        ./modules/hosts/vm.nix
+      ];
     };
 }
