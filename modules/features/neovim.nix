@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.modules.homeManager.neovim = { config, lib, pkgs, ... }: {
+  flake.homeModules.neovim = { config, lib, pkgs, ... }: {
     programs.neovim = {
       enable = true;
       viAlias = true;
@@ -33,8 +33,8 @@
   };
 
   flake.modules.nixos.neovim = {
-    home-manager.users.alex.imports = [
-      config.flake.modules.homeManager.neovim
+    home-manager.users.${config.profiles.primaryUser.name}.imports = [
+      config.flake.homeModules.neovim
     ];
   };
 }

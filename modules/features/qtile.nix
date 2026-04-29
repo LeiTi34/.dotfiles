@@ -1,9 +1,9 @@
 { config, ... }:
 {
-  flake.modules.homeManager.qtile = {
+  flake.homeModules.qtile = {
     imports = [
-      config.flake.modules.homeManager.xorg
-      config.flake.modules.homeManager.xorg-utils
+      config.flake.homeModules.xorg
+      config.flake.homeModules.xorg-utils
     ];
 
     home.file = {
@@ -30,8 +30,8 @@
       ];
     };
 
-    home-manager.users.alex.imports = [
-      config.flake.modules.homeManager.qtile
+    home-manager.users.${config.profiles.primaryUser.name}.imports = [
+      config.flake.homeModules.qtile
     ];
   };
 }

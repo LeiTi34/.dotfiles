@@ -1,10 +1,6 @@
 { config, pkgs, zen-browser, ... }:
 
 let
-  username = "alex";
-  homeDirectory = "/home/${username}";
-  configHome = "${homeDirectory}/.config";
-
   defaultPkgs = with pkgs; [
     zen-browser.packages.${stdenv.hostPlatform.system}.default
 
@@ -128,7 +124,6 @@ in
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home = {
-    inherit username homeDirectory;
     stateVersion = "25.05"; # Please read the comment before changing.
 
     packages = defaultPkgs;

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.xorg = { pkgs, ... }: {
+  flake.homeModules.xorg = { pkgs, ... }: {
     home.packages = with pkgs; [
       picom
     ];

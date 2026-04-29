@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.xorg-utils = { pkgs, ... }: {
+  flake.homeModules.xorg-utils = { pkgs, ... }: {
     home.packages = with pkgs; [
       feh
       brightnessctl
