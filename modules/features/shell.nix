@@ -55,6 +55,7 @@
       pwgen
       fzf
       xclip
+      nix-index
     ];
   };
 
