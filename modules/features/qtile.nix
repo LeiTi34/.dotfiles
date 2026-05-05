@@ -4,6 +4,7 @@
     imports = [
       config.flake.homeModules.xorg
       config.flake.homeModules.xorg-utils
+      config.flake.homeModules.dunst
     ];
 
     home.file = {
@@ -21,6 +22,7 @@
   flake.modules.nixos.qtile = {
     imports = [
       config.flake.modules.nixos.xorg
+      config.flake.modules.nixos.dunst
     ];
 
     services.xserver.windowManager.qtile = {

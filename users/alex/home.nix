@@ -55,7 +55,6 @@ let
     seatd
     swayidle
     waylock
-    mako
     waybar
     kanshi
     wlr-randr
