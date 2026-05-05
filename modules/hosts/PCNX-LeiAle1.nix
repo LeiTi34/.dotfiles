@@ -16,6 +16,7 @@
         config.flake.modules.nixos.shell
         config.flake.modules.nixos.zen-browser
         config.flake.modules.nixos.kubernetes-client
+        config.flake.modules.nixos.smart-bulb
       ];
     };
   };
