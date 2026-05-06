@@ -167,7 +167,28 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nurpkgs": "nurpkgs",
+        "smartbulb": "smartbulb",
         "zen-browser": "zen-browser"
+      }
+    },
+    "smartbulb": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1777997098,
+        "narHash": "sha256-uK/TUvfAPSFbffA7AuQyzfN+S5uscSi02Q/zZJ8Epso=",
+        "ref": "refs/heads/main",
+        "rev": "257f739b86903e49592236a6830a4bf0b4315336",
+        "revCount": 8,
+        "type": "git",
+        "url": "file:///home/alex/projects/smart-bulb"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/alex/projects/smart-bulb"
       }
     },
     "zen-browser": {

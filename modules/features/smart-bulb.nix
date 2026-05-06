@@ -9,7 +9,7 @@
     imports = [ inputs.smartbulb.homeManagerModules.default ];
     services.smartbulb-bridge = {
       enable = true;
-      serverUrl = "http://192.168.67.153:8000";
+      serverUrl = "https://smartbulb.agrarforschung.at";
     };
   };
 
