@@ -20,8 +20,10 @@
   config.flake.nixosConfigurations = lib.mapAttrs (
     _: { system, module }:
     inputs.nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [ module ];
+      modules = [
+        { nixpkgs.hostPlatform = system; }
+        module
+      ];
     }
   ) config.configurations.nixos;
 }
