@@ -252,17 +252,26 @@ hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tru
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("light -U 10"), { locked = true })
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("light -A 10"), { locked = true })
+-- hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("light -U 10"), { locked = true })
+-- hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("light -A 10"), { locked = true })
 
-hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "s", hl.dsp.exec_cmd("grimblast --freeze copysave area ~/Pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"))
+-- hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "s", hl.dsp.exec_cmd("grimblast --freeze copysave area ~/Pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"))
 
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
-    hl.exec_cmd("dms run")
+    -- hl.exec_cmd("dms run")
+    -- hl.exec_cmd("ambxst")
+    hl.exec_cmd("kanshi")
     hl.exec_cmd("nextcloud --background")
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
 end)
+
+-- Ambxst
+loadfile(os.getenv("HOME") .. "/.local/share/ambxst/hyprland.lua")()
+-- loadfile(os.getenv("XDG_DATA_HOME") .. "/ambxst/hyprland.lua")()
+
+-- OVERRIDES
+-- Down here you can write or source anything that you want to override from Ambxst's settings.
