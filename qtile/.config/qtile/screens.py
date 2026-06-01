@@ -18,7 +18,8 @@ def get_widget_defaults():
 
 def get_widgets(type="primary"):
     widgets = [
-        widget.CurrentLayoutIcon(
+        widget.CurrentLayout(
+            mode="icon",
             scale = .75,
         ),
         widget.GroupBox(

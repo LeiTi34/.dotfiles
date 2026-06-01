@@ -8,7 +8,7 @@
     description = "My System Config";
 
     inputs = {
-      nixpkgs.url = lib.mkForce "github:NixOS/nixpkgs/nixos-25.05";
+      nixpkgs.url = lib.mkForce "github:NixOS/nixpkgs/nixos-26.05";
       nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
       nurpkgs.url = "github:nix-community/NUR";
 

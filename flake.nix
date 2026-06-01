@@ -18,7 +18,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     import-tree.url = "github:vic/import-tree";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nurpkgs.url = "github:nix-community/NUR";
     smartbulb = {
