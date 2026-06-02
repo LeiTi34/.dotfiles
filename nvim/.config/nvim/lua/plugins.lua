@@ -246,10 +246,26 @@ return require('lazy').setup({
             {
                 'stevearc/conform.nvim',
                 opts = {
-                    javascript = { "prettierd", "prettier", stop_after_first = true },
-                    javascriptreact = { "prettierd", "prettier", stop_after_first = true },
-                    typescript = { "prettierd", "prettier", stop_after_first = true },
-                    typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+                    formatters_by_ft = {
+                        javascript      = { "oxfmt", "prettier", stop_after_first = true },
+                        typescript      = { "oxfmt", "prettier", stop_after_first = true },
+                        javascriptreact = { "oxfmt", "prettier", stop_after_first = true },
+                        typescriptreact = { "oxfmt", "prettier", stop_after_first = true },
+                        json            = { "oxfmt", "prettier", stop_after_first = true },
+                        css             = { "prettier" },
+                    },
+                    formatters = {
+                        -- Only use oxfmt when the repo opts in with an oxfmt config.
+                        -- Otherwise prettier stays the catch-all fallback.
+                        oxfmt = {
+                            condition = function(_, ctx)
+                                return vim.fs.find(
+                                    { ".oxfmtrc.json", ".oxfmtrc.jsonc" },
+                                    { path = ctx.dirname, upward = true }
+                                )[1] ~= nil
+                            end,
+                        },
+                    },
                 },
                 keys = {
                     {
