@@ -118,6 +118,19 @@ in
     htop.enable = true;
     tmux = {
       enable = true;
+      plugins = [
+        pkgs.tmuxPlugins.sensible
+        pkgs.tmuxPlugins.resurrect
+        pkgs.tmuxPlugins.continuum
+      ];
+      extraConfig = ''
+        set -ga terminal-overrides ",*256col*:Tc"
+        set -ag terminal-features ",*:clipboard"
+        set -g set-clipboard on
+        set -g allow-passthrough on
+
+        set -g @continuum-restore 'on'
+      '';
     };
     zed-editor.enable = true;
     zathura.enable = true;
