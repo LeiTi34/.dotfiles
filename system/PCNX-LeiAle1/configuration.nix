@@ -285,7 +285,7 @@ in
   # VirtualBox
   virtualisation.virtualbox.host = {
       enable = true;
-      enableExtensionPack = true;
+      enableExtensionPack = false;
   };
   users.extraGroups.vboxusers.members = [ "alex" ];
 
