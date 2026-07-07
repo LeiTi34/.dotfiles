@@ -209,6 +209,16 @@ return require('lazy').setup({
         cmd = 'Neogit',
     },
 
+    -- jj.nvim
+    {
+        'nicolasgb/jj.nvim',
+        config = function() require('config.jj') end,
+        dependencies = {
+            'folke/snacks.nvim',
+            'sindrets/diffview.nvim',
+        },
+    },
+
     {
         'windwp/nvim-autopairs',
         config = function() require('config.autopairs') end,
