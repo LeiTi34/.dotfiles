@@ -19,6 +19,7 @@
         config.flake.modules.nixos.kubernetes-client
         config.flake.modules.nixos.smart-bulb
         config.flake.modules.nixos.herdr
+        config.flake.modules.nixos.jujutsu
       ];
     };
   };
