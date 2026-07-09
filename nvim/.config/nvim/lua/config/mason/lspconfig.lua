@@ -106,6 +106,18 @@ vim.lsp.config('angularls', {
     root_dir = util.root_pattern('angular.json'),
 })
 
+vim.lsp.config('vtsls', {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        -- Use the project's TypeScript so tsconfig "plugins"
+        -- (e.g. @effect/language-service) resolve from project node_modules
+        vtsls = { autoUseWorkspaceTsdk = true },
+        -- Fallback: let the bundled tsserver probe project node_modules for plugins
+        typescript = { tsserver = { pluginPaths = { "./node_modules" } } },
+    },
+})
+
 vim.lsp.config('lua_ls', {
     settings = {
         Lua = {
@@ -149,9 +161,12 @@ vim.lsp.config('sqlls', {
 })
 
 require('mason-lspconfig').setup({
-    automatic_enable = true,
+    -- ts_ls (typescript-language-server) is still installed in Mason;
+    -- exclude it so it doesn't attach alongside vtsls
+    automatic_enable = { exclude = { 'ts_ls' } },
     ensure_installed = {
         'angularls',
+        'vtsls',
         'cssls',
         'cssmodules_ls',
         'dockerls',
