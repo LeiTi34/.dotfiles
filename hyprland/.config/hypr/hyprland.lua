@@ -209,6 +209,13 @@ hl.window_rule({
     rounding = 0,
 })
 
+hl.layer_rule({
+    name  = "quickshell_pill_blur",
+    match = { namespace = "quickshell-pill" },
+    blur  = true,
+    ignore_alpha = 0.5,   -- don't blur the fully-transparent rounded corners (avoids a square halo)
+})
+
 local mainMod = "SUPER"
 
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "c", hl.dsp.window.close())
@@ -275,3 +282,6 @@ loadfile(os.getenv("HOME") .. "/.local/share/ambxst/hyprland.lua")()
 
 -- OVERRIDES
 -- Down here you can write or source anything that you want to override from Ambxst's settings.
+
+-- For Noctalia Color templates
+require("noctalia")
