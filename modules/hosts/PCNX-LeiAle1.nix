@@ -17,7 +17,6 @@
         config.flake.modules.nixos.zen-browser
         config.flake.modules.nixos.helium-browser
         config.flake.modules.nixos.kubernetes-client
-        config.flake.modules.nixos.smart-bulb
         config.flake.modules.nixos.herdr
         config.flake.modules.nixos.jujutsu
       ];
