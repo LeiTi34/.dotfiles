@@ -42,6 +42,33 @@
             source "$(fzf-share)/key-bindings.zsh"
             source "$(fzf-share)/completion.zsh"
           fi
+
+          portfw() {
+            if (( $# < 2 )); then
+              echo "Usage: portfw <host> <port1> [port2 ... portN]" >&2
+              return 1
+            fi
+
+            local host="$1"
+            shift
+
+            local -a args=()
+            local port
+            for port in "$@"; do
+              args+=("-L" "''${port}:localhost:''${port}")
+            done
+
+            ssh "$host" "''${args[@]}"
+          }
+
+          rh() {
+            if (( $# < 1 )); then
+              echo "Usage: rh <host>" >&2
+              return 1
+            fi
+
+            ssh -X "$1" -t 'herdr; exec $SHELL'
+          }
         '';
       };
     };
