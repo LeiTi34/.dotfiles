@@ -1,2 +1,5 @@
 .config/hypr/dms
+.config/hypr/.dms-backups
 .config/hypr/hyprland.conf.backup*
+.config/hypr/hyprland.lua.backup*
+.config/hypr/monitors.lua

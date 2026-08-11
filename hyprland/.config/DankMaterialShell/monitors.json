@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "configurations": [
+    {
+      "id": "profile_1775117274107_1of2jk",
+      "name": "default",
+      "outputs": {
+        "eDP-1": {
+          "mode": "1920x1200@60.001",
+          "position": {
+            "x": 3840,
+            "y": 0
+          },
+          "scale": 1,
+          "transform": "Normal",
+          "vrr": false,
+          "disabled": false,
+          "hyprland": {
+            "disabled": false
+          }
+        },
+        "DP-6": {
+          "mode": "1920x1080@60.000",
+          "position": {
+            "x": 1920,
+            "y": 0
+          },
+          "scale": 1,
+          "transform": "Normal",
+          "vrr": false,
+          "disabled": false,
+          "hyprland": {}
+        }
+      }
+    },
+    {
+      "id": "profile_1775117301585_lpaewb",
+      "name": "docked",
+      "outputs": {
+        "eDP-1": {
+          "mode": null,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "scale": 1,
+          "transform": "Normal",
+          "vrr": false,
+          "disabled": false,
+          "hyprland": {
+            "disabled": false
+          }
+        },
+        "desc:BNQ BenQ GW2480 ETN1L02830SL0": {
+          "mode": "1920x1080@60.000",
+          "position": {
+            "x": 1920,
+            "y": 0
+          },
+          "scale": 1,
+          "transform": "Normal",
+          "vrr": false,
+          "disabled": false,
+          "hyprland": {}
+        },
+        "desc:Samsung Electric Company LC27G5xT H4ZNC01638": {
+          "mode": "2560x1440@144.000",
+          "position": {
+            "x": 3840,
+            "y": 0
+          },
+          "scale": 1,
+          "transform": "Normal",
+          "vrr": true,
+          "disabled": false,
+          "hyprland": {}
+        }
+      }
+    }
+  ]
+}
