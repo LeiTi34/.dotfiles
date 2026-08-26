@@ -1,9 +1,11 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "linear": {
-      "type": "remote",
-      "url": "https://mcp.linear.app/mcp"
+    "$schema": "https://opencode.ai/config.json",
+    "plugin": ["opencode-claude-auth@latest", "opencode-claude-auth-v2@latest"],
+    "mcp": {
+        "context7": {
+            "type": "remote",
+            "url": "https://mcp.context7.com/mcp",
+            "enabled": true
+        }
     }
-  }
 }

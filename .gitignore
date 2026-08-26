@@ -3,3 +3,10 @@
 result
 __pycache__/
 node_modules/
+
+# generated or machine-local opencode state; never stow/commit these
+opencode/.config/opencode/package.json
+opencode/.config/opencode/bun.lock
+opencode/.config/opencode/cli.json
+opencode/.config/opencode/service-prod.json
+opencode/.config/opencode/plugins/

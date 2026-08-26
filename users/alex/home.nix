@@ -72,7 +72,6 @@ let
 
     azure-functions-core-tools
 
-    opencode
     claude-code
 
     opentofu
