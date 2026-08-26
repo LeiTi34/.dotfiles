@@ -13,6 +13,7 @@
         config.flake.modules.nixos.gtk
         config.flake.modules.nixos.neovim
         config.flake.modules.nixos.qtile
+        config.flake.modules.nixos.hyprland
         config.flake.modules.nixos.shell
         config.flake.modules.nixos.zen-browser
         config.flake.modules.nixos.helium-browser

@@ -1,7 +1,7 @@
 ---@module 'hl'
 
--- managed by hyprmoncfg
-require("monitors")
+-- managed by hyprmoncfg (Arch) / modules/features/hyprland.nix (NixOS)
+pcall(require, "monitors")
 
 -- hl.monitor({
 --     output   = "",
@@ -262,8 +262,8 @@ hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tru
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("light -U 10"), { locked = true })
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("light -A 10"), { locked = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 10%-"), { locked = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +10%"), { locked = true })
 
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "s", hl.dsp.exec_cmd("grimblast --freeze copysave area ~/Pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"))
 

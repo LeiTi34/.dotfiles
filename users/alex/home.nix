@@ -105,7 +105,7 @@ in
       XDG_CONFIG_HOME = "$HOME/.config";
       XDG_DATA_HOME   = "$HOME/.local/share";
       XDG_STATE_HOME  = "$HOME/.local/state";
-      MOZ_ENABLE_WAYLAND = "0";
+      MOZ_ENABLE_WAYLAND = "1";
     };
 
     # nixpkgs.config.allowUnfreePredicate = _: true;
