@@ -1,12 +1,15 @@
 {
   "claudeCodeUsage": {
-    "enabled": true,
+    "enabled": false,
     "refreshInterval": 2
   },
   "aiOverviewControl": {
     "enabled": true,
     "pillProviders": "claude",
     "providerSelection": "claude",
-    "pinnedProviders": ""
+    "pinnedProviders": "",
+    "densityMode": "compact",
+    "showErrorProviders": "true",
+    "showClaudeProjects": "true"
   }
 }
