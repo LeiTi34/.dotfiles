@@ -5,7 +5,7 @@ let
     devenv
 
     gnumake
-    libreoffice-fresh
+    libreoffice-stable
     jetbrains.datagrip
     postgresql_14
     pgadmin4-desktopmode

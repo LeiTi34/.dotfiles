@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, inputs, ... }:
 {
   flake.homeModules.qtile = {
     imports = [
@@ -19,7 +19,7 @@
     };
   };
 
-  flake.modules.nixos.qtile = {
+  flake.modules.nixos.qtile = { pkgs, ... }: {
     imports = [
       config.flake.modules.nixos.xorg
       config.flake.modules.nixos.dunst
@@ -27,9 +27,7 @@
 
     services.xserver.windowManager.qtile = {
       enable = true;
-      extraPackages = python3Packages: with python3Packages; [
-        qtile-extras
-      ];
+      package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.python3Packages.qtile;
     };
 
     home-manager.users.${config.profiles.primaryUser.name}.imports = [
