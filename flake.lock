@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787705679,
-        "narHash": "sha256-GTsiUcYwREzw+jF7lIg31bMCiwebDDTsE9P+eG82YCU=",
+        "lastModified": 1787745708,
+        "narHash": "sha256-jp1KTRRV2N55Q3FwLYHo/BHn9PWD8P5tF5hwIVpiNOU=",
         "owner": "AvengeMedia",
         "repo": "DankMaterialShell",
-        "rev": "ea0b158eb8c7d368ae7083218dbfc792faf019b2",
+        "rev": "5b8f083fe55a2fe755f086fbda4b759c0d8608a0",
         "type": "github"
       },
       "original": {
@@ -274,11 +274,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1787724476,
-        "narHash": "sha256-XCCyw3dhAkIWX8ZxDLyRXk0NNo/rZDvzmQLJHwCP9Qk=",
+        "lastModified": 1787747519,
+        "narHash": "sha256-t1R0Q1O/B8gYiKpCDt+XsotYAsYaOozy5rThzGw89KU=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "15046db1bde8b1df392cdaf149999232213b5dbf",
+        "rev": "40bea6bf2242ada81c9e5c8ad7de959bc18b75ce",
         "type": "github"
       },
       "original": {
@@ -292,11 +292,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1787715120,
-        "narHash": "sha256-gQ0vxcXBPoYltP2uht5YyeMzBUjwsGPjE3IBJy5DWhY=",
+        "lastModified": 1787737209,
+        "narHash": "sha256-xgwEJTC80DXJyl5cRPicDmHahj1rpq8Ud7svcIIgTZ4=",
         "owner": "anomalyco",
         "repo": "opencode",
-        "rev": "d01ac2069ab61006f25423fa95101513fe0453f5",
+        "rev": "5d7c2ccfc0c8727aad896abca398901e1f2b1ebe",
         "type": "github"
       },
       "original": {
