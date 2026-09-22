@@ -1,7 +1,7 @@
 { inputs, lib, ... }:
 {
   flake-file.inputs.dank-material-shell = {
-    url = lib.mkDefault "github:AvengeMedia/DankMaterialShell";
+    url = lib.mkDefault "github:AvengeMedia/DankMaterialShell/stable";
     inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
