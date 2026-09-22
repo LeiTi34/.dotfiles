@@ -37,6 +37,12 @@
     {
       home.packages = [
         (inputs.opencode-beta.packages.${pkgs.stdenv.hostPlatform.system}.opencode.overrideAttrs (old: {
+          # Bun's ResolveMessage is not an Error instance. Missing optional
+          # plugin entrypoints must still fall through to the next candidate.
+          postPatch = (old.postPatch or "") + ''
+            substituteInPlace packages/plugin/src/host.ts \
+              --replace-fail '!(error instanceof Error)' '(typeof error !== "object" || error === null)'
+          '';
           preBuild = (old.preBuild or "") + ''
             ptydir=packages/cli/.cache/opencode-pty/${ptyVersion}/${pty.expects}
             mkdir -p "$ptydir"
@@ -44,6 +50,44 @@
               opencode-pty-${ptyVersion}-${pty.target}/opencode-pty
             chmod 755 "$ptydir/opencode-pty"
           '';
+          # Upstream installs `opencode` plus an `opencode2` symlink, so every
+          # one of its files (including the hidden `.opencode-wrapped` payload
+          # and the completions) collides with v1 in the home-manager profile.
+          # Install under the v2 name only. Renaming after the fact is not an
+          # option: makeBinaryWrapper bakes the absolute path of the wrapped
+          # binary into the wrapper, so the wrapping has to happen here.
+          #
+          # libxcb joins upstream's wayland: the bundled opentui clipboard
+          # reads images through libopentui.so, which dlopens
+          # libwayland-client.so.0 and libxcb.so.1 by soname. Without both the
+          # host clipboard reports "unsupported" and pasting a screenshot
+          # silently does nothing.
+          installPhase = ''
+            runHook preInstall
+
+            install -Dm755 dist/cli-*/bin/opencode $out/bin/opencode2
+
+            wrapProgram $out/bin/opencode2 \
+              --prefix PATH : ${lib.makeBinPath [ pkgs.ripgrep ]} \
+              --prefix LD_LIBRARY_PATH : ${
+                lib.makeLibraryPath [
+                  pkgs.wayland
+                  pkgs.libxcb
+                ]
+              }
+
+            runHook postInstall
+          '';
+          postInstall = ''
+            # trick yargs into also generating zsh completions
+            installShellCompletion --cmd opencode2 \
+              --bash <($out/bin/opencode2 completion) \
+              --zsh <(SHELL=/bin/zsh $out/bin/opencode2 completion)
+          '';
+          # versionCheckHook runs mainProgram --version.
+          meta = old.meta // {
+            mainProgram = "opencode2";
+          };
         }))
       ];
     };
