@@ -8,5 +8,5 @@ node_modules/
 opencode/.config/opencode/package.json
 opencode/.config/opencode/bun.lock
 opencode/.config/opencode/cli.json
-opencode/.config/opencode/service-prod.json
+opencode/.config/opencode/service*.json
 opencode/.config/opencode/plugins/
