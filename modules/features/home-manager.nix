@@ -49,6 +49,14 @@ in
         inputs.home-manager.nixosModules.home-manager
       ];
 
+      # Home Manager gets its `pkgs` from nixpkgs-unstable (see `pkgsPath`
+      # above) but would otherwise inherit `lib` from the 26.05 system
+      # evaluation. `modules/services-modular` imports
+      # `${pkgs.path}/lib/services/lib.nix` and passes the ambient `lib` into
+      # it, so the two must come from the same nixpkgs.
+      home-manager.extraSpecialArgs.lib =
+        import "${inputs.home-manager}/modules/lib/stdlib-extended.nix" inputs.nixpkgs-unstable.lib;
+
       home-manager.users.${primaryUser.name} = {
         imports = [ config.flake.homeModules.base ];
 
