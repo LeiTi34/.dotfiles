@@ -21,7 +21,6 @@
         config.flake.modules.nixos.herdr
         config.flake.modules.nixos.jujutsu
         config.flake.modules.nixos.opencode
-        config.flake.modules.nixos.opencode-beta
         config.flake.modules.nixos.openbao
       ];
     };

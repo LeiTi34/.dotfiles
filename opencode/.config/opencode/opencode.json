@@ -1,7 +1,6 @@
 {
     "$schema": "https://opencode.ai/config.json",
-    "plugin": ["opencode-claude-auth@latest", "@ex-machina/opencode-anthropic-auth@next"],
-    "plugins": ["-opencode.browser"],
+    "plugin": ["@ex-machina/opencode-anthropic-auth@next", "-opencode.browser"],
     "mcp": {
         "context7": {
             "type": "remote",

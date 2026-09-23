@@ -1,22 +1,15 @@
 { config, lib, ... }:
 let
-  # Pinned on purpose, and bumped by hand: the relay and the unpacked extension
-  # ship from this one package and must stay in lockstep, and every upgrade needs
-  # the extension reloaded in the browser. To bump: set the version, set both
-  # hashes to lib.fakeHash, build twice, and paste back what nix reports. Then
-  # regenerate the lock file next to this module:
-  #   tar xzf <the npm tarball> && jq 'del(.devDependencies, .scripts)' package.json ... &&
-  #   npm install --package-lock-only --ignore-scripts
+  # Pinned by hand: the relay and the unpacked extension ship from this one package
+  # and must stay in lockstep, and an upgrade needs the extension reloaded in the
+  # browser. browser-control-package-lock.json has to be regenerated with it.
   version = "0.8.2";
   tarballHash = "sha256-eYOFnQlBgwmHjJC1In9Md0wVg+vZqF0RAIv4wf5xt5w=";
   npmDepsHash = "sha256-bvq/iSiBK80Sc5nyMrkx0uyggHacj0gAcrUn6cNWyhs=";
 in
 {
-  # Browser Control drives an existing Chromium-family browser (here: helium)
-  # through a local relay and an unpacked extension, so agents work in the real
-  # profile with its logins. It is unrelated to opencode's built-in browser.*
-  # tools, which are served only by the desktop app's own embedded browser and
-  # are turned off in opencode/.config/opencode/opencode.json.
+  # Drives an existing Chromium-family browser (here: helium) through a local relay
+  # and an unpacked extension, so agents work in the real profile with its logins.
   flake.homeModules.browser-control =
     { pkgs, ... }:
     let
@@ -67,9 +60,7 @@ in
       home.file.".local/share/browser-control/extension".source = "${installed}/extension/dist";
 
       # Ship the skill from the same package rather than vendoring a copy, so the
-      # workflow text can never describe a different version than the installed
-      # binary. opencode/.config/opencode is linked file by file (see
-      # features/opencode.nix), so this adds to that tree instead of replacing it.
+      # workflow text can never describe a different version than the installed binary.
       xdg.configFile."opencode/skills/browser-control/SKILL.md".source =
         "${installed}/skills/browser-control/SKILL.md";
     };

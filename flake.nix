@@ -30,7 +30,7 @@
     import-tree.url = "github:denful/import-tree";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    opencode-beta.url = "github:anomalyco/opencode/v2.0.12";
+    opencode.url = "github:anomalyco/opencode/v2.0.14";
     smartbulb = {
       url = "git+file:///home/alex/projects/smart-bulb";
       inputs.nixpkgs.follows = "nixpkgs-unstable";

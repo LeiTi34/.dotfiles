@@ -232,21 +232,21 @@
         "type": "github"
       }
     },
-    "opencode-beta": {
+    "opencode": {
       "inputs": {
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1789984614,
-        "narHash": "sha256-hBbTwbYVnnddouC46b8Tah/TSvvJuQQNdZbxfZj90Ys=",
+        "lastModified": 1790082784,
+        "narHash": "sha256-xfOtoVUEqJqzroc0upcqVKE7kM9VTrp8AXyz5ADTmQc=",
         "owner": "anomalyco",
         "repo": "opencode",
-        "rev": "2670273ff17da96f85c5826ced57aa1b368754fa",
+        "rev": "08462140ec0de1e4b17d4a353d8d5827f53cf7b0",
         "type": "github"
       },
       "original": {
         "owner": "anomalyco",
-        "ref": "v2.0.12",
+        "ref": "v2.0.14",
         "repo": "opencode",
         "type": "github"
       }
@@ -262,7 +262,7 @@
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "opencode-beta": "opencode-beta",
+        "opencode": "opencode",
         "smartbulb": "smartbulb",
         "zen-browser": "zen-browser"
       }
