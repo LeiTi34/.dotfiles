@@ -9,6 +9,24 @@
     let
       upstream = inputs.opencode.packages.${pkgs.stdenv.hostPlatform.system};
 
+      # Anthropic gates model access on the Claude Code version the Anthropic auth
+      # plugin reports, and that gate moves on Anthropic's schedule rather than the
+      # plugin's release schedule: claude-opus-5-5 rejects anything below 2.1.280,
+      # while the plugin still bundles 2.1.258. Raise the reported version here
+      # until a plugin release catches up.
+      claudeCodeVersion = "2.1.280";
+
+      # The variable is read once when the plugin loads, so it has to be on the
+      # process rather than in the shell profile the desktop app never sources.
+      # --set-default leaves it overridable per invocation.
+      wrapClaudeCodeVersion = binary: old: {
+        nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.makeWrapper ];
+        postFixup = (old.postFixup or "") + ''
+          wrapProgram $out/bin/${binary} \
+            --set-default ANTHROPIC_CLAUDE_CODE_VERSION ${claudeCodeVersion}
+        '';
+      };
+
       cli = upstream.opencode.overrideAttrs (old: {
         # The channel name decides where the daemon registers. Upstream's nix build
         # says "prod", which parks it in service-prod.json while the desktop app
@@ -27,7 +45,8 @@
         # completion`, which v2 has no command for; it takes the word as a
         # directory and fails.
         postInstall = "";
-      });
+      }
+      // wrapClaudeCodeVersion "opencode" old);
 
       # Upstream's nix/electron.nix reads the version from packages/desktop/package.json
       # but asserts the checksums of an older release, so its electron fetch fails on
@@ -80,7 +99,8 @@
             --replace-fail 'const getBase = (appId: string): Configuration => ({' \
                            'const getBase = (appId: string): Configuration => ({ npmRebuild: false,'
         '';
-      });
+      }
+      // wrapClaudeCodeVersion "opencode-desktop" old);
     in
     {
       home.packages = [
