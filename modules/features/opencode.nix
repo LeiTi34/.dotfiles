@@ -1,7 +1,7 @@
 { config, inputs, lib, ... }:
 {
   flake-file.inputs.opencode = {
-    url = lib.mkDefault "github:anomalyco/opencode/v2.0.14";
+    url = lib.mkDefault "github:anomalyco/opencode/v2.0.15";
   };
 
   flake.homeModules.opencode =
