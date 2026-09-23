@@ -37,7 +37,6 @@ in
       home.enableNixpkgsReleaseCheck = false;
 
       nixpkgs = {
-        overlays = [ inputs.nurpkgs.overlays.default ];
         config.xdg.configHome = "${config.home.homeDirectory}/.config";
       };
 

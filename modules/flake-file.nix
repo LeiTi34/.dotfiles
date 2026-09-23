@@ -10,7 +10,6 @@
     inputs = {
       nixpkgs.url = lib.mkForce "github:NixOS/nixpkgs/nixos-26.05";
       nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-      nurpkgs.url = "github:nix-community/NUR";
 
       flake-parts.inputs.nixpkgs-lib.follows = lib.mkForce "nixpkgs-unstable";
 

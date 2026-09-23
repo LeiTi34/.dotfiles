@@ -37,12 +37,6 @@ in
     options = "--delete-older-than 30d";
   };
 
-  # nixpkgs.config.packageOverrides = pkgs: {
-  #   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
-  #     inherit pkgs;
-  #   };
-  # };
-
   # NVIDIA GPU
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {

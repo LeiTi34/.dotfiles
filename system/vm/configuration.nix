@@ -28,11 +28,6 @@ in
   # nix.package = pkgs.nixFlakes;
   # nix.extraOptions = '';
   
-  nixpkgs.config.packageOverrides = pkgs: {
-    nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
-      inherit pkgs;
-    };
-  };
   nix.settings.substituters = [ "https://aseipp-nix-cache.global.ssl.fastly.net" ];
 
   # Use the systemd-boot EFI boot loader.
