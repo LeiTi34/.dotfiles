@@ -3,9 +3,9 @@ let
   # Pinned by hand: the relay and the unpacked extension ship from this one package
   # and must stay in lockstep, and an upgrade needs the extension reloaded in the
   # browser. browser-control-package-lock.json has to be regenerated with it.
-  version = "0.8.2";
-  tarballHash = "sha256-eYOFnQlBgwmHjJC1In9Md0wVg+vZqF0RAIv4wf5xt5w=";
-  npmDepsHash = "sha256-bvq/iSiBK80Sc5nyMrkx0uyggHacj0gAcrUn6cNWyhs=";
+  version = "0.8.3";
+  tarballHash = "sha256-D+LUAAGNvCppzgTCsHLE6xbgwV+l4P1Lowhif3VdPZc=";
+  npmDepsHash = "sha256-t7EcO7RUF/ciYKX+ri3YVGHe0lKSCJX2wlRwPI1mUVM=";
 in
 {
   # Drives an existing Chromium-family browser (here: helium) through a local relay
