@@ -1,0 +1,24 @@
+[Unit]
+Description=Suspend-then-hibernate when AC is unplugged with the lid closed
+Documentation=man:systemd-logind.service(8)
+# Started by udev (see /etc/udev/rules.d/60-sleep-on-unplug.rules), so keep the
+# dependency graph minimal and make sure it never runs during shutdown.
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/sleep-on-unplug
+
+# --- DRY RUN -------------------------------------------------------------
+# While this is set to 1 the script only logs what it would do. Verify with:
+#     journalctl -t sleep-on-unplug -f
+# To go live: change to 0 (or delete the line), then
+#     sudo systemctl daemon-reload
+Environment="SLEEP_ON_UNPLUG_DRYRUN=1"
+# -------------------------------------------------------------------------
+
+# Seconds to wait before acting, so a cable wiggle or dock PD renegotiation
+# does not suspend the machine.
+Environment="SLEEP_ON_UNPLUG_DEBOUNCE=5"

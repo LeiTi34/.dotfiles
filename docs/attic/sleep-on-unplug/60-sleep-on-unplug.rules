@@ -1,0 +1,15 @@
+# Fire sleep-on-unplug.service when the AC adapter goes offline.
+#
+# systemd-logind does not monitor the power_supply subsystem, so it never learns
+# that the charger was removed. Without this rule, "lid closed while docked, then
+# unplug" leaves the machine awake on battery indefinitely.
+#
+# ACTION=="change" is load-bearing: without it the "add" event emitted during
+# boot also matches whenever the machine starts on battery, which would suspend
+# the system mid-boot.
+#
+# TAG+="systemd" is required for ENV{SYSTEMD_WANTS} to be honoured. Starting a
+# unit is deliberate; calling systemctl from RUN+= deadlocks udev.
+
+ACTION=="change", SUBSYSTEM=="power_supply", KERNEL=="AC", ATTR{online}=="0", \
+  TAG+="systemd", ENV{SYSTEMD_WANTS}+="sleep-on-unplug.service"

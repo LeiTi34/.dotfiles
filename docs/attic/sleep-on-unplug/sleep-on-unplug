@@ -1,0 +1,103 @@
+#!/bin/bash
+#
+# Suspend-then-hibernate when AC is unplugged while the lid is already closed.
+#
+# Why this exists:
+#   systemd-logind evaluates its lid policy only on lid-switch *events*, and it
+#   subscribes to the udev subsystems master-of-seat, input, graphics and button
+#   -- not power_supply. So the sequence "dock with the lid shut, then unplug"
+#   generates no event logind can act on: HandleLidSwitchDocked=ignore already
+#   consumed the original lid-close, and nothing re-fires it. The machine stays
+#   awake on battery until it dies. This script supplies the missing trigger.
+#
+# Environment (set in sleep-on-unplug.service):
+#   SLEEP_ON_UNPLUG_DRYRUN=1    log the decision instead of sleeping
+#   SLEEP_ON_UNPLUG_DEBOUNCE=N  seconds to wait before acting (default 5)
+
+set -eu
+
+TAG=sleep-on-unplug
+DEBOUNCE="${SLEEP_ON_UNPLUG_DEBOUNCE:-5}"
+DRYRUN="${SLEEP_ON_UNPLUG_DRYRUN:-0}"
+
+log() { logger -t "$TAG" -- "$*"; }
+
+ac_online() {
+    cat /sys/class/power_supply/AC/online 2>/dev/null || echo 1
+}
+
+# Locate the lid switch by name; event numbers are not stable across boots.
+lid_evdev() {
+    local d n
+    for d in /sys/class/input/event*; do
+        n=$(cat "$d/device/name" 2>/dev/null) || continue
+        if [ "$n" = "Lid Switch" ]; then
+            echo "/dev/input/$(basename "$d")"
+            return 0
+        fi
+    done
+    return 1
+}
+
+# "closed" | "open" | "unknown"
+#
+# /proc/acpi/button/lid/*/state is the cheap check, but some firmware pins it to
+# "open" forever. evtest --query is authoritative: exit 10 means SW_LID is set.
+lid_state() {
+    local f dev rc
+
+    for f in /proc/acpi/button/lid/*/state; do
+        [ -r "$f" ] || continue
+        if grep -qi closed "$f"; then
+            echo closed
+            return 0
+        fi
+        break
+    done
+
+    if dev=$(lid_evdev) && [ -e "$dev" ] && command -v evtest >/dev/null 2>&1; then
+        rc=0
+        evtest --query "$dev" EV_SW SW_LID >/dev/null 2>&1 || rc=$?
+        case "$rc" in
+            10) echo closed; return 0 ;;   # switch bit set -> lid shut
+            0)  echo open;   return 0 ;;
+            *)  echo unknown; return 0 ;;  # evtest failed; do not guess
+        esac
+    fi
+
+    # /proc said open and evtest is unavailable: trust /proc.
+    for f in /proc/acpi/button/lid/*/state; do
+        [ -r "$f" ] && { echo open; return 0; }
+    done
+
+    echo unknown
+}
+
+sleep "$DEBOUNCE"
+
+ac=$(ac_online)
+if [ "$ac" != 0 ]; then
+    log "AC back online after ${DEBOUNCE}s debounce, doing nothing"
+    exit 0
+fi
+
+lid=$(lid_state)
+case "$lid" in
+    closed) ;;
+    open)
+        log "unplugged but lid is open, doing nothing"
+        exit 0
+        ;;
+    *)
+        log "unplugged but lid state is unknown, refusing to act"
+        exit 0
+        ;;
+esac
+
+if [ "$DRYRUN" = 1 ]; then
+    log "DRY RUN: would run 'systemctl suspend-then-hibernate' (AC=$ac lid=$lid)"
+    exit 0
+fi
+
+log "unplugged with lid closed -> suspend-then-hibernate"
+exec systemctl --no-block suspend-then-hibernate
