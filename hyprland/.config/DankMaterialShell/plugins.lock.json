@@ -1,0 +1,13 @@
+{
+  "lockfileVersion": 1,
+  "plugins": {
+    "aiOverviewControl": {
+      "repo": "https://github.com/bernardopg/AiOverviewControl",
+      "commit": "dbea25ce7564a28b8247e159e76c5e2e488f497a"
+    },
+    "claudeCodeUsage": {
+      "repo": "https://github.com/titeya/dms-claudecode",
+      "commit": "60cd495cb98321d99f4803dde44f50936b4d6878"
+    }
+  }
+}
