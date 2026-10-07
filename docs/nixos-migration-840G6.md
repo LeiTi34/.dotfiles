@@ -299,6 +299,24 @@ Fix issues with `sudo nixos-rebuild switch --flake ~/.dotfiles#840G6`
 
 ## Phase 4: Swap to NixOS as the primary system
 
+Steps 1-4 done on 2026-10-07:
+
+- No fresh dumps: Arch shut down cleanly at 19:15 and both farmtracker
+  databases logged a clean shutdown, so the volume files are consistent.
+- 78 Docker volumes copied with reflink, contents identical. A new
+  farmtracker dump matches the phase 0 dump except PowerSync's own metadata
+  (NixOS pulled a newer `powersync-service:latest`, which migrated its
+  schema).
+- Swapfile offset still 24751; `hibernation = true`, lid now
+  suspend-then-hibernate (ignored when docked).
+- `bootctl set-default ""`: `loader.conf` (latest NixOS generation) decides.
+- Zen: the real profile `4jrfqcnq.Default (release)` was last used by Zen
+  1.23b on Arch. The NixOS wrapper sets `MOZ_LEGACY_PROFILES=1` (opens the
+  `Default=1` profile) and `MOZ_ALLOW_DOWNGRADE=1`, so the zen-browser input
+  was updated to 1.23.1b first and `Default=1` moved to that profile in
+  `~/.zen/profiles.ini` (backup `profiles.ini.pre-nixos`). Arch keeps using
+  it through its locked install entry.
+
 1. On Arch, one last time: stop Docker, take fresh database dumps, shut down
    (not hibernate).
 2. On NixOS, migrate Docker volumes (instant reflink copy, Arch's data stays
