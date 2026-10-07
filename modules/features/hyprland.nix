@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  flake.homeModules.hyprland = { pkgs, ... }: {
+  flake.homeModules.hyprland = { lib, pkgs, ... }: {
     home.packages = with pkgs; [
       hyprpolkitagent
       grimblast
@@ -13,7 +13,11 @@
     ];
 
     xdg.configFile."hypr" = {
-      source = ../../hyprland/.config/hypr;
+      # hyprmoncfg-monitors.lua is linked out of store by the hyprmoncfg feature.
+      source = lib.cleanSourceWith {
+        src = ../../hyprland/.config/hypr;
+        filter = path: _: baseNameOf path != "hyprmoncfg-monitors.lua";
+      };
       recursive = true;
     };
   };

@@ -56,6 +56,10 @@ in
       home-manager.extraSpecialArgs.lib =
         import "${inputs.home-manager}/modules/lib/stdlib-extended.nix" inputs.nixpkgs-unstable.lib;
 
+      # Existing files in the way of a managed file are renamed instead of
+      # failing the activation.
+      home-manager.backupFileExtension = "pre-hm";
+
       home-manager.users.${primaryUser.name} = {
         imports = [ config.flake.homeModules.base ];
 
