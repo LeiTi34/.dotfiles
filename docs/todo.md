@@ -3,10 +3,6 @@
 Deferred items from the 840G6 Arch -> NixOS migration
 (see [840G6-inventory.md](840G6-inventory.md)).
 
-## Before installing NixOS on 840G6
-
-- **Backup disk**: needs room for ~430 GB (see phase 0 of the migration plan).
-
 ## TLP vs power-profiles-daemon (840G6)
 
 On Arch `tlp.service` is enabled but never runs: it conflicts with

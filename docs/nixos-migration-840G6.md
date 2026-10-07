@@ -51,6 +51,7 @@ During dual boot (top level):
 home                                     shared /home (existing)
 swap                                     swapfile (existing)
 .snapshots                               Arch snapper snapshots (existing)
+backup-{home,virtualbox,nextcloud}      phase 0 backup snapshots, deleted in phase 2
 nixos                                    NixOS /
 nixos/nix                                NixOS /nix (nested)
 nixos/var/lib/docker                     NixOS Docker (nested)
@@ -71,7 +72,8 @@ arch-snapshots   deleted in phase 6
 
 ## Ground rules
 
-- Arch is not modified until phase 5, except for masking hibernation.
+- Arch is not modified until phase 5, except for disabling hibernation
+  (phase 0, step 6).
 - No hibernation while both systems exist. If NixOS mounts the filesystem
   while Arch is hibernated (or vice versa), btrfs gets corrupted. Always shut
   down fully before switching OS. The NixOS config keeps hibernation off
@@ -82,19 +84,43 @@ arch-snapshots   deleted in phase 6
 
 ## Phase 0: Backups and preparation (on Arch)
 
-1. Full backup to an external disk (~430 GB, `home` alone is 409 GB):
+Steps 1-4 and 6 done on 2026-10-07 (1-4 in the order 3, 4, 1, 2, so the
+dumps and the inventory are part of the home backup). Step 5 is open.
+
+Backup disk: WD My Passport 1.5 TB, GPT, plain
+btrfs, label `backup-840G6`, mounted with `compress=zstd:1`:
+
+```
+840G6/subvolumes/backup-{home,virtualbox,nextcloud,etc}   btrfs receive of the snapshots
+840G6/files/{var/lib/docker/volumes,var/lib/bluetooth,var/lib/sbctl,usr/local,root}
+840G6/luks-header-840G6.img
+```
+
+The read-only source snapshots `backup-home`, `backup-virtualbox` and
+`backup-nextcloud` stay at the top level as parents for the incremental
+backup in phase 2.
+
+1. Full backup to an external disk (~440 GB):
    - read-only snapshots of `home`, `home/alex/VirtualBox VMs`,
      `home/alex/Nextcloud2` and `etc`, each sent with `btrfs send`.
      Nested subvolumes are not part of their parent's snapshot, so
      `VirtualBox VMs` and `Nextcloud2` must be sent on their own.
-   - `/var/lib/{docker/volumes,bluetooth,sbctl}`, `/usr/local`, `/root`
-   - restore a few files to verify the backup is usable
+     `home/.snapshots` and `etc/.snapshots` (snapper history) are skipped.
+   - `/var/lib/{docker/volumes,bluetooth,sbctl}`, `/usr/local`, `/root`,
+     copied with rsync from a read-only snapshot of `/` (consistent while
+     Docker is running)
+   - verify: `rsync -n` over every subvolume (metadata of all files
+     identical), `cmp` of 300 random files per subvolume, the full Windows 10
+     VM disk and the database dumps, `rsync -n -c` of the copied files, read-only
+     `btrfs scrub` (cancelled at ~60%, no errors)
 2. LUKS header backup, stored off the machine:
    ```sh
    sudo cryptsetup luksHeaderBackup /dev/nvme0n1p2 --header-backup-file luks-header-840G6.img
    ```
-3. Logical dumps of important Docker databases (`pg_dump` / `mysqldump`),
-   farmtracker first.
+3. Logical dumps of important Docker databases into `~/arch-migration/db/`
+   (`pg_dumpall` / `mariadb-dump --all-databases`), farmtracker first. All
+   other database containers were stopped, so their volume files are
+   consistent as they are.
 4. Inventory into `~/arch-migration/` (not into this repo):
    ```sh
    sudo btrfs subvolume list -a / > ~/arch-migration/subvolumes.txt
@@ -110,7 +136,10 @@ arch-snapshots   deleted in phase 6
    ```sh
    sudo systemctl mask hibernate.target suspend-then-hibernate.target hybrid-sleep.target
    ```
-7. Open items from [todo.md](todo.md) "Before installing" are done.
+   Arch's `logind.conf` sends the lid to `suspend-then-hibernate`, which does
+   nothing once that target is masked. The drop-in
+   `/etc/systemd/logind.conf.d/no-hibernate.conf` switches the lid to plain
+   `suspend` (applied with `sudo systemctl kill -s HUP systemd-logind`).
 
 ## Phase 1: `840G6` config in this repo (done)
 
@@ -139,6 +168,21 @@ around as rescue media.
 sudo btrfs subvolume snapshot -r /home /home-pre-nixos
 sudo btrfs subvolume snapshot -r "/home/alex/VirtualBox VMs" /home-pre-nixos-virtualbox
 sudo btrfs subvolume snapshot -r /home/alex/Nextcloud2 /home-pre-nixos-nextcloud
+
+# incremental backup on top of phase 0 (only sends the changes)
+sudo mount -o compress=zstd:1,noatime LABEL=backup-840G6 /mnt/backup
+sudo btrfs send -p /backup-home /home-pre-nixos | sudo btrfs receive /mnt/backup/840G6/subvolumes
+sudo btrfs send -p /backup-virtualbox /home-pre-nixos-virtualbox | sudo btrfs receive /mnt/backup/840G6/subvolumes
+sudo btrfs send -p /backup-nextcloud /home-pre-nixos-nextcloud | sudo btrfs receive /mnt/backup/840G6/subvolumes
+sudo btrfs subvolume snapshot -r /etc /etc-pre-nixos
+sudo btrfs send /etc-pre-nixos | sudo btrfs receive /mnt/backup/840G6/subvolumes
+sudo btrfs subvolume delete /etc-pre-nixos
+sudo btrfs subvolume snapshot -r / /root-pre-nixos
+(cd /root-pre-nixos && sudo rsync -aHAX --numeric-ids --delete --relative \
+  var/lib/docker/volumes var/lib/bluetooth var/lib/sbctl usr/local root /mnt/backup/840G6/files/)
+sudo btrfs subvolume delete /root-pre-nixos
+sudo umount /mnt/backup
+sudo btrfs subvolume delete /backup-home /backup-virtualbox /backup-nextcloud
 
 # NixOS subvolumes; Arch's / is the top level, so they land there
 sudo btrfs subvolume create /nixos
@@ -365,4 +409,5 @@ old Arch store) are harmless and can be cleaned up at leisure.
 
 ## Open items
 
-See [todo.md](todo.md), "Before installing".
+Before installing: phase 0 steps 5 (live USB) and 6 (mask hibernation).
+Deferred items: [todo.md](todo.md).
