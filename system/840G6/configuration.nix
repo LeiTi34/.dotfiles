@@ -1,9 +1,9 @@
 { lib, pkgs, ... }:
 let
-  # Off while Arch is still installed next to NixOS: a hibernated Arch and a
-  # booted NixOS (or the other way around) would corrupt the shared btrfs.
-  # Turned on in phase 4 of docs/nixos-migration-840G6.md.
-  hibernation = false;
+  # Was off during dual boot: a hibernated Arch and a booted NixOS (or the
+  # other way around) would corrupt the shared btrfs. Arch keeps its
+  # hibernate targets masked; never boot Arch while NixOS is hibernated.
+  hibernation = true;
 in
 {
   imports = [
