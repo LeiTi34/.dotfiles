@@ -222,11 +222,23 @@ Notes:
 - The `home-pre-nixos*` snapshots pin the state of home at install time;
   space freed afterwards is only released once they are deleted (phase 5).
 - On the first NixOS boot, Home Manager links its files into the shared home.
-  Stow links and files in the way (`.zshrc`, `~/.config/{hypr,alacritty,
-  ghostty,nvim,opencode}`, `~/.ssh/config`, the hand-written `mpris-proxy`
-  and `hyprmoncfgd` user units, ...) are renamed to `*.pre-hm`, nothing is
-  overwritten. Check with `journalctl -u home-manager-alex` and
+  Regular files in the way (`~/.config/ghostty/config`, `starship.toml`,
+  the hand-written `mpris-proxy` user unit, ...) are renamed to `*.pre-hm`.
+  Check with `journalctl -u home-manager-alex` and
   `find ~ -maxdepth 4 -name '*.pre-hm'`.
+- Stow links must be removed first (done from Arch before the second boot):
+  Home Manager refuses to replace a differing symlink (`.zshrc`, `.zshenv`)
+  and aborts, and through a stow folder link (`~/.config/hypr`) it writes its
+  store links and `*.pre-hm` files into the repo. `stow -D alacritty nvim
+  zsh opencode ssh`; `~/.config/hypr` became a real folder with the
+  gitignored runtime files (`dms/`, `monitors.lua`, backups) copied in. Don't
+  run stow on Arch any more. `~/.config/DankMaterialShell` stays a link into
+  the repo (not managed by Home Manager). The other old stow links (qtile,
+  picom, river, ...) don't conflict.
+- `~/.nix-profile` pointed to `/nix/var/nix/profiles/per-user/alex/profile`,
+  which no longer exists (dangling on Arch too), so Home Manager couldn't
+  install its packages. The link was removed; Nix recreates it pointing to
+  `~/.local/state/nix/profiles/profile`.
 - Home Manager's links point into the Nix store. Arch keeps working with
   them as long as the same system closure is in Arch's own `/nix/store`: the
   `~/arch-migration/nixos-system` link built above is a GC root for exactly
