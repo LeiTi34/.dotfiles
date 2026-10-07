@@ -32,3 +32,8 @@ The internal speakers have a driver issue (Cirrus CS35L56 amps; at boot the
 kernel logs `spi_master spi1: error -EINVAL: failed to add SPI device
 CSC3554:00 from ACPI`, an HP firmware/ACPI bug). Not addressed during the
 migration.
+
+## Battery runtime (840G6)
+
+Not compared with Arch yet during phase 3. Check a full day on battery with
+power-profiles-daemon; ties in with the TLP decision above.
