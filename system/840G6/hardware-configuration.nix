@@ -6,7 +6,7 @@ let
   btrfs = subvol: {
     device = "/dev/mapper/cryptroot";
     fsType = "btrfs";
-    options = [ "subvol=${subvol}" "noatime" ];
+    options = [ "subvol=${subvol}" "noatime" "compress=zstd" ];
   };
 in
 {

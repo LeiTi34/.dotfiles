@@ -16,7 +16,7 @@ in
     loader = {
       systemd-boot = {
         enable = true;
-        # The 1 GiB ESP is shared with Arch's kernels during dual boot.
+        # Each generation with a new kernel takes ~55 MB of the 1 GiB ESP.
         configurationLimit = 8;
       };
       efi.canTouchEfiVariables = true;
