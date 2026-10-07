@@ -269,20 +269,37 @@ or pick it in the boot menu.
 
 Checklist:
 
-- [ ] LUKS unlock with German layout
-- [ ] Wi-Fi (saved connections), Bluetooth (paired devices, headset buttons
+- [x] LUKS unlock with German layout
+- [x] Wi-Fi (saved connections), Bluetooth (paired devices, headset buttons
       via mpris-proxy), audio (speakers are known broken, see
       [todo.md](todo.md); mic, headset)
 - [ ] Suspend/resume (BE200 `btintel_pcie` unload/reload), lid, brightness
+      (checked: `sleep-actions.service` runs the unload/reload, lid
+      suspends (ignored when docked), `s2idle`, backlight works. Open:
+      actually suspend and resume)
 - [ ] Dock, Thunderbolt, external monitors, hyprmoncfg profile switching
-- [ ] Hyprland + DMS, portals, screen sharing, clipboard
+- [x] Hyprland + DMS, portals, screen sharing, clipboard
 - [ ] Docker, VirtualBox (Windows 10 VM in `~/VirtualBox VMs`)
-- [ ] Printing (HP LaserJet)
+      (checked: Docker on btrfs runs containers, registry login works with
+      `docker-credential-secretservice`; VirtualBox 7.2 modules loaded,
+      Windows 10 registered. Open: boot the VM. The three `<inaccessible>`
+      VMs (SecEdu, SecEdu2, nixOS) have no folder any more, same on Arch)
+- [x] Printing (HP LaserJet)
 - [ ] VPN (work OpenVPN split tunnel, WireGuard)
+      (checked: OpenVPN plugin installed, BAB and Home connections present,
+      BAB has `never-default` for IPv4/IPv6, certificates in `~/.cert`.
+      Open: connect)
 - [ ] rbw / SSH agent, git credentials, gnome-keyring
-- [ ] adb, fnm (`node` per project)
-- [ ] Battery life with power-profiles-daemon
-- [ ] Steam
+      (git credentials broken: `~/.gitconfig` from Arch pointed at
+      `/usr/bin/git-credential-manager`, its `[credential] helper` lines
+      removed (backup `~/.gitconfig.pre-nixos`). GCM still fails: PAM
+      created a new `login` keyring whose item `login/1` is listed but
+      missing on D-Bus)
+- [x] adb, fnm (`node` per project)
+- [ ] Battery life with power-profiles-daemon (checked: ppd `balanced`,
+      upower sees the battery. Open: compare runtime with Arch)
+- [x] fwupd, snapper timeline for `/home`, time sync
+- [x] Steam
 
 Fix issues with `sudo nixos-rebuild switch --flake ~/.dotfiles#840G6`
 (works from NixOS; on Arch edit and commit, then rebuild after booting NixOS).
