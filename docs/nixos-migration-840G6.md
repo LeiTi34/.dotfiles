@@ -51,10 +51,10 @@ During dual boot (top level):
 home                                     shared /home (existing)
 swap                                     swapfile (existing)
 .snapshots                               Arch snapper snapshots (existing)
-backup-{home,virtualbox,nextcloud}      phase 0 backup snapshots, deleted in phase 2
 nixos                                    NixOS /
 nixos/nix                                NixOS /nix (nested)
 nixos/var/lib/docker                     NixOS Docker (nested)
+nixos/{srv,tmp,var/tmp,var/lib/machines,var/lib/portables}   created by systemd (nested)
 home-pre-nixos                           read-only snapshot of home before the install
 home-pre-nixos-virtualbox                same for home/alex/VirtualBox VMs
 home-pre-nixos-nextcloud                 same for home/alex/Nextcloud2
@@ -97,9 +97,8 @@ btrfs, label `backup-840G6`, mounted with `compress=zstd:1`:
 840G6/luks-header-840G6.img
 ```
 
-The read-only source snapshots `backup-home`, `backup-virtualbox` and
-`backup-nextcloud` stay at the top level as parents for the incremental
-backup in phase 2.
+The read-only source snapshots (`/backup-*`) were deleted after the copy was
+verified.
 
 1. Full backup to an external disk (~440 GB):
    - read-only snapshots of `home`, `home/alex/VirtualBox VMs`,
@@ -164,26 +163,15 @@ Installing from Arch (which already has Nix) keeps flake inputs like
 `git+file:///home/alex/projects/smart-bulb` reachable. Arch stays bootable
 as the fallback; a live USB can be made on another laptop if both fail.
 
+Done on 2026-10-07 with the commands below. The incremental backup on top of
+phase 0 was skipped (same day, nothing changed); the `backup-*` snapshots
+were deleted instead.
+
 ```sh
 # rollback point for /home; nested subvolumes need their own snapshots
 sudo btrfs subvolume snapshot -r /home /home-pre-nixos
 sudo btrfs subvolume snapshot -r "/home/alex/VirtualBox VMs" /home-pre-nixos-virtualbox
 sudo btrfs subvolume snapshot -r /home/alex/Nextcloud2 /home-pre-nixos-nextcloud
-
-# incremental backup on top of phase 0 (only sends the changes)
-sudo mount -o compress=zstd:1,noatime LABEL=backup-840G6 /mnt/backup
-sudo btrfs send -p /backup-home /home-pre-nixos | sudo btrfs receive /mnt/backup/840G6/subvolumes
-sudo btrfs send -p /backup-virtualbox /home-pre-nixos-virtualbox | sudo btrfs receive /mnt/backup/840G6/subvolumes
-sudo btrfs send -p /backup-nextcloud /home-pre-nixos-nextcloud | sudo btrfs receive /mnt/backup/840G6/subvolumes
-sudo btrfs subvolume snapshot -r /etc /etc-pre-nixos
-sudo btrfs send /etc-pre-nixos | sudo btrfs receive /mnt/backup/840G6/subvolumes
-sudo btrfs subvolume delete /etc-pre-nixos
-sudo btrfs subvolume snapshot -r / /root-pre-nixos
-(cd /root-pre-nixos && sudo rsync -aHAX --numeric-ids --delete --relative \
-  var/lib/docker/volumes var/lib/bluetooth var/lib/sbctl usr/local root /mnt/backup/840G6/files/)
-sudo btrfs subvolume delete /root-pre-nixos
-sudo umount /mnt/backup
-sudo btrfs subvolume delete /backup-home /backup-virtualbox /backup-nextcloud
 
 # NixOS subvolumes; Arch's / is the top level, so they land there
 sudo btrfs subvolume create /nixos
@@ -193,29 +181,37 @@ sudo btrfs subvolume create /nixos/var/lib/docker
 
 # mount the target
 sudo mkdir -p /mnt/nixos
-sudo mount -o subvol=nixos /dev/mapper/cryptroot /mnt/nixos
+sudo mount -o subvol=nixos,noatime /dev/mapper/cryptroot /mnt/nixos
 sudo mkdir -p /mnt/nixos/{home,swap,boot}
-sudo mount -o subvol=home /dev/mapper/cryptroot /mnt/nixos/home
-sudo mount -o subvol=swap /dev/mapper/cryptroot /mnt/nixos/swap
+sudo mount -o subvol=home,noatime /dev/mapper/cryptroot /mnt/nixos/home
+sudo mount -o subvol=swap,noatime /dev/mapper/cryptroot /mnt/nixos/swap
 sudo mount --bind /boot /mnt/nixos/boot
 
-# build and install
+# build and install (install tools from this flake's nixpkgs)
 nix build ~/.dotfiles#nixosConfigurations.840G6.config.system.build.toplevel -o ~/arch-migration/nixos-system
-nix shell github:NixOS/nixpkgs/nixos-26.05#nixos-install-tools
-sudo env PATH="$PATH" nixos-install --root /mnt/nixos --system ~/arch-migration/nixos-system
-sudo nixos-enter --root /mnt/nixos -c 'passwd alex'
+tools=$(nix build --no-link --print-out-paths --inputs-from ~/.dotfiles nixpkgs#nixos-install-tools)
+sudo env PATH="$tools/bin:$PATH" nixos-install --root /mnt/nixos \
+  --system "$(readlink -f ~/arch-migration/nixos-system)" --no-root-passwd --no-channel-copy
 
-# state to carry over
-sudo mkdir -p /mnt/nixos/etc/NetworkManager/system-connections /mnt/nixos/etc/ssh
+# same password as on Arch (root stays locked; wheel has passwordless sudo)
+sudo awk -F: '$1=="alex"{print $1":"$2}' /etc/shadow | sudo env PATH="$tools/bin:$PATH" \
+  nixos-enter --root /mnt/nixos --silent -c '/nix/var/nix/profiles/system/sw/bin/chpasswd -e'
+
+# state to carry over (VPN certificates are in ~/.cert/nm-openvpn, shared)
 sudo cp -a /etc/NetworkManager/system-connections/. /mnt/nixos/etc/NetworkManager/system-connections/
 sudo cp -a /etc/ssh/ssh_host_ed25519_key{,.pub} /etc/ssh/ssh_host_rsa_key{,.pub} /mnt/nixos/etc/ssh/
-sudo mkdir -p /mnt/nixos/var/lib
 sudo cp -a /var/lib/bluetooth /mnt/nixos/var/lib/
 
 # nixos-install rewrites loader.conf; keep Arch as default for now
 sudo bootctl set-default arch.conf
 bootctl list
+sudo umount -R /mnt/nixos
 ```
+
+The first activation (inside `nixos-enter`) lets systemd-tmpfiles create its
+usual nested subvolumes in `nixos`: `srv`, `tmp`, `var/tmp`,
+`var/lib/machines`, `var/lib/portables`. Until phase 4 NixOS swaps to zram
+only; the swapfile is enabled together with hibernation.
 
 Notes:
 
