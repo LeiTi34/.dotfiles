@@ -12,13 +12,9 @@
       brightnessctl
     ];
 
-    xdg.configFile = {
-      "hypr" = {
-        source = ../../hyprland/.config/hypr;
-        recursive = true;
-      };
-
-      "hypr/monitors.lua".source = ../../system/PCNX-LeiAle1/hyprland/monitors.lua;
+    xdg.configFile."hypr" = {
+      source = ../../hyprland/.config/hypr;
+      recursive = true;
     };
   };
 

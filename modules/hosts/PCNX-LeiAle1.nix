@@ -5,26 +5,11 @@
     module = {
       imports = [
         ../../system/PCNX-LeiAle1/configuration.nix
-        config.flake.modules.nixos.unfree
-        config.flake.modules.nixos.home-manager
-        config.flake.modules.nixos.alacritty
-        config.flake.modules.nixos.ghostty
-        config.flake.modules.nixos.git
-        config.flake.modules.nixos.gtk
-        config.flake.modules.nixos.neovim
-        config.flake.modules.nixos.hyprland
-        config.flake.modules.nixos.shell
-        config.flake.modules.nixos.zen-browser
-        config.flake.modules.nixos.helium-browser
-        config.flake.modules.nixos.browser-control
-        config.flake.modules.nixos.btrfs-maintenance
-        config.flake.modules.nixos.kubernetes-client
-        config.flake.modules.nixos.herdr
-        config.flake.modules.nixos.jujutsu
-        config.flake.modules.nixos.opencode
-        config.flake.modules.nixos.openbao
-        config.flake.modules.nixos.bitwarden
+        config.flake.modules.nixos.workstation
       ];
+
+      home-manager.users.${config.profiles.primaryUser.name}.xdg.configFile."hypr/monitors.lua".source =
+        ../../system/PCNX-LeiAle1/hyprland/monitors.lua;
     };
   };
 }

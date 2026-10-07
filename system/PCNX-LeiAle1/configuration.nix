@@ -3,11 +3,6 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 
 { config, pkgs, ... }:
-let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-26.05.tar.gz";
-
-
-in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -15,35 +10,9 @@ in
       # ./../../qtile/qtile.nix
     ];
 
-  fonts.packages = with pkgs; [
-    corefonts
-    open-sans
-    nerd-fonts.fira-code
-    nerd-fonts.hack
-  ];
-  # Nix flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "root" "alex" ];
-
-  # Optimising the Nix store
-  nix.optimise = {
-   automatic = true;
-   dates = [ "04:00" ];
-  };
-
-  nix.gc = {
-    automatic = true;
-    dates = "03:00";
-    options = "--delete-older-than 30d";
-  };
-
   # NVIDIA GPU
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware = {
-      graphics = {
-          enable = true;
-          enable32Bit = true;
-      };
       nvidia = {
           # package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
           package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -62,53 +31,11 @@ in
       efi.canTouchEfiVariables = true;
   };
 
-  networking = {
-      hostName = "PCNX-LeiAle1"; # Define your hostname.
-      # Pick only one of the below networking options.
-      # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-      networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-      extraHosts = ''
-        172.17.0.1 host.docker.internal
-      '';
-  };
-
-  zramSwap = {
-    enable = true;
-    memoryPercent = 25;
-    memoryMax = 68719476736;
-  };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Vienna";
+  networking.hostName = "PCNX-LeiAle1";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "de";
-    #useXkbConfig = true; # use xkbOptions in tty.
-  };
-
-  services.dbus.enable = true;
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config = {
-      common = {
-        default = [
-          "gtk"
-        ];
-        "org.freedesktop.impl.portal.Secret" = [
-          "gnome-keyring"
-        ];
-      };
-    };
-  };
 
   # xdg.portal = {
   #   enable = true;
@@ -144,19 +71,11 @@ in
   # ];
 
 
-  # Enable the X11 windowing system.
-  services.xserver = {
-    xkb.layout = "de";
-  };
-
-
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
   #services.xserver.desktopManager.gnome.enable = true;
   # services.xserver.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
-
-  services.gnome.gnome-keyring.enable = true;
 
   # RDP
   # services.x2goserver.enable = true;
@@ -182,81 +101,32 @@ in
   # Configure keymap in X11
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
   security.pam.services.waylock = {};
   # security.pam.services.login.enableGnomeKeyring = true;
-
-  # Enable sound.
-  services.pulseaudio.enable = false;
-
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   programs = {
-      zsh.enable = true;
       slock.enable = true;
 
       xwayland.enable = true;
-
-      nix-ld = {
-          enable = true;
-          libraries = with pkgs; [
-            stdenv.cc.cc.lib
-            zlib # often needed by other Python packages
-          ];
-      };
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users = {
-    defaultUserShell = pkgs.zsh;
-    users.alex = {
-      isNormalUser = true;
-      extraGroups = [
-          "wheel"
-          "input"
-          "power"
-          "video"
-          "optical"
-          "network"
-          # "libvirtd"
-          "storage"
-          "kvm"
-          "audio"
-      ]; # Enable ‘sudo’ for the user.
-      packages = with pkgs; [
-        firefox
-        tree
-        librewolf
-        neovim
-        # python312Packages.qtile
-      ];
-    };
-  };
+  users.users.alex.packages = with pkgs; [
+    firefox
+    librewolf
+    neovim
+    # python312Packages.qtile
+  ];
 
-  security.sudo.wheelNeedsPassword = false;
-
-  # Docker
+  # Docker: CDI for the NVIDIA container toolkit
   virtualisation.docker = {
-    enable = true;
-    storageDriver = "btrfs";
     daemon.settings.features.cdi = true;
     # rootless = {
     #   enable = true;
     #   setSocketVariable = true;
     # };
   };
-  users.extraGroups.docker.members = [ "alex" ];
 
   # # Libvirt
   # virtualisation.libvirtd = {
@@ -274,14 +144,6 @@ in
   #     ovmf.packages = [ pkgs.OVMFFull.fd ];
   #   };
   # };
-  programs.dconf.enable = true;
-
-  # VirtualBox
-  virtualisation.virtualbox.host = {
-      enable = true;
-      enableExtensionPack = false;
-  };
-  users.extraGroups.vboxusers.members = [ "alex" ];
 
   services = {
       avahi = {
@@ -331,10 +193,7 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    git
     starship
-    htop
     # python312Packages.qtile
 
     # virt-manager
@@ -380,18 +239,6 @@ in
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    settings.X11Forwarding = true;
-  };
 
   # security.pam.services.swaylock = {
   #     text = ''
