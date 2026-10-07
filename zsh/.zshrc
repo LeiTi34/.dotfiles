@@ -330,7 +330,7 @@ fi
 #getanames ()  { perl -ne 'while ( m/a name="([^"]*)"/gc ) { print $1, "\n"; }' $* }
 #getforms ()   { perl -ne 'while ( m:(\</?(input|form|select|option).*?\>):gic ) { print $1, "\n"; }' $* }
 #getstrings () { perl -ne 'while ( m/"(.*?)"/gc ) { print $1, "\n"; }' $*}
-#getanchors () { perl -ne 'while ( m/«([^«»\n]+)»/gc ) { print $1, "\n"; }' $* }
+#getanchors () { perl -ne 'while ( m/ï¿½([^ï¿½ï¿½\n]+)ï¿½/gc ) { print $1, "\n"; }' $* }
 #showINC ()    { perl -e 'for (@INC) { printf "%d %s\n", $i++, $_ }' }
 #vimpm ()      { vim `perldoc -l $1 | sed -e 's/pod$/pm/'` }
 #vimhelp ()    { vim -c "help $1" -c on -c "au! VimEnter *" }
@@ -338,7 +338,7 @@ fi
 
 # Lazy loading scripts
 # https://gist.github.com/QinMing/364774610afc0e06cc223b467abe83c0
-# Copyright (c) 2016-2018 Ming Qin (¿¿) <https://github.com/QinMing>
+# Copyright (c) 2016-2018 Ming Qin (ï¿½ï¿½) <https://github.com/QinMing>
 # Open source under MIT LICENSE.
 # lazy_load() {
 #     # Act as a stub to another shell function/command. When first run, it will load the actual function/command then execute it.
@@ -430,6 +430,9 @@ rh() {
 
 # bun completions
 [ -s "/home/alex/.bun/_bun" ] && source "/home/alex/.bun/_bun"
+
+# rbw (Bitwarden) SSH agent; work hosts use rbw-work via ~/.ssh/config.d/
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/rbw/ssh-agent-socket"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"

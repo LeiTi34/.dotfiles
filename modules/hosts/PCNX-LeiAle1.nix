@@ -23,6 +23,7 @@
         config.flake.modules.nixos.jujutsu
         config.flake.modules.nixos.opencode
         config.flake.modules.nixos.openbao
+        config.flake.modules.nixos.bitwarden
       ];
     };
   };
