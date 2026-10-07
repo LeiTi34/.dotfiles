@@ -85,7 +85,8 @@ arch-snapshots   deleted in phase 6
 ## Phase 0: Backups and preparation (on Arch)
 
 Steps 1-4 and 6 done on 2026-10-07 (1-4 in the order 3, 4, 1, 2, so the
-dumps and the inventory are part of the home backup). Step 5 is open.
+dumps and the inventory are part of the home backup). Step 5 skipped: a live
+USB can be made on another laptop if it is ever needed.
 
 Backup disk: WD My Passport 1.5 TB, GPT, plain
 btrfs, label `backup-840G6`, mounted with `compress=zstd:1`:
@@ -160,8 +161,8 @@ Flakes only see tracked files; run `jj status` after adding files.
 ## Phase 2: Side-by-side install (from running Arch)
 
 Installing from Arch (which already has Nix) keeps flake inputs like
-`git+file:///home/alex/projects/smart-bulb` reachable. The live USB stays
-around as rescue media.
+`git+file:///home/alex/projects/smart-bulb` reachable. Arch stays bootable
+as the fallback; a live USB can be made on another laptop if both fail.
 
 ```sh
 # rollback point for /home; nested subvolumes need their own snapshots
@@ -236,7 +237,7 @@ Notes:
   that. After changing the config on NixOS, rebuild it on Arch the same way
   if Arch should keep matching dotfiles.
 
-Rolling back `/home` (from the live USB, if NixOS damages it badly; for
+Rolling back `/home` (from a live USB made on another laptop, if NixOS damages it badly; for
 single files use the `*.pre-hm` copies or the snapshots directly):
 
 ```sh
@@ -409,5 +410,4 @@ old Arch store) are harmless and can be cleaned up at leisure.
 
 ## Open items
 
-Before installing: phase 0 steps 5 (live USB) and 6 (mask hibernation).
 Deferred items: [todo.md](todo.md).
