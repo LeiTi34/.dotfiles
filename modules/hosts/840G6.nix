@@ -14,6 +14,24 @@
         headsetcontrol
         hyprmoncfg
         vpn
+        fonts-extra
+        xdg-user-dirs
+        thunderbird
+        spellcheck
+        gimp
+        feh
+        rustdesk
+        postman
+        gh
+        glab
+        azure-cli
+        azd
+        btdu
+        zip
+        rsync
+        net-tools
+        traceroute
+        whois
       ];
     };
   };
