@@ -67,7 +67,7 @@ nixos            with nested nixos/nix and nixos/var/lib/docker
 home
 swap
 arch             read-only, deleted in phase 6
-arch-snapshots   deleted in phase 6
+home-pre-nixos*  read-only, deleted in phase 6
 ```
 
 ## Ground rules
@@ -344,87 +344,73 @@ Steps 1-4 done on 2026-10-07:
 
 ## Phase 5: Remove dual boot, keep Arch as `arch` (from NixOS)
 
-1. Mount the top level and list what is there:
-   ```sh
-   sudo mount -o subvolid=5 /dev/mapper/cryptroot /mnt/top
-   ls -la /mnt/top
-   sudo btrfs subvolume list -a /mnt/top
-   ```
-2. Snapshot the Arch root and remove placeholders of unrelated subvolumes:
-   ```sh
-   sudo btrfs subvolume snapshot /mnt/top /mnt/top/arch
-   sudo rmdir /mnt/top/arch/{nixos,home,swap,home-pre-nixos,home-pre-nixos-virtualbox,home-pre-nixos-nextcloud,.snapshots}
-   ```
-3. Snapshots do not include nested subvolumes; add Arch's own:
-   ```sh
-   for sv in etc srv var/log var/lib/machines var/lib/portables; do
-     sudo rmdir /mnt/top/arch/$sv
-     sudo btrfs subvolume snapshot /mnt/top/$sv /mnt/top/arch/$sv
-   done
-   ```
-   Skipped on purpose (left as empty directories in `arch`): `tmp`, `var/tmp`,
-   `var/abs`, `var/cache/pacman/pkg` (23 GB of downloadable packages),
-   `etc/.snapshots` (snapper history of `/etc`) and Docker image subvolumes
-   (images can be pulled again; volumes are regular directories and already
-   included).
-4. Keep a copy of Arch's ESP files:
-   ```sh
-   sudo mkdir /mnt/top/arch/esp-backup
-   sudo cp -a /boot/loader/entries/arch*.conf /boot/vmlinuz-linux* /boot/initramfs-* \
-     /boot/intel-ucode.img /mnt/top/arch/esp-backup/
-   ```
-5. Verify, then make it read-only:
-   ```sh
-   sudo ls /mnt/top/arch/etc/NetworkManager/system-connections \
-     /mnt/top/arch/var/lib/docker/volumes /mnt/top/arch/usr/local/bin
-   sudo btrfs property set -ts /mnt/top/arch ro true
-   ```
-6. Keep Arch's snapper snapshots alongside:
-   ```sh
-   sudo mv /mnt/top/.snapshots /mnt/top/arch-snapshots
-   ```
-7. Remove Arch from the top level. Never touch `nixos`, `home`, `swap`,
-   `arch`, `arch-snapshots`, `home-pre-nixos*`.
-   ```sh
-   # nested subvolumes first, deepest first
-   sudo btrfs subvolume list -o /mnt/top/var/lib/docker/btrfs/subvolumes   # review
-   sudo btrfs subvolume delete /mnt/top/var/lib/docker/btrfs/subvolumes/*
-   sudo btrfs subvolume delete /mnt/top/etc/.snapshots/*/snapshot
-   sudo btrfs subvolume delete /mnt/top/etc/.snapshots
-   sudo btrfs subvolume delete /mnt/top/{etc,srv,tmp,var/tmp,var/log,var/abs,var/cache/pacman/pkg,var/lib/machines,var/lib/portables}
-   sudo btrfs subvolume list -a /mnt/top | grep -vE ' path (<FS_TREE>/)?(nixos|home|swap|arch|arch-snapshots|home-pre-nixos[a-z-]*)(/|$)'   # should be empty
+Done on 2026-10-07 (earlier than planned, by choice). Differences from the
+original plan: Arch's snapper snapshots were deleted instead of kept as
+`arch-snapshots`; `home-pre-nixos*` stay until phase 6; the repo cleanup
+(stow scripts, `arch`, `install`, ...) is not done because two other Arch
+machines still use them.
 
-   # then the Arch root directories, explicit list only
-   ls -la /mnt/top
-   sudo rm -rf /mnt/top/{usr,var,opt,root,media,mnt,nix,store,.store,.oldroot,.bootbackup,tmp,dev,proc,sys,run,boot,bin,lib,lib64,sbin,snap}
-   ls -la /mnt/top   # only nixos, home, swap, arch, arch-snapshots, home-pre-nixos* left
-   ```
-   Space is not freed yet; `arch` still references the data.
-8. Clean the ESP and let NixOS own it:
-   ```sh
-   sudo rm /boot/loader/entries/arch*.conf /boot/vmlinuz-linux* /boot/initramfs-* /boot/intel-ucode.img
-   sudo nixos-rebuild boot --flake ~/.dotfiles#840G6
-   bootctl list
-   ```
-9. Delete the pre-install home snapshots once NixOS has been in daily use
-   without trouble:
-   ```sh
-   sudo btrfs subvolume delete /mnt/top/home-pre-nixos{,-virtualbox,-nextcloud}
-   ```
-10. Hibernation can now be used freely on NixOS.
-11. Repo cleanup: remove `arch`, `install`, `clean-env` and stow-only
-    directories no longer referenced by any module; update `README.md`.
+```sh
+sudo mount -o subvolid=5 /dev/mapper/cryptroot /mnt/top
+T=/mnt/top
+
+# 1. snapshot Arch, plus its own nested subvolumes (snapshots skip nested ones)
+sudo btrfs subvolume snapshot $T $T/arch
+sudo rmdir $T/arch/{nixos,home,swap,home-pre-nixos,home-pre-nixos-virtualbox,home-pre-nixos-nextcloud,.snapshots}
+for sv in etc srv var/log var/lib/machines var/lib/portables; do
+  sudo rmdir $T/arch/$sv
+  sudo btrfs subvolume snapshot $T/$sv $T/arch/$sv
+done
+sudo rmdir $T/arch/etc/.snapshots
+
+# 2. Arch's ESP files
+sudo mkdir $T/arch/esp-backup
+sudo cp -a /boot/loader/entries/arch*.conf /boot/vmlinuz-linux* /boot/initramfs-* /boot/intel-ucode.img $T/arch/esp-backup/
+
+# 3. verify (diff --no-dereference: volumes contain absolute symlinks), read-only
+sudo diff -rq --no-dereference $T/arch/var/lib/docker/volumes $T/var/lib/docker/volumes
+sudo btrfs property set -ts $T/arch ro true   # same for the five nested ones
+
+# 4. Arch's snapper snapshots (20 of /, 32 of /etc)
+sudo btrfs subvolume delete $T/.snapshots/*/snapshot $T/etc/.snapshots/*/snapshot
+sudo btrfs subvolume delete $T/.snapshots $T/etc/.snapshots
+
+# 5. Arch's subvolumes (2505 Docker image layers) and root directories
+sudo find $T/var/lib/docker/btrfs/subvolumes -mindepth 1 -maxdepth 1 -print0 | sudo xargs -0 -n 200 btrfs subvolume delete
+sudo btrfs subvolume delete $T/{etc,srv,tmp,var/tmp,var/log,var/abs,var/cache/pacman/pkg,var/lib/machines,var/lib/portables}
+(cd $T && sudo rm -rf -- usr var opt root media mnt nix store .store .oldroot .bootbackup dev proc sys run boot bin lib lib64 sbin snap)
+ls $T   # arch home home-pre-nixos* nixos swap
+
+# 6. ESP: NixOS only (plus EFI/HP firmware); two empty 2021 leftovers removed
+sudo rm /boot/loader/entries/arch*.conf /boot/vmlinuz-linux* /boot/initramfs-* /boot/intel-ucode.img
+sudo rmdir /boot/7c022355050c43da92672295eb00f5c9 /boot/EFI/Linux
+sudo nixos-rebuild boot --flake ~/.dotfiles#840G6
+```
+
+Compression: nothing was compressed before (Arch didn't use it either). All
+btrfs mounts now have `compress=zstd` (level 3; the swapfile is NOCOW and
+stays uncompressed). Existing data is only recompressed where nothing is
+shared with a snapshot:
+
+```sh
+sudo btrfs filesystem defragment -r -czstd /mnt/top/nixos/nix   # 36 GiB -> 14 GiB
+sudo btrfs balance start -dusage=25 /mnt/top   # disk was fully allocated; 81 GiB unallocated again
+```
+
+Free space went from 126 GiB to 360 GiB.
 
 Optional follow-ups:
 
-- Secure Boot via lanzaboote, reusing the sbctl keys
+- Secure Boot via lanzaboote, reusing the sbctl keys (backed up in phase 0
+  and in `arch/var/lib/sbctl`)
 - TPM2 unlock with `systemd-cryptenroll`
 
 Emergency access to Arch: `arch` can be booted again by creating a writable
 snapshot of it, restoring the files from `esp-backup` to the ESP and adding a
-boot entry with `rootflags=subvol=<snapshot>`.
+boot entry with `rootflags=subvol=<snapshot>`. Never while NixOS is
+hibernated.
 
-## Phase 6: Delete Arch (after 1-3 months)
+## Phase 6: Delete Arch and the pre-install snapshots (after 1-3 months)
 
 Prerequisites:
 
@@ -437,13 +423,17 @@ sudo mount -o subvolid=5 /dev/mapper/cryptroot /mnt/top
 sudo btrfs property set -ts /mnt/top/arch ro false   # nested subvolumes can't be removed from a read-only parent
 sudo btrfs subvolume delete /mnt/top/arch/{etc,srv,var/log,var/lib/machines,var/lib/portables}
 sudo btrfs subvolume delete /mnt/top/arch
-sudo btrfs subvolume list -o /mnt/top/arch-snapshots   # review
-sudo btrfs subvolume delete /mnt/top/arch-snapshots/*/snapshot
-sudo btrfs subvolume delete /mnt/top/arch-snapshots
+sudo btrfs subvolume delete /mnt/top/home-pre-nixos{,-virtualbox,-nextcloud}
+
+# recompress what is no longer shared with snapshots
+# (home/.snapshots holds snapper snapshots of /home: data shared with them is
+# duplicated by defragment; prune them first or accept the extra space)
+sudo btrfs filesystem defragment -r -czstd /mnt/top/nixos /mnt/top/home
+sudo btrfs balance start -dusage=50 /mnt/top
 ```
 
-Leftover Arch-specific files in `/home` (e.g. `~/.nix-profile` pointing at the
-old Arch store) are harmless and can be cleaned up at leisure.
+Leftover Arch-specific files in `/home` are harmless and can be cleaned up at
+leisure.
 
 ## Open items
 
