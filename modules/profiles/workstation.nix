@@ -22,6 +22,7 @@
       neovim
       hyprland
       shell
+      fnm
       zen-browser
       helium-browser
       browser-control
