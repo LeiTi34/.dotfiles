@@ -308,7 +308,8 @@ Steps 1-4 done on 2026-10-07:
   (NixOS pulled a newer `powersync-service:latest`, which migrated its
   schema).
 - Swapfile offset still 24751; `hibernation = true`, lid now
-  suspend-then-hibernate (ignored when docked).
+  suspend-then-hibernate (ignored when docked). Swap and hibernate/resume
+  tested after the reboot.
 - `bootctl set-default ""`: `loader.conf` (latest NixOS generation) decides.
 - Zen: the real profile `4jrfqcnq.Default (release)` was last used by Zen
   1.23b on Arch. The NixOS wrapper sets `MOZ_LEGACY_PROFILES=1` (opens the
