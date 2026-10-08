@@ -66,8 +66,6 @@ Final:
 nixos            with nested nixos/nix and nixos/var/lib/docker
 home
 swap
-arch             read-only, deleted in phase 6
-home-pre-nixos*  read-only, deleted in phase 6
 ```
 
 ## Ground rules
@@ -410,13 +408,28 @@ snapshot of it, restoring the files from `esp-backup` to the ESP and adding a
 boot entry with `rootflags=subvol=<snapshot>`. Never while NixOS is
 hibernated.
 
-## Phase 6: Delete Arch and the pre-install snapshots (after 1-3 months)
+## Phase 6: Delete Arch and the pre-install snapshots
 
-Prerequisites:
+Done on 2026-10-08, right after phase 5: instead of waiting 1-3 months,
+everything this phase deletes was archived first.
 
-- at least one full backup taken from NixOS and test-restored
-- went through the "data outside `/home`" list above and confirmed nothing
-  else is needed from `arch`
+Archive: copied with `btrfs send` to the old system NVMe (WD SN750 1 TB,
+USB enclosure; GPT, plain btrfs, label
+`archive-840G6`, mounted with `compress=zstd`). It had been cloned to the
+current NVMe, so it carried the same ESP and LUKS UUIDs until it was wiped.
+
+```
+840G6/arch                                           read-only
+840G6/arch.nested/{etc,srv,var/log,var/lib/machines,var/lib/portables}
+840G6/home-pre-nixos{,-virtualbox,-nextcloud}        read-only
+```
+
+Verified with `rsync -n` over every subvolume (in `arch` only the placeholder
+folders of the nested subvolumes differ) and `cmp` of 300 random files per
+subvolume, the Windows 10 VM disk and the database dump. 505 GiB, 323 GB on
+disk.
+
+Then on the laptop:
 
 ```sh
 sudo mount -o subvolid=5 /dev/mapper/cryptroot /mnt/top
@@ -425,12 +438,32 @@ sudo btrfs subvolume delete /mnt/top/arch/{etc,srv,var/log,var/lib/machines,var/
 sudo btrfs subvolume delete /mnt/top/arch
 sudo btrfs subvolume delete /mnt/top/home-pre-nixos{,-virtualbox,-nextcloud}
 
-# recompress what is no longer shared with snapshots
-# (home/.snapshots holds snapper snapshots of /home: data shared with them is
-# duplicated by defragment; prune them first or accept the extra space)
-sudo btrfs filesystem defragment -r -czstd /mnt/top/nixos /mnt/top/home
-sudo btrfs balance start -dusage=50 /mnt/top
+# recompress existing data; snapper snapshots of /home would keep an
+# uncompressed copy, so they were deleted and the timer paused meanwhile
+sudo systemctl stop snapper-timeline.timer
+sudo snapper -c home delete 1-11
+# per subvolume, `find -xdev` stays inside it (skips Docker's image layers,
+# which share data with each other; /nix was done in phase 5; swap is NOCOW)
+for sv in /mnt/top/nixos /mnt/top/nixos/var/lib/docker /mnt/top/home \
+  "/mnt/top/home/alex/VirtualBox VMs" /mnt/top/home/alex/Nextcloud2; do
+  sudo find "$sv" -xdev -type f -print0 | sudo xargs -0 -n 500 btrfs filesystem defragment -czstd
+done
+sudo systemctl start snapper-timeline.timer
 ```
+
+The top level now only holds `nixos`, `home` and `swap`.
+
+Recompression results (`compsize -x`, disk usage before -> after):
+
+| Subvolume | Before | After |
+|---|---|---|
+| `home` | 257 GiB | 153 GiB |
+| `home/alex/VirtualBox VMs` | 93 GiB | 49 GiB |
+| `home/alex/Nextcloud2` | 39 GiB | 35 GiB |
+| `nixos/var/lib/docker` (volumes) | 13 GiB | 5.8 GiB |
+| `nixos/nix` (phase 5) | 36 GiB | 14 GiB |
+
+Free space went from 126 GiB (before phase 5) to 606 GiB.
 
 Leftover Arch-specific files in `/home` are harmless and can be cleaned up at
 leisure.
