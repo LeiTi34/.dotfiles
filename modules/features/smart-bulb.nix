@@ -1,7 +1,7 @@
 { config, inputs, lib, ... }:
 {
   flake-file.inputs.smartbulb = {
-    url = lib.mkDefault "git+file:///home/alex/projects/smart-bulb";
+    url = lib.mkDefault "git+ssh://git@git.agrarforschung.at/andreas.mattes/smart-bulb.git";
     inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 

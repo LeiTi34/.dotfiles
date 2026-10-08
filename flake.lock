@@ -423,11 +423,11 @@
         "rev": "23d737f8edcfcfc4dee021b4af1648a7ae874391",
         "revCount": 14,
         "type": "git",
-        "url": "file:///home/alex/projects/smart-bulb"
+        "url": "ssh://git@git.agrarforschung.at/andreas.mattes/smart-bulb.git"
       },
       "original": {
         "type": "git",
-        "url": "file:///home/alex/projects/smart-bulb"
+        "url": "ssh://git@git.agrarforschung.at/andreas.mattes/smart-bulb.git"
       }
     },
     "systems": {
