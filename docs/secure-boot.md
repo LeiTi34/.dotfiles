@@ -68,3 +68,12 @@ Check: `sudo nsenter -t $(pidof fwupd) -m ls <fwupd-efi>/libexec/fwupd/efi`
 lists `fwupdx64.efi.signed`. fwupd copies it to the ESP when it schedules a
 capsule update. UEFI `dbx` updates from LVFS are signed by Microsoft's KEK,
 which stays enrolled.
+
+Tested 2026-10-08: BIOS 0x01050200 -> 0x01060200 via `fwupdmgr update` with
+Secure Boot on (the firmware has no capsule-on-disk, so fwupd uses its EFI
+app plus `BootNext`). The first attempt came back with `boot entry missing:
+no 'Linux Firmware Updater' entry found` and no flash; the second one, with
+identical OS-side state (entry, `BootNext`, signed app, staged capsule),
+worked. If it happens again, just retry. For details, temporarily set
+`services.fwupd.uefiCapsuleSettings.EnableEfiDebugging = true`; the EFI app's
+log ends up in the `FWUPDATE_DEBUG_LOG` EFI variable (UTF-16).
