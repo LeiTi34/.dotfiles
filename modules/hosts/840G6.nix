@@ -9,6 +9,7 @@
         laptop
         fwupd
         secure-boot
+        measured-boot
         bluetooth
         snapper
         android

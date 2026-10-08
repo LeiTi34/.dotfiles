@@ -29,8 +29,10 @@ in
 
   swapDevices = lib.optional hibernation { device = "/swap/swapfile"; };
 
-  # The LUKS passphrase is typed with the German layout.
+  # The LUKS passphrase and TPM PIN are typed with the German layout.
   console.earlySetup = true;
+  # TPM2 + PIN (feature measured-boot); the passphrase keeps working.
+  boot.initrd.luks.devices.cryptroot.crypttabExtraOpts = [ "tpm2-device=auto" ];
 
   # BE200 Bluetooth (btintel_pcie) misses D3/D0 doorbell interrupts, which
   # breaks suspend/hibernate (-EBUSY, then a hang). Unload it around sleep.
