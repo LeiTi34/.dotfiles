@@ -13,14 +13,10 @@ in
   networking.hostName = "840G6";
 
   boot = {
-    loader = {
-      systemd-boot = {
-        enable = true;
-        # Each generation with a new kernel takes ~55 MB of the 1 GiB ESP.
-        configurationLimit = 8;
-      };
-      efi.canTouchEfiVariables = true;
-    };
+    loader.efi.canTouchEfiVariables = true;
+    # Secure Boot via lanzaboote (feature secure-boot) replaces systemd-boot.
+    # Each generation with a new kernel takes ~55 MB of the 1 GiB ESP.
+    lanzaboote.configurationLimit = 8;
 
     initrd.systemd.enable = true;
 

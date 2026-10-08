@@ -8,6 +8,7 @@
         workstation
         laptop
         fwupd
+        secure-boot
         bluetooth
         snapper
         android
