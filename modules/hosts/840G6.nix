@@ -28,6 +28,7 @@
         glab
         azure-cli
         azd
+        colmena
         btdu
         zip
         rsync

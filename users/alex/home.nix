@@ -3,13 +3,9 @@
 let
   defaultPkgs = with pkgs; [
     devenv
-
     gnumake
     libreoffice-stable
     jetbrains.datagrip
-    postgresql_14
-    pgadmin4-desktopmode
-
 
     gcc
     go
@@ -27,8 +23,6 @@ let
 
     fortune
     gnupg
-    dmenu
-    scrot
     # feh
 
     udiskie

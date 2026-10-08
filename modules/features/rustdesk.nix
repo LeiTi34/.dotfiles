@@ -1,7 +1,8 @@
-{ config, ... }:
+{ config, inputs, ... }:
 {
+  # From the stable channel; Home Manager's pkgs is nixpkgs-unstable.
   flake.homeModules.rustdesk = { pkgs, ... }: {
-    home.packages = [ pkgs.rustdesk ];
+    home.packages = [ inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.rustdesk ];
   };
 
   flake.modules.nixos.rustdesk = {
