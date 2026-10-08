@@ -33,6 +33,13 @@ kernel logs `spi_master spi1: error -EINVAL: failed to add SPI device
 CSC3554:00 from ACPI`, an HP firmware/ACPI bug). Not addressed during the
 migration.
 
+## lanzaboote fwupd integration
+
+lanzaboote's `fwupd-efi` unit sets `FWUPD_EFIAPPDIR`, which fwupd 2.x
+ignores; the `secure-boot` feature works around it with a bind mount (see
+[secure-boot.md](secure-boot.md)). Report upstream and drop the workaround
+once lanzaboote handles it.
+
 ## Battery runtime (840G6)
 
 Not compared with Arch yet during phase 3. Check a full day on battery with
