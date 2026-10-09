@@ -26,25 +26,18 @@
           dig
 
           unzip
-          p7zip
 
           fortune
           gnupg
           # feh
 
-          udiskie
           networkmanagerapplet
           nextcloud-client
           pulsemixer
 
           remmina
           pcmanfm
-          thunar
-          nautilus
-          zoom-us
 
-          discord
-          obsidian
 
           bemenu
           pavucontrol
@@ -62,9 +55,6 @@
       {
 
         nixpkgs.config.allowUnfree = true;
-        nixpkgs.config.permittedInsecurePackages = [
-          "electron-25.9.0" # Required for Obsidian
-        ];
         # Home Manager needs a bit of information about you and the paths it should
         # manage.
 
