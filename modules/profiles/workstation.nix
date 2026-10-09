@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      opentofu
       azure-functions
       datagrip
       libreoffice
