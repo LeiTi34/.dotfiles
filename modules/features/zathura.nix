@@ -1,7 +1,11 @@
 { config, ... }:
 {
   flake.homeModules.zathura = {
-    programs.zathura.enable = true;
+    programs.zathura = {
+      enable = true;
+      # selected text goes to the clipboard, not the primary selection
+      options.selection-clipboard = "clipboard";
+    };
   };
 
   flake.modules.nixos.zathura = {
