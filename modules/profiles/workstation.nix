@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      dev-toolchains
     ];
   };
 }

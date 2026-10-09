@@ -9,20 +9,9 @@
       { config, pkgs, ... }:
       let
         defaultPkgs = with pkgs; [
-          devenv
-          gnumake
           libreoffice-stable
           jetbrains.datagrip
 
-          gcc
-          go
-          cargo
-          nodejs
-          pnpm
-          php
-          php84Packages.composer
-          python3
-          zig
           dig
 
           unzip
@@ -48,7 +37,6 @@
 
 
           opentofu
-          uv
         ];
       in
       {
