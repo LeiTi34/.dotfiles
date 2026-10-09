@@ -3,62 +3,31 @@
   profiles.primaryUser = {
     name = "alex";
     homeDirectory = "/home/alex";
-    # Home Manager config shared by all hosts; program-specific parts are
-    # features (flake.homeModules.<name>).
+    # Home Manager config shared by all hosts; programs are features
+    # (flake.homeModules.<name>).
     homeModule =
-      { config, pkgs, ... }:
-      let
-        defaultPkgs = with pkgs; [
-
-
-
-          fortune
-          # feh
-
-
-
-
-
-
-
-
-        ];
-      in
+      { pkgs, ... }:
       {
-
         nixpkgs.config.allowUnfree = true;
-        # Home Manager needs a bit of information about you and the paths it should
-        # manage.
 
-        # This value determines the Home Manager release that your configuration is
-        # compatible with. this helps avoid breakage when a new home manager release
-        # introduces backwards incompatible changes.
-        #
-        # You should not change this value, even if you update Home Manager. If you do
-        # want to update the value, then make sure to first check the Home Manager
-        # release notes.
         home = {
-          stateVersion = "25.05"; # Please read the comment before changing.
+          # Release the Home Manager config was written for; don't change it.
+          stateVersion = "25.05";
 
-          packages = defaultPkgs;
+          packages = [ pkgs.fortune ];
 
           sessionVariables = {
-            XDG_CACHE_HOME  = "$HOME/.cache";
+            XDG_CACHE_HOME = "$HOME/.cache";
             XDG_CONFIG_HOME = "$HOME/.config";
-            XDG_DATA_HOME   = "$HOME/.local/share";
-            XDG_STATE_HOME  = "$HOME/.local/state";
+            XDG_DATA_HOME = "$HOME/.local/share";
+            XDG_STATE_HOME = "$HOME/.local/state";
             MOZ_ENABLE_WAYLAND = "1";
           };
-
-          # nixpkgs.config.allowUnfreePredicate = _: true;
         };
 
         systemd.user.startServices = "sd-switch";
 
-        programs = {
-          home-manager.enable = true;
-          htop.enable = true;
-        };
+        programs.home-manager.enable = true;
       };
   };
 }
