@@ -5,6 +5,7 @@
     # Host-specific settings: modules/hosts/LTNX-LeiAle1/*.nix
     module = {
       imports = with config.flake.modules.nixos; [
+        profile-default
         workstation
         laptop
         fwupd

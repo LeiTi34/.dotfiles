@@ -5,6 +5,7 @@
     # Host-specific settings: modules/hosts/PCNX-LeiAle1/*.nix
     module = {
       imports = with config.flake.modules.nixos; [
+        profile-default
         workstation
         avahi
         gvfs
