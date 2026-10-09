@@ -21,7 +21,7 @@ modules/                # flake-parts modules, all imported via import-tree
   features/<name>.nix   # one program or topic: flake.modules.nixos.<name>
                         # (+ flake.homeModules.<name> for the Home Manager part)
   profiles/<name>.nix   # a set of features: flake.modules.nixos.profile-<name>
-                        # (default, development, gaming; workstation)
+                        # (default, development, gaming, work)
   users/alex.nix        # the primary user and the Home Manager config shared
                         # by all hosts (profiles.primaryUser)
   hosts/<host>.nix      # host = profiles + its own features

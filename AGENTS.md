@@ -73,10 +73,9 @@ file holds the rules for making changes.
   `flake.homeModules.<name>`, imported for `profiles.primaryUser` (pattern:
   `modules/features/gh.nix`). Options where hosts need different values.
 - Profiles are `modules/profiles/<name>.nix`, defining
-  `flake.modules.nixos.profile-<name>` (only `workstation` lacks the
-  prefix). Features and profiles share `flake.modules.nixos`, and two
-  definitions with the same name merge silently, so a profile always
-  carries the prefix.
+  `flake.modules.nixos.profile-<name>`. Features and profiles share
+  `flake.modules.nixos`, and two definitions with the same name merge
+  silently, so a profile always carries the prefix.
 - A feature for every host goes into `profile-default`, one for a role into
   that role's profile (`profile-development`, `profile-gaming`); otherwise
   into the host's list in `modules/hosts/<host>.nix`. Settings that only
@@ -138,7 +137,6 @@ body that says what to do (or links the doc).
 | `alex` | `modules/users/alex.nix` |
 | `<feature>` | `modules/features/<feature>.nix` (`docker`, `bitwarden`, `smart-bulb`) |
 | `profile-<name>` | `modules/profiles/<name>.nix` (`profile-default`, `profile-gaming`) |
-| `workstation` | `modules/profiles/workstation.nix` |
 | `<app>` | `configs/<app>/` (`nvim`, `zsh`, `hyprland`), or the program inside it when clearer (`dms`) |
 | `flake` | `flake.nix`, `flake.lock`, `modules/flake-file.nix`, `modules/configurations/` |
 | `repo` | root-level files and `docs/` (`README.md`, `AGENTS.md`, `.gitignore`, `arch`, `install`) |
