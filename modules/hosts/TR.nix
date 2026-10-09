@@ -11,6 +11,7 @@
         gnome
         bluetooth
         headsetcontrol
+        openrgb
       ];
     };
   };
