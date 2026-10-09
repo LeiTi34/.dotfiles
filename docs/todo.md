@@ -8,7 +8,9 @@ Move every machine to the `configs/<app>/` layout with
 [configs-migration.md](configs-migration.md):
 
 - [x] LTNX-LeiAle1 (NixOS)
-- [ ] PCNX-LeiAle1 (NixOS)
+- [ ] PCNX-LeiAle1 (NixOS); before the rebuild also check that `id -u alex`
+  is 1000 and `getent group 1000` is empty or `alex` (the account gets
+  uid/gid 1000 and the primary group `alex`)
 - [ ] TR (Arch)
 - [ ] X1C6 (Arch)
 
