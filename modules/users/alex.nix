@@ -43,12 +43,6 @@
           nautilus
           zoom-us
 
-          steam
-          protonup-qt
-          protontricks
-          gamemode
-          mangohud
-
           discord
           obsidian
 

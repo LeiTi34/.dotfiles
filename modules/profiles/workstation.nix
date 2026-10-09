@@ -32,6 +32,7 @@
       opencode
       openbao
       bitwarden
+      steam
     ];
   };
 }
