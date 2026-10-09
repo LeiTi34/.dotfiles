@@ -53,15 +53,6 @@
         # python312Packages.qtile
       ];
 
-      # Docker: CDI for the NVIDIA container toolkit
-      virtualisation.docker = {
-        daemon.settings.features.cdi = true;
-        # rootless = {
-        #   enable = true;
-        #   setSocketVariable = true;
-        # };
-      };
-
       # # Libvirt
       # virtualisation.libvirtd = {
       #   enable = true;
