@@ -1,44 +1,6 @@
 # Todo
 
-Deferred items from the 840G6 Arch -> NixOS migration
-(see [840G6-inventory.md](840G6-inventory.md)).
-
-## TLP vs power-profiles-daemon (840G6)
-
-On Arch `tlp.service` is enabled but never runs: it conflicts with
-power-profiles-daemon, which DMS activates over D-Bus for its power profile
-switcher. The tuned TLP settings therefore have no effect today.
-
-NixOS starts out with power-profiles-daemon (same effective state as Arch).
-Later: decide between
-
-- power-profiles-daemon only (DMS integration, less tuning), or
-- TLP with [`attic/tlp/01-elitebook.conf`](attic/tlp/01-elitebook.conf)
-  (`services.tlp.settings`; DMS power switcher won't work, unless TLP's
-  power-profiles compatible daemon `tlp-pd` is used)
-
-## sleep-on-unplug (840G6)
-
-Suspend-then-hibernate when AC is unplugged while docked with the lid closed
-(logind ignores the lid when docked and never re-evaluates on unplug).
-Was still in dry-run mode on Arch. Not ported. Original files:
-[`attic/sleep-on-unplug/`](attic/sleep-on-unplug/) (script, systemd unit,
-udev rule). On NixOS this would be a `systemd.services` unit plus
-`services.udev.extraRules`; the script optionally uses `evtest`.
-
-## Speakers (840G6)
-
-The internal speakers have a driver issue (Cirrus CS35L56 amps; at boot the
-kernel logs `spi_master spi1: error -EINVAL: failed to add SPI device
-CSC3554:00 from ACPI`, an HP firmware/ACPI bug). Not addressed during the
-migration.
-
-## lanzaboote fwupd integration
-
-lanzaboote's `fwupd-efi` unit sets `FWUPD_EFIAPPDIR`, which fwupd 2.x
-ignores; the `secure-boot` feature works around it with a bind mount (see
-[secure-boot.md](secure-boot.md)). Report upstream and drop the workaround
-once lanzaboote handles it.
+Open items for 840G6 (NixOS since 2026-10-07, Arch deleted).
 
 ## Hibernate mode (840G6)
 
@@ -61,7 +23,87 @@ With BIOS 01.06.02 (01.05.02 was fine):
 update, drop it and retest (`HibernateDelaySec=2min` in a temporary
 `/etc/systemd/sleep.conf.d/test.conf`; check `journalctl -k -b | grep DSDT`).
 
+## Plaintext secrets from Arch
+
+Arch had an `OPENROUTER_API_KEY` in `/etc/environment` and the work CIFS
+password in an autofs map, a commented `/etc/fstab` line and
+`/etc/samba/credentials/share`. Neither was ported, but copies remain in
+`~/arch-migration/etc` and on both backup disks (see below). Rotate both;
+if the OpenRouter key is still needed, keep it in rbw.
+
+## Migration leftovers
+
+- `~/arch-migration`: database dumps, copies of `/etc` and the ESP, and the
+  `nixos-system` link, a GC root that keeps the first NixOS system in the
+  store. Delete once nothing in it is needed.
+- Backups made during the switch: `*.pre-hm` from Home Manager
+  (`find ~ -maxdepth 4 -name '*.pre-hm'`) and `*.pre-nixos`.
+- Arch-specific files in `/home`, kept as-is: `~/.scripts` (5 of 7 use
+  `#!/bin/bash`), pip `--user` tools in `~/.local/bin` (shebangs point at
+  Arch's Python), desktop files in `~/.local/share/applications` pointing at
+  `/opt` or `/usr/bin`.
+
+## Backup disks
+
+The archive NVMe (`archive-840G6`: Arch root and the `home-pre-nixos*`
+snapshots) and the My Passport (`backup-840G6`: pre-migration backup) can be
+wiped once nothing more is needed from Arch. They also hold the sbctl key
+backups listed in [secure-boot.md](secure-boot.md) and the plaintext secrets
+above; keep a key copy elsewhere first.
+
+## Repo cleanup
+
+The stow setup (`arch`, `install`, the stow-only package folders) stays while
+two other machines still run Arch. Remove it once they are migrated.
+
+## TLP vs power-profiles-daemon (840G6)
+
+NixOS uses power-profiles-daemon, which DMS needs for its power profile
+switcher (on Arch `tlp.service` was enabled but never ran because of this
+conflict). Decide between
+
+- power-profiles-daemon only (DMS integration, less tuning), or
+- TLP with [`attic/tlp/01-elitebook.conf`](attic/tlp/01-elitebook.conf)
+  (`services.tlp.settings`; DMS power switcher won't work, unless TLP's
+  power-profiles compatible daemon `tlp-pd` is used)
+
 ## Battery runtime (840G6)
 
-Not compared with Arch yet during phase 3. Check a full day on battery with
-power-profiles-daemon; ties in with the TLP decision above.
+Check a full day on battery with power-profiles-daemon; ties in with the TLP
+decision above.
+
+## sleep-on-unplug (840G6)
+
+Suspend-then-hibernate when AC is unplugged while docked with the lid closed
+(logind ignores the lid when docked and never re-evaluates on unplug).
+Was still in dry-run mode on Arch. Not ported. Original files:
+[`attic/sleep-on-unplug/`](attic/sleep-on-unplug/) (script, systemd unit,
+udev rule). On NixOS this would be a `systemd.services` unit plus
+`services.udev.extraRules`; the script optionally uses `evtest`.
+
+## Speakers (840G6)
+
+On Arch the kernel failed to add the Cirrus CS35L54 amps (`failed to add SPI
+device CSC3554:00 from ACPI`). On NixOS (6.18) both amps bind, load their
+firmware and apply calibration. Check whether the internal speakers actually
+play.
+
+## Sensor hub (840G6)
+
+The ISH firmware doesn't load (`intel_ish_ipc: ISH loader: load firmware:
+intel/ish/ish_lnlm.bin`, then `cmd 2 failed 10`), so the hub's sensors
+(ambient light, accelerometer, ...) are unavailable. Check whether anything
+needs them.
+
+## TPM enrollment docs
+
+`modules/features/measured-boot.nix` points to [secure-boot.md](secure-boot.md)
+for the manual LUKS enrollment (TPM2 + PIN), but that step isn't documented
+there yet.
+
+## lanzaboote fwupd integration
+
+lanzaboote's `fwupd-efi` unit sets `FWUPD_EFIAPPDIR`, which fwupd 2.x
+ignores; the `secure-boot` feature works around it with a bind mount (see
+[secure-boot.md](secure-boot.md)). Report upstream and drop the workaround
+once lanzaboote handles it.

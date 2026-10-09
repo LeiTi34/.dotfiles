@@ -1,5 +1,6 @@
 # Based on `nixos-generate-config --show-hardware-config --no-filesystems`.
-# Subvolume layout: docs/nixos-migration-840G6.md
+# Subvolumes at the top level: nixos (/, with nested nix and var/lib/docker),
+# home, swap.
 { config, lib, modulesPath, ... }:
 
 let
