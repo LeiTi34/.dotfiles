@@ -1,8 +1,8 @@
 { config, ... }:
 {
-  configurations.nixos."840G6" = {
+  configurations.nixos."LTNX-LeiAle1" = {
     system = "x86_64-linux";
-    # Host-specific settings: modules/hosts/840G6/*.nix
+    # Host-specific settings: modules/hosts/LTNX-LeiAle1/*.nix
     module = {
       imports = with config.flake.modules.nixos; [
         workstation

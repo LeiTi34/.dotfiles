@@ -1,12 +1,12 @@
 { ... }:
 {
-  configurations.nixos."840G6".module =
+  configurations.nixos."LTNX-LeiAle1".module =
     { lib, pkgs, ... }:
     let
       hibernation = true;
     in
     {
-      networking.hostName = "840G6";
+      networking.hostName = "LTNX-LeiAle1";
 
       boot = {
         loader.efi.canTouchEfiVariables = true;

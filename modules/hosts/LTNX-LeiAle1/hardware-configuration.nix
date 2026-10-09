@@ -3,7 +3,7 @@
   # Based on `nixos-generate-config --show-hardware-config --no-filesystems`.
   # Subvolumes at the top level: nixos (/, with nested nix and var/lib/docker),
   # home, swap.
-  configurations.nixos."840G6".module =
+  configurations.nixos."LTNX-LeiAle1".module =
     { config, lib, modulesPath, ... }:
     let
       btrfs = subvol: {
