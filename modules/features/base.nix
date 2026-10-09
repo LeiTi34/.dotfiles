@@ -47,24 +47,7 @@ in
 
     security.sudo.wheelNeedsPassword = false;
 
-    users = {
-      defaultUserShell = pkgs.zsh;
-      users.${primaryUser} = {
-        isNormalUser = true;
-        extraGroups = [
-          "wheel"
-          "input"
-          "power"
-          "video"
-          "optical"
-          "network"
-          "storage"
-          "kvm"
-          "audio"
-        ];
-        packages = [ pkgs.tree ];
-      };
-    };
+    users.defaultUserShell = pkgs.zsh;
 
     programs = {
       zsh.enable = true;
@@ -88,6 +71,7 @@ in
       wget
       git
       htop
+      tree
     ];
   };
 }

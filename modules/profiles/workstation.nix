@@ -8,6 +8,7 @@
       base
       unfree
       home-manager
+      alex
       audio
       desktop
       fonts

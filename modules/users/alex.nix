@@ -1,5 +1,27 @@
 { ... }:
 {
+  # The account. /home on LTNX-LeiAle1 is owned by 1000:1000 (group alex, not
+  # `users`).
+  flake.modules.nixos.alex = {
+    users.groups.alex.gid = 1000;
+    users.users.alex = {
+      isNormalUser = true;
+      uid = 1000;
+      group = "alex";
+      extraGroups = [
+        "wheel"
+        "input"
+        "power"
+        "video"
+        "optical"
+        "network"
+        "storage"
+        "kvm"
+        "audio"
+      ];
+    };
+  };
+
   profiles.primaryUser = {
     name = "alex";
     homeDirectory = "/home/alex";

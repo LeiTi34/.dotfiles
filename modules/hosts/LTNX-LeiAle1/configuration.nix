@@ -65,13 +65,6 @@
         }
       ];
 
-      # The files in /home are owned by 1000:1000 (group alex, not `users`).
-      users.users.alex = {
-        uid = 1000;
-        group = "alex";
-      };
-      users.groups.alex.gid = 1000;
-
       # This value determines the NixOS release from which the default
       # settings for stateful data, like file locations and database versions
       # on your system were taken. Before changing this value read the
