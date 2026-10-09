@@ -3,7 +3,7 @@
   flake.homeModules.ghostty = { pkgs, ... }: {
     home.packages = [ pkgs.ghostty ];
     xdg.configFile."ghostty" = {
-      source = ../../ghostty/.config/ghostty;
+      source = ../../configs/ghostty/.config/ghostty;
       recursive = true;
     };
   };

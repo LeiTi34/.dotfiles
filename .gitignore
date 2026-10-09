@@ -5,8 +5,8 @@ __pycache__/
 node_modules/
 
 # generated or machine-local opencode state; never stow/commit these
-opencode/.config/opencode/package.json
-opencode/.config/opencode/bun.lock
-opencode/.config/opencode/cli.json
-opencode/.config/opencode/service*.json
-opencode/.config/opencode/plugins/
+configs/opencode/.config/opencode/package.json
+configs/opencode/.config/opencode/bun.lock
+configs/opencode/.config/opencode/cli.json
+configs/opencode/.config/opencode/service*.json
+configs/opencode/.config/opencode/plugins/

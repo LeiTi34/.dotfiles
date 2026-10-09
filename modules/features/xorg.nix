@@ -5,7 +5,7 @@
       picom
     ];
 
-    xdg.configFile."picom".source = ../../picom/.config/picom/picom.conf;
+    xdg.configFile."picom".source = ../../configs/picom/.config/picom/picom.conf;
   };
 
   flake.modules.nixos.xorg = {

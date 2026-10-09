@@ -22,7 +22,7 @@
     };
 
     xdg.configFile."nvim".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim/.config/nvim";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/configs/nvim/.config/nvim";
 
     home = {
       sessionVariables.EDITOR = "nvim";

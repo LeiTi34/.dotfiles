@@ -72,7 +72,7 @@ in
       # hyprmoncfg follows symlinks and writes the generated rules back into
       # the repo; a store copy would be read-only.
       xdg.configFile."hypr/hyprmoncfg-monitors.lua".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hyprland/.config/hypr/hyprmoncfg-monitors.lua";
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/configs/hyprland/.config/hypr/hyprmoncfg-monitors.lua";
     };
 
   flake.modules.nixos.hyprmoncfg = {

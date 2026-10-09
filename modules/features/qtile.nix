@@ -8,13 +8,13 @@
     ];
 
     home.file = {
-      ".xinitrc".source = ../../qtile/.xinitrc;
-      "startwm.sh".source = ../../qtile/.xinitrc;
-      "reconnectwm.sh".source = ../../qtile/.xinitrc;
+      ".xinitrc".source = ../../configs/qtile/.xinitrc;
+      "startwm.sh".source = ../../configs/qtile/.xinitrc;
+      "reconnectwm.sh".source = ../../configs/qtile/.xinitrc;
     };
 
     xdg.configFile."qtile" = {
-      source = ../../qtile/.config/qtile;
+      source = ../../configs/qtile/.config/qtile;
       recursive = true;
     };
   };

@@ -109,7 +109,7 @@
       ];
 
       xdg.configFile."opencode" = {
-        source = ../../opencode/.config/opencode;
+        source = ../../configs/opencode/.config/opencode;
         recursive = true;
       };
     };

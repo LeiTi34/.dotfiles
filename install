@@ -2,10 +2,10 @@
 # Source: https://github.com/ThePrimeagen/.dotfiles/blob/master/install
 # I am using zsh instead of bash.  I was having some troubles using bash with
 # arrays.  Didn't want to investigate, so I just did zsh
-pushd $DOTFILES
+# The packages are in configs/; -t is needed because stow's default target is
+# the parent of the stow directory.
 for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
 do
-    stow -D $folder
-    stow $folder
+    stow -d $DOTFILES/configs -t $HOME -D $folder
+    stow -d $DOTFILES/configs -t $HOME $folder
 done
-popd

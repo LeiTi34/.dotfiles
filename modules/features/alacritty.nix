@@ -3,7 +3,7 @@
   flake.homeModules.alacritty = { pkgs, ... }: {
     home.packages = [ pkgs.alacritty ];
     xdg.configFile."alacritty" = {
-      source = ../../alacritty/.config/alacritty;
+      source = ../../configs/alacritty/.config/alacritty;
       recursive = true;
     };
   };

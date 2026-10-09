@@ -3,9 +3,9 @@
   flake.homeModules.librewolf = { pkgs, ... }: {
     home.packages = [ pkgs.librewolf ];
     home.file.".librewolf/librewolf.overrides.cfg".source =
-      ../../librewolf/.librewolf/librewolf.overrides.cfg;
+      ../../configs/librewolf/.librewolf/librewolf.overrides.cfg;
     xdg.configFile."tridactyl/tridactylrc".source =
-      ../../librewolf/.config/tridactyl/tridactylrc;
+      ../../configs/librewolf/.config/tridactyl/tridactylrc;
   };
 
   flake.modules.nixos.librewolf = {

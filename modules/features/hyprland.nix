@@ -15,7 +15,7 @@
     xdg.configFile."hypr" = {
       # hyprmoncfg-monitors.lua is linked out of store by the hyprmoncfg feature.
       source = lib.cleanSourceWith {
-        src = ../../hyprland/.config/hypr;
+        src = ../../configs/hyprland/.config/hypr;
         filter = path: _: baseNameOf path != "hyprmoncfg-monitors.lua";
       };
       recursive = true;
