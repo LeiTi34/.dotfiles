@@ -1,8 +1,5 @@
 { lib, pkgs, ... }:
 let
-  # Was off during dual boot: a hibernated Arch and a booted NixOS (or the
-  # other way around) would corrupt the shared btrfs. Arch keeps its
-  # hibernate targets masked; never boot Arch while NixOS is hibernated.
   hibernation = true;
 in
 {
@@ -69,7 +66,7 @@ in
     }
   ];
 
-  # Same ids as on Arch, so file ownership in the shared /home matches.
+  # The files in /home are owned by 1000:1000 (group alex, not `users`).
   users.users.alex = {
     uid = 1000;
     group = "alex";
