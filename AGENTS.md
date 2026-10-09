@@ -58,8 +58,8 @@ file holds the rules for making changes.
 ## NixOS (modules/)
 
 - Follow the dendritic layout (flake-parts + import-tree + flake-file):
-  features in `modules/features/<name>.nix`, the shared feature set in
-  `modules/profiles/workstation.nix`, the user in `modules/users/alex.nix`,
+  features in `modules/features/<name>.nix`, sets of features in
+  `modules/profiles/<name>.nix`, the user in `modules/users/alex.nix`,
   hosts in `modules/hosts/<host>.nix` + `modules/hosts/<host>/`. All of the
   flake's Nix code is in `modules/`; at the top level are only the generated
   `flake.nix` and `flake.lock`.
@@ -72,11 +72,16 @@ file holds the rules for making changes.
   `flake.modules.nixos.<name>`; the Home Manager part is
   `flake.homeModules.<name>`, imported for `profiles.primaryUser` (pattern:
   `modules/features/gh.nix`). Options where hosts need different values.
-- A feature every workstation should get goes into
-  `modules/profiles/workstation.nix`; otherwise into the host's list in
-  `modules/hosts/<host>.nix`. Settings that only make sense on one machine
-  (hardware, disks, boot, hostname) go into `modules/hosts/<host>/`, which
-  stays small.
+- Profiles are `modules/profiles/<name>.nix`, defining
+  `flake.modules.nixos.profile-<name>` (only `workstation` lacks the
+  prefix). Features and profiles share `flake.modules.nixos`, and two
+  definitions with the same name merge silently, so a profile always
+  carries the prefix.
+- A feature for every host goes into `profile-default`, one for a role into
+  that role's profile (`profile-development`, `profile-gaming`); otherwise
+  into the host's list in `modules/hosts/<host>.nix`. Settings that only
+  make sense on one machine (hardware, disks, boot, hostname) go into
+  `modules/hosts/<host>/`, which stays small.
 - `flake.nix` is generated: an input belongs to the feature that uses it
   (`flake-file.inputs.<name>`), core inputs to `modules/flake-file.nix`. Then
   `nix run '.#write-flake'` and `nix flake lock` (or
@@ -132,6 +137,7 @@ body that says what to do (or links the doc).
 | `<host>` | `modules/hosts/<host>.nix`, `modules/hosts/<host>/` (`LTNX-LeiAle1`, `PCNX-LeiAle1`) |
 | `alex` | `modules/users/alex.nix` |
 | `<feature>` | `modules/features/<feature>.nix` (`docker`, `bitwarden`, `smart-bulb`) |
+| `profile-<name>` | `modules/profiles/<name>.nix` (`profile-default`, `profile-gaming`) |
 | `workstation` | `modules/profiles/workstation.nix` |
 | `<app>` | `configs/<app>/` (`nvim`, `zsh`, `hyprland`), or the program inside it when clearer (`dms`) |
 | `flake` | `flake.nix`, `flake.lock`, `modules/flake-file.nix`, `modules/configurations/` |

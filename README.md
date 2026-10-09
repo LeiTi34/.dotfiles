@@ -20,10 +20,11 @@ modules/                # flake-parts modules, all imported via import-tree
   configurations/nixos.nix  # configurations.nixos.<host> → nixosConfigurations
   features/<name>.nix   # one program or topic: flake.modules.nixos.<name>
                         # (+ flake.homeModules.<name> for the Home Manager part)
-  profiles/workstation.nix  # the features every workstation gets
+  profiles/<name>.nix   # a set of features: flake.modules.nixos.profile-<name>
+                        # (default, development, gaming; workstation)
   users/alex.nix        # the primary user and the Home Manager config shared
                         # by all hosts (profiles.primaryUser)
-  hosts/<host>.nix      # host = workstation profile + its own features
+  hosts/<host>.nix      # host = profiles + its own features
   hosts/<host>/*.nix    # only what belongs to this one machine (hardware, boot,
                         # printers, ...), added to configurations.nixos.<host>.module
 configs/<app>/          # dotfiles of one program, laid out like $HOME (a stow
@@ -36,7 +37,7 @@ docs/                   # documentation
 
 - Apply on the current host: `nixos-rebuild switch --flake .#<host> --sudo`.
 - Add a program: a feature in `modules/features/`, listed in the host or in
-  `modules/profiles/workstation.nix`.
+  a profile in `modules/profiles/`.
 - Change flake inputs: edit `flake-file.inputs` (in the feature or
   `modules/flake-file.nix`), then `nix run '.#write-flake'` and
   `nix flake lock`. Update everything: `nix flake update`.
