@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      calc
       pcmanfm
       remmina
       dig

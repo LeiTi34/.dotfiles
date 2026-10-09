@@ -26,7 +26,6 @@
           bemenu
           pavucontrol
 
-          calc
 
 
 
