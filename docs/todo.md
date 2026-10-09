@@ -23,7 +23,7 @@ Reinstall TR as NixOS with [tr-nixos-migration.md](tr-nixos-migration.md):
 
 - [x] Phase 0: free space, repo to `configs/`, nix on Arch
 - [x] Phase 1: host `TR` and its features in the repo
-- [ ] Phase 2: install from Arch next to it
+- [x] Phase 2: install from Arch next to it
 - [ ] Phase 3: first boot, port the "wip(TR)" commit
 - [ ] Phase 4: remove Arch
 

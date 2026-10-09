@@ -137,10 +137,15 @@ NixOS manual). As root on TR unless noted:
    ```
 6. On another NixOS machine, build and copy the system into TR's new store;
    the flake has a private input (fetched over SSH with the work key) that
-   TR can't reach yet:
+   TR can't reach yet. GDM's login screen suspends TR after 20 minutes,
+   which leaves the downloads hanging; block that first on TR with
+   `systemd-inhibit --what=sleep:idle sleep 7200 &`. If a copy is aborted,
+   check that no `nix-store --serve` is left on TR: it keeps the locks of the
+   paths it was fetching, and the next copy waits for them forever.
    ```sh
    sys=$(nix build --no-link --print-out-paths .#nixosConfigurations.TR.config.system.build.toplevel)
-   nix copy --no-check-sigs --to "ssh://root@TR?remote-store=local?root=/mnt/nixos" "$sys"
+   # -s: TR fetches what cache.nixos.org has itself
+   nix copy -s --no-check-sigs --to "ssh://root@TR?remote-store=local?root=/mnt/nixos" "$sys"
    echo "$sys"
    ```
 7. Install, and give alex the same password as on Arch:
@@ -148,7 +153,8 @@ NixOS manual). As root on TR unless noted:
    nix --extra-experimental-features 'nix-command flakes' shell \
      github:NixOS/nixpkgs/nixos-26.05#nixos-install-tools -c sh -c '
        nixos-install --root /mnt/nixos --system <the printed path> --no-root-passwd --no-channel-copy
-       grep "^alex:" /etc/shadow | cut -d: -f1,2 | nixos-enter --root /mnt/nixos -c "chpasswd -e"'
+       grep "^alex:" /etc/shadow | cut -d: -f1,2 |
+         nixos-enter --root /mnt/nixos -c "/nix/var/nix/profiles/system/sw/bin/chpasswd -e"'
    ```
    `nixos-install` writes its systemd-boot and `loader.conf` (default:
    NixOS) to the ESP; Arch's entries in `/boot/loader/entries/` stay and
