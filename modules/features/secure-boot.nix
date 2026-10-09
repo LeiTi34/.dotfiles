@@ -29,7 +29,7 @@
       # (read-only) fwupd-efi package directory. Sign it with our db key and
       # overlay the result onto that directory inside the fwupd service.
       # lanzaboote's own fwupd-efi unit relies on FWUPD_EFIAPPDIR, which
-      # fwupd 2.x no longer reads, so it is replaced.
+      # fwupd 2.x ignores, so it is replaced.
       systemd.services.fwupd-efi.enable = false;
 
       systemd.services.fwupd-efi-sign = lib.mkIf config.services.fwupd.enable {
