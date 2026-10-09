@@ -76,107 +76,90 @@ Replacements for Arch packages:
 
 ## Phase 0: on Arch
 
-1. **Check the data.** Everything not in git or Nextcloud is at risk:
-   ```sh
-   # repos with uncommitted or unpushed work
-   for d in ~/git/*/ ~/git/*/*/; do
-     [ -e "$d/.git" ] || continue
-     s=$(git -C "$d" status --porcelain -b | grep -E '^\?\?|^ ?[MADRU]|ahead')
-     [ -n "$s" ] && echo "$d"
-   done
-   ```
-   Copy anything else that matters (project folders, Minecraft worlds,
-   `mc-server`, VMs, `Desktop`, `Downloads`) into Nextcloud or an external
-   disk, and let the Nextcloud client finish syncing.
-2. **Free space and unallocated chunks:**
-   ```sh
-   sudo pacman -Scc                       # 81 GiB package cache
-   rm -rf ~/.local/share/Trash/*          # 5 GiB
-   sudo btrfs balance start -dusage=10 /  # repeat with 25, 50 until
-   sudo btrfs filesystem usage -T /       # "Unallocated" is > 30 GiB
-   ```
-   Uninstall games you won't play again (Steam) if it stays tight. NixOS
-   needs ~30–50 GiB for `/nix`, and the home snapshot grows with every
-   change on either side.
-3. **Note the current state** (lands in the home snapshot):
-   ```sh
-   pacman -Qeq > ~/arch-packages.txt
-   systemctl list-unit-files --state=enabled > ~/arch-services.txt
-   ```
-4. **Repo:** `~/.dotfiles` is a colocated jj repo. The uncommitted changes
-   from TR are commit "wip(TR): uncommitted changes from TR" on top of the old
-   `master`; `~/.dotfiles.pre-jj` is the copy before colocating, the git
-   stashes are still in `git stash list`. Move to the current layout with
-   `docs/configs-migration.md` steps 1 and 2b (restow keeps Arch usable as
-   the fallback):
-   ```sh
-   cd ~/.dotfiles
-   jj git fetch && jj bookmark track master@origin && jj new master
-   ```
-   Then the leftover-file move and the restow from that doc.
-5. **Installer:** NixOS 26.05 minimal ISO on a USB stick. If it doesn't
-   boot, switch Secure Boot off in the BIOS.
+Done:
+
+- Space: games uninstalled, 260 GiB unallocated.
+- `~/arch-packages.txt`, `~/arch-packages-aur.txt`, `~/arch-services.txt`,
+  `~/arch-user-services.txt`: what Arch had installed and enabled.
+- `~/.dotfiles` is a colocated jj repo on the current `master` in the
+  `configs/` layout, restowed (`docs/configs-migration.md`), so Arch stays
+  usable as the fallback. The uncommitted changes TR had are the commit
+  "wip(TR): uncommitted changes from TR" on top of the old `master`;
+  `~/.dotfiles.pre-jj` is the copy before colocating, the old git stashes
+  are still in `git stash list`.
+- Nix from pacman (`nix`, no daemon; everything below runs as root).
 
 ## Phase 1: the host in the repo
 
-Done: host `TR` and the features it needs are in the repo. Push them before
-the install. The hardware config is based on the scan; step 4 of phase 2
-compares it with `nixos-generate-config`.
+Done: host `TR` and the features it needs are in the repo and pushed. The
+hardware config is based on the scan; step 5 of phase 2 compares it with
+`nixos-generate-config`.
 
-## Phase 2: install
+## Phase 2: install from Arch
 
-From the installer (as root):
+No installer: Arch keeps running, NixOS is installed into new subvolumes
+mounted at `/mnt/nixos` ("Installing from another Linux distribution" in the
+NixOS manual). As root on TR unless noted:
 
-1. Subvolumes. The home snapshot shares all data with Arch's home, so it
+1. Log out of GNOME, so the home snapshot doesn't catch open browser
+   profiles or the Nextcloud database mid-write.
+2. Subvolumes. The home snapshot shares all data with Arch's home, so it
    costs no space until one side changes:
    ```sh
-   mkdir /top && mount -o subvolid=5 /dev/disk/by-label/ROOT /top
-   btrfs subvolume create /top/nixos
-   btrfs subvolume create /top/nixos/nix
-   btrfs subvolume snapshot /top/arch/root/home /top/home
+   mkdir -p /mnt/top && mount -o subvolid=5 LABEL=ROOT /mnt/top
+   btrfs subvolume create /mnt/top/nixos
+   btrfs subvolume create /mnt/top/nixos/nix
+   btrfs subvolume snapshot /mnt/top/arch/root/home /mnt/top/home
    ```
-2. Mount the target:
+3. Mount the target:
    ```sh
-   mount -o subvol=nixos,noatime,compress=zstd /dev/disk/by-label/ROOT /mnt
-   mkdir -p /mnt/home /mnt/boot
-   mount -o subvol=home,noatime,compress=zstd /dev/disk/by-label/ROOT /mnt/home
-   mount -o fmask=0077,dmask=0077 /dev/disk/by-label/BOOT /mnt/boot
+   mkdir -p /mnt/nixos
+   mount -o subvol=nixos,noatime,compress=zstd LABEL=ROOT /mnt/nixos
+   mkdir -p /mnt/nixos/home /mnt/nixos/boot
+   mount -o subvol=home,noatime,compress=zstd LABEL=ROOT /mnt/nixos/home
+   mount -o fmask=0077,dmask=0077 LABEL=BOOT /mnt/nixos/boot
    ```
-3. Keep TR's SSH identity and root's key:
+4. Keep TR's SSH identity and root's key, and drop the stow links from the
+   home snapshot (Home Manager links these programs itself):
    ```sh
-   mkdir -p /mnt/etc/ssh /mnt/root/.ssh
-   cp -a /top/arch/root/etc/ssh/ssh_host_* /mnt/etc/ssh/
-   cp -a /top/arch/root/root/.ssh/authorized_keys /mnt/root/.ssh/
+   mkdir -p /mnt/nixos/etc/ssh /mnt/nixos/root/.ssh
+   cp -a /etc/ssh/ssh_host_* /mnt/nixos/etc/ssh/
+   cp -a /root/.ssh/authorized_keys /mnt/nixos/root/.ssh/
+   find /mnt/nixos/home/alex -maxdepth 4 -xdev -path '*/.cache' -prune -o \
+     -type l -lname '*dotfiles*' -print -exec rm -- {} +
    ```
-4. Compare the hardware config with the one in the repo; fix the repo if
-   needed (and push again):
+5. Compare the hardware config with `modules/hosts/TR/hardware-configuration.nix`;
+   fix the repo if needed (and push again):
    ```sh
-   nixos-generate-config --root /mnt --show-hardware-config --no-filesystems
+   nix --extra-experimental-features 'nix-command flakes' shell \
+     github:NixOS/nixpkgs/nixos-26.05#nixos-install-tools -c \
+     nixos-generate-config --root /mnt/nixos --show-hardware-config --no-filesystems
    ```
-5. Build on another NixOS machine and copy the result over, because the
-   flake has a private input (fetched over SSH with the work key) that the
-   installer can't reach. On the installer `passwd` (for SSH), then on the
-   build machine:
+6. On another NixOS machine, build and copy the system into TR's new store;
+   the flake has a private input (fetched over SSH with the work key) that
+   TR can't reach yet:
    ```sh
    sys=$(nix build --no-link --print-out-paths .#nixosConfigurations.TR.config.system.build.toplevel)
-   nix copy --no-check-sigs --to "ssh://root@<installer-ip>?remote-store=local?root=/mnt" "$sys"
+   nix copy --no-check-sigs --to "ssh://root@TR?remote-store=local?root=/mnt/nixos" "$sys"
    echo "$sys"
    ```
-   Back on the installer:
+7. Install, and give alex the same password as on Arch:
    ```sh
-   nixos-install --system <the printed path> --no-root-passwd
-   nixos-enter --root /mnt -c 'passwd alex'
+   nix --extra-experimental-features 'nix-command flakes' shell \
+     github:NixOS/nixpkgs/nixos-26.05#nixos-install-tools -c sh -c '
+       nixos-install --root /mnt/nixos --system <the printed path> --no-root-passwd --no-channel-copy
+       grep "^alex:" /etc/shadow | cut -d: -f1,2 | nixos-enter --root /mnt/nixos -c "chpasswd -e"'
    ```
-   `nixos-install` writes its systemd-boot and `loader.conf` to the ESP;
-   Arch's entries in `/boot/loader/entries/` stay and remain selectable.
-6. Reboot into NixOS (GDM).
+   `nixos-install` writes its systemd-boot and `loader.conf` (default:
+   NixOS) to the ESP; Arch's entries in `/boot/loader/entries/` stay and
+   remain selectable.
+8. `umount -R /mnt/nixos /mnt/top`, reboot into NixOS (GDM).
 
 ## Phase 3: first boot
 
 1. Log in to GNOME, check network, sound, Bluetooth, both monitors.
-2. Links from the Arch stow setup in the home snapshot: list and delete
-   (`docs/configs-migration.md` step 2a.1). Files Home Manager wants to
-   replace are moved to `*.pre-hm`.
+2. Files Home Manager wanted to replace were moved to `*.pre-hm`; check
+   and delete them.
 3. rbw: set up both profiles as on the other hosts, including
    `rbw config set pinentry rbw-pinentry-keyring`, then check `ssh-add -l`.
 4. Rebuilds: `nixos-rebuild switch --flake .#TR --sudo` on TR (needs the work
@@ -192,7 +175,6 @@ From the installer (as root):
    (xpadneo).
 8. Port the "wip(TR)" changes worth keeping (nvim treesitter rewrite, DMS
    settings, opencode) into `configs/`, then abandon that commit.
-9. Tick TR off in `docs/todo.md` ("configs/ migration").
 
 ## Phase 4: remove Arch
 
@@ -206,5 +188,6 @@ sudo umount /mnt
 sudo rm /boot/loader/entries/arch*.conf /boot/vmlinuz-* /boot/initramfs-* /boot/amd-ucode.img
 ```
 
-Afterwards delete `~/.dotfiles.pre-jj`, this doc, its line in the README
+Afterwards remove nix's leftovers from Arch with it (`/nix` lived in
+`arch/root`), delete `~/.dotfiles.pre-jj`, this doc, its line in the README
 table and the todo section.

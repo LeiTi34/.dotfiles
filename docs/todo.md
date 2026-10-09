@@ -11,7 +11,7 @@ Move every machine to the `configs/<app>/` layout with
 - [ ] PCNX-LeiAle1 (NixOS); before the rebuild also check that `id -u alex`
   is 1000 and `getent group 1000` is empty or `alex` (the account gets
   uid/gid 1000 and the primary group `alex`)
-- [ ] TR (Arch): part of its NixOS migration (below)
+- [x] TR (Arch)
 - [ ] X1C6 (Arch)
 
 Once all four are done, delete `docs/configs-migration.md`, its links in
@@ -21,9 +21,9 @@ README.md and AGENTS.md, and this section.
 
 Reinstall TR as NixOS with [tr-nixos-migration.md](tr-nixos-migration.md):
 
-- [ ] Phase 0: check the data, free space and balance, repo to `configs/`
+- [x] Phase 0: free space, repo to `configs/`, nix on Arch
 - [x] Phase 1: host `TR` and its features in the repo
-- [ ] Phase 2: install next to Arch
+- [ ] Phase 2: install from Arch next to it
 - [ ] Phase 3: first boot, port the "wip(TR)" commit
 - [ ] Phase 4: remove Arch
 
