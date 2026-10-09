@@ -18,6 +18,7 @@
 
       hyprland
       gtk
+      wallpaper
       alacritty
       pcmanfm
       zathura
