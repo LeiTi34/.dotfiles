@@ -12,6 +12,7 @@
         bluetooth
         headsetcontrol
         openrgb
+        vpn
       ];
     };
   };
