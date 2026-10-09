@@ -59,7 +59,6 @@
         programs = {
           home-manager.enable = true;
           htop.enable = true;
-          zed-editor.enable = true;
           zathura.enable = true;
         };
 
