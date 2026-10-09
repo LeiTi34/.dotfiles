@@ -4,6 +4,7 @@
   # machine-specific features on top.
   flake.modules.nixos.workstation = {
     imports = with config.flake.modules.nixos; [
+      # system
       base
       unfree
       home-manager
@@ -15,39 +16,45 @@
       docker
       virtualbox
       btrfs-maintenance
+
+      # desktop
+      hyprland
+      gtk
       alacritty
       ghostty
-      git
-      gtk
-      neovim
-      hyprland
-      shell
-      fnm
+      pcmanfm
+      zathura
+      nextcloud
+      remmina
+      libreoffice
       zen-browser
       helium-browser
       browser-control
-      kubernetes-client
-      herdr
-      jujutsu
-      opencode
-      openbao
-      bitwarden
       steam
-      gnupg
-      zathura
-      zed
+
+      # shell and tools
+      shell
       tmux
+      git
+      jujutsu
+      gnupg
+      bitwarden
       zip
-      nextcloud
       calc
-      pcmanfm
-      remmina
       dig
+
+      # development
+      neovim
+      zed
+      dev-toolchains
+      fnm
+      datagrip
+      kubernetes-client
       opentofu
       azure-functions
-      datagrip
-      libreoffice
-      dev-toolchains
+      openbao
+      herdr
+      opencode
     ];
   };
 }
