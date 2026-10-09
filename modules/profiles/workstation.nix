@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      remmina
       dig
       opentofu
       azure-functions
