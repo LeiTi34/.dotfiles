@@ -37,7 +37,6 @@
           nextcloud-client
           pulsemixer
 
-          element-desktop
           remmina
           pcmanfm
           thunar
@@ -53,23 +52,10 @@
           discord
           obsidian
 
-          seatd
-          swayidle
-          waylock
-          waybar
-          kanshi
-          wlr-randr
-          foot
-          wayvnc
           bemenu
-          swaybg
           pavucontrol
-          fuzzel
 
           calc
-          chromium
-          #postman
-          # gimp
 
           azure-functions-core-tools
 
