@@ -2,11 +2,11 @@
 
 Feature `secure-boot` (`modules/features/secure-boot.nix`): lanzaboote
 replaces systemd-boot and signs the boot files with sbctl keys in
-`/var/lib/sbctl`. Used by 840G6.
+`/var/lib/sbctl`. Used by LTNX-LeiAle1.
 
 ## Keys
 
-The keys are not in this repo. 840G6's sbctl keys (owner GUID
+The keys are not in this repo. LTNX-LeiAle1's sbctl keys (owner GUID
 `140964ed-43c1-4d57-8fbd-7a0de0fc302b`, valid until 2031-03-31) are enrolled
 in the firmware together with Microsoft's certificates (needed for option
 ROMs, e.g. Thunderbolt/dock). Copies:

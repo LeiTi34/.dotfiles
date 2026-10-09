@@ -2,7 +2,7 @@
 
 Open tasks.
 
-## Hibernate mode (840G6)
+## Hibernate mode (LTNX-LeiAle1)
 
 With BIOS 01.06.02:
 
@@ -18,7 +18,7 @@ With BIOS 01.06.02:
   device for the lid, so only the BIOS option "Power On When Lid is Opened"
   (if available) can do it.
 
-`acpi=copy_dsdt` is in `modules/hosts/840G6/configuration.nix`. After the next BIOS
+`acpi=copy_dsdt` is in `modules/hosts/LTNX-LeiAle1/configuration.nix`. After the next BIOS
 update, drop it and retest (`HibernateDelaySec=2min` in a temporary
 `/etc/systemd/sleep.conf.d/test.conf`; check `journalctl -k -b | grep DSDT`).
 
@@ -55,9 +55,9 @@ above; keep a key copy elsewhere first.
 The stow setup (`arch`, `install`, the stow-only package folders) stays while
 two other machines still run Arch. Remove it once they are migrated.
 
-## TLP vs power-profiles-daemon (840G6)
+## TLP vs power-profiles-daemon (LTNX-LeiAle1)
 
-840G6 uses power-profiles-daemon, which DMS needs for its power profile
+LTNX-LeiAle1 uses power-profiles-daemon, which DMS needs for its power profile
 switcher. Decide between
 
 - power-profiles-daemon only (DMS integration, less tuning), or
@@ -65,12 +65,12 @@ switcher. Decide between
   (`services.tlp.settings`; DMS power switcher won't work, unless TLP's
   power-profiles compatible daemon `tlp-pd` is used)
 
-## Battery runtime (840G6)
+## Battery runtime (LTNX-LeiAle1)
 
 Check a full day on battery with power-profiles-daemon; ties in with the TLP
 decision above.
 
-## sleep-on-unplug (840G6)
+## sleep-on-unplug (LTNX-LeiAle1)
 
 Suspend-then-hibernate when AC is unplugged while docked with the lid closed
 (logind ignores the lid when docked and never re-evaluates on unplug).
@@ -78,12 +78,12 @@ Not ported. Files: [`attic/sleep-on-unplug/`](attic/sleep-on-unplug/)
 (script, systemd unit with `SLEEP_ON_UNPLUG_DRYRUN=1`, udev rule). On NixOS this would be a `systemd.services` unit plus
 `services.udev.extraRules`; the script optionally uses `evtest`.
 
-## Speakers (840G6)
+## Speakers (LTNX-LeiAle1)
 
 Both Cirrus CS35L54 amps bind, load their firmware and apply calibration
 (kernel 6.18). Check whether the internal speakers actually play.
 
-## Sensor hub (840G6)
+## Sensor hub (LTNX-LeiAle1)
 
 The ISH firmware doesn't load (`intel_ish_ipc: ISH loader: load firmware:
 intel/ish/ish_lnlm.bin`, then `cmd 2 failed 10`), so the hub's sensors

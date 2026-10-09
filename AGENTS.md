@@ -90,7 +90,7 @@ file holds the rules for making changes.
   profile, check that the toplevel of hosts that shouldn't change stayed the
   same (`nix eval --raw '.#nixosConfigurations.<host>.config.system.build.toplevel'`
   before and after).
-- 840G6 boots with lanzaboote (Secure Boot) and unlocks LUKS with TPM2 + PIN
+- LTNX-LeiAle1 boots with lanzaboote (Secure Boot) and unlocks LUKS with TPM2 + PIN
   (`docs/secure-boot.md`). Never touch `/var/lib/sbctl` or the LUKS key
   slots. For kernel, initrd and bootloader changes tell the user that the
   previous generation stays selectable in the boot menu.
@@ -121,7 +121,7 @@ Format: `<type>(<scope>): <subject>`, **always in English** (subject and body).
 
 | Scope | Path |
 |-------|------|
-| `<host>` | `modules/hosts/<host>.nix`, `modules/hosts/<host>/` (`840G6`, `PCNX-LeiAle1`) |
+| `<host>` | `modules/hosts/<host>.nix`, `modules/hosts/<host>/` (`LTNX-LeiAle1`, `PCNX-LeiAle1`) |
 | `alex` | `modules/users/alex.nix` |
 | `<feature>` | `modules/features/<feature>.nix` (`docker`, `bitwarden`, `smart-bulb`) |
 | `workstation` | `modules/profiles/workstation.nix` |
@@ -131,7 +131,7 @@ Format: `<type>(<scope>): <subject>`, **always in English** (subject and body).
 
 ```
 feat(colmena): add colmena
-fix(840G6): work around BIOS 01.06.02 hibernate bugs
+fix(LTNX-LeiAle1): work around BIOS 01.06.02 hibernate bugs
 chore(flake): update inputs
 docs(repo): add README and AGENTS.md
 ```

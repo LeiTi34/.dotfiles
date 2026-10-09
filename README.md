@@ -7,7 +7,7 @@ separate repo (`gitops`). Public remote: `https://github.com/LeiTi34/.dotfiles`
 
 | Host | Machine | Notes |
 |---|---|---|
-| 840G6 | HP EliteBook laptop | Secure Boot, TPM2 + PIN unlock, hibernation |
+| LTNX-LeiAle1 | HP EliteBook laptop | Secure Boot, TPM2 + PIN unlock, hibernation |
 | PCNX-LeiAle1 | desktop, NVIDIA | |
 
 ## Layout
