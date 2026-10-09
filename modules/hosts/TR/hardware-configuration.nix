@@ -2,8 +2,7 @@
 {
   # Based on `nixos-generate-config --show-hardware-config --no-filesystems`.
   # One btrfs over both NVMe drives (label ROOT, data single); subvolumes at
-  # the top level: nixos (/, with nested nix), home. Arch lives in `arch`
-  # until it's removed (docs/tr-nixos-migration.md).
+  # the top level: nixos (/, with nested nix), home.
   configurations.nixos.TR.module =
     { config, lib, modulesPath, ... }:
     let
