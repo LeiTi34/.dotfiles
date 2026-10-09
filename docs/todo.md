@@ -22,10 +22,20 @@ README.md and AGENTS.md, and this section.
 Reinstall TR as NixOS with [tr-nixos-migration.md](tr-nixos-migration.md):
 
 - [ ] Phase 0: check the data, free space and balance, repo to `configs/`
-- [ ] Phase 1: host `TR` and feature `gnome` in the repo
+- [x] Phase 1: host `TR` and its features in the repo
 - [ ] Phase 2: install next to Arch
 - [ ] Phase 3: first boot, port the "wip(TR)" commit
 - [ ] Phase 4: remove Arch
+
+## TPM on TR
+
+The firmware (MSI X399 SLI PLUS) announces a TPM2 (AMD fTPM) in ACPI, but
+`tpm_crb` can't claim it ("ACPI region does not cover the entire
+command/response buffer", `-EBUSY`), so `/dev/tpmrm0` never appears and
+`tpm2.target` waits 90 s on boot. Workaround: `systemd.tpm2_wait=0` in
+`modules/hosts/TR/configuration.nix` (on Arch: `dev-tpmrm0.device` and
+`tpm2.target` masked). Fix: BIOS update, or switch the fTPM off in the BIOS
+if nothing needs it; then drop the parameter.
 
 ## Hibernate mode (LTNX-LeiAle1)
 

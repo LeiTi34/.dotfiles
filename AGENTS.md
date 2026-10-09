@@ -133,7 +133,7 @@ body that says what to do (or links the doc).
 
 | Scope | Path |
 |-------|------|
-| `<host>` | `modules/hosts/<host>.nix`, `modules/hosts/<host>/` (`LTNX-LeiAle1`, `PCNX-LeiAle1`) |
+| `<host>` | `modules/hosts/<host>.nix`, `modules/hosts/<host>/` (`LTNX-LeiAle1`, `PCNX-LeiAle1`, `TR`) |
 | `alex` | `modules/users/alex.nix` |
 | `<feature>` | `modules/features/<feature>.nix` (`docker`, `bitwarden`, `smart-bulb`) |
 | `profile-<name>` | `modules/profiles/<name>.nix` (`profile-default`, `profile-gaming`) |

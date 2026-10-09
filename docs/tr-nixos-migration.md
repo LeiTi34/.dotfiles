@@ -53,18 +53,26 @@ Minecraft launcher, r2modman, Wine, xpadneo (Xbox controller driver), Apollo
 
 ## Target
 
-- `modules/hosts/TR.nix`: `profile-default`, `profile-development`,
-  `profile-gaming`, plus `gnome`, `bluetooth`, `headsetcontrol`.
-- New feature `gnome`: GNOME with GDM as login manager. GDM also offers
-  the Hyprland session.
+Host `TR` (`modules/hosts/TR.nix`, `modules/hosts/TR/`):
+
+- `profile-default`, `profile-development`, `profile-gaming`, `gnome` (GNOME
+  with GDM, which also offers the Hyprland session), `bluetooth`,
+  `headsetcontrol`, `openrgb`.
 - Subvolumes like LTNX-LeiAle1: `nixos` (`/`, with `nix` nested),
   `home` (a snapshot of Arch's home). Swap via zram, no swapfile.
 - systemd-boot next to Arch's entries on the same ESP. No lanzaboote: the
   firmware doesn't enforce Secure Boot.
+- `systemd.tpm2_wait=0`: the firmware announces an fTPM the kernel can't
+  claim, systemd would wait 90 s for it on every boot (on Arch:
+  `dev-tpmrm0.device` and `tpm2.target` masked).
 
-Open decisions (no feature yet): Lutris, Heroic, gamescope, Minecraft
-launcher (Prism?), xpadneo (`hardware.xpadneo.enable`), Apollo/Sunshine,
-msi-rgb/OpenRGB, `avahi`.
+Replacements for Arch packages:
+
+| Arch | NixOS |
+|---|---|
+| minecraft-launcher (not in nixpkgs) | `prismlauncher`; log in with the Microsoft account, import worlds from `~/.minecraft` |
+| apollo (not in nixpkgs) | `sunshine`; same `~/.config/sunshine`, so pairings and apps carry over; not autostarted (Apollo was disabled) |
+| msi-rgb (not in nixpkgs) | `openrgb` |
 
 ## Phase 0: on Arch
 
@@ -106,150 +114,14 @@ msi-rgb/OpenRGB, `avahi`.
    jj git fetch && jj bookmark track master@origin && jj new master
    ```
    Then the leftover-file move and the restow from that doc.
-5. **Repo, on another machine:** add the host (phase 1), validate, push.
-6. **Installer:** NixOS 26.05 minimal ISO on a USB stick. If it doesn't
+5. **Installer:** NixOS 26.05 minimal ISO on a USB stick. If it doesn't
    boot, switch Secure Boot off in the BIOS.
 
 ## Phase 1: the host in the repo
 
-`modules/hosts/TR.nix`:
-
-```nix
-{ config, ... }:
-{
-  configurations.nixos.TR = {
-    system = "x86_64-linux";
-    # Host-specific settings: modules/hosts/TR/*.nix
-    module = {
-      imports = with config.flake.modules.nixos; [
-        profile-default
-        profile-development
-        profile-gaming
-        gnome
-        bluetooth
-        headsetcontrol
-      ];
-    };
-  };
-}
-```
-
-`modules/hosts/TR/hardware-configuration.nix` (check against
-`nixos-generate-config --show-hardware-config --no-filesystems` from the
-installer):
-
-```nix
-{ ... }:
-{
-  # Based on `nixos-generate-config --show-hardware-config --no-filesystems`.
-  # One btrfs over both NVMe drives (label ROOT, data single); subvolumes at
-  # the top level: nixos (/, with nested nix), home. Arch lives in `arch`
-  # until it's removed.
-  configurations.nixos.TR.module =
-    { config, lib, modulesPath, ... }:
-    let
-      btrfs = subvol: {
-        device = "/dev/disk/by-label/ROOT";
-        fsType = "btrfs";
-        options = [ "subvol=${subvol}" "noatime" "compress=zstd" ];
-      };
-    in
-    {
-      imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
-
-      boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-      boot.kernelModules = [ "kvm-amd" ];
-
-      fileSystems."/" = btrfs "nixos";
-      fileSystems."/home" = btrfs "home";
-      fileSystems."/boot" = {
-        device = "/dev/disk/by-label/BOOT";
-        fsType = "vfat";
-        options = [ "fmask=0077" "dmask=0077" ];
-      };
-
-      nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-      hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    };
-}
-```
-
-`modules/hosts/TR/configuration.nix`:
-
-```nix
-{ ... }:
-{
-  configurations.nixos.TR.module = {
-    networking.hostName = "TR";
-
-    boot.loader = {
-      systemd-boot.enable = true;
-      # The ESP is 1 GiB and still holds Arch's kernels.
-      systemd-boot.configurationLimit = 10;
-      efi.canTouchEfiVariables = true;
-    };
-
-    # AX210 Wi-Fi/Bluetooth firmware
-    hardware.enableRedistributableFirmware = true;
-    zramSwap.enable = true;
-
-    system.stateVersion = "26.05";
-  };
-}
-```
-
-`modules/hosts/TR/hyprland.nix` and `monitors.lua`, like PCNX-LeiAle1 (the
-monitor lines from the "wip(TR)" commit's `hyprland.lua` move here; the
-shared `hyprland.lua` stays without monitors):
-
-```nix
-{ config, ... }:
-{
-  configurations.nixos.TR.module = {
-    home-manager.users.${config.profiles.primaryUser.name}.xdg.configFile."hypr/monitors.lua".source =
-      ./monitors.lua;
-  };
-}
-```
-
-```lua
----@module 'hl'
-
-hl.monitor({
-    output   = "HDMI-A-1",
-    mode     = "preferred",
-    position = "0x0",
-    scale    = 1,
-})
-hl.monitor({
-    output   = "DP-3",
-    mode     = "2560x1440@144",
-    position = "1920x0",
-    scale    = 1,
-    vrr      = 3,
-})
-```
-
-Check the connector names with `hyprctl monitors` after the first login;
-GNOME's `monitors.xml` has seen them as DP-2/DP-3 and HDMI-0/HDMI-1.
-
-`modules/features/gnome.nix`:
-
-```nix
-{ ... }:
-{
-  flake.modules.nixos.gnome = {
-    services.desktopManager.gnome.enable = true;
-    services.displayManager.gdm.enable = true;
-    # SSH keys come from rbw (bitwarden feature); GNOME would set
-    # SSH_AUTH_SOCK to its own agent.
-    services.gnome.gcr-ssh-agent.enable = false;
-  };
-}
-```
-
-Validate with `nix flake check --no-build` and make sure the toplevels of
-LTNX-LeiAle1 and PCNX-LeiAle1 didn't change.
+Done: host `TR` and the features it needs are in the repo. Push them before
+the install. The hardware config is based on the scan; step 4 of phase 2
+compares it with `nixos-generate-config`.
 
 ## Phase 2: install
 
@@ -312,10 +184,15 @@ From the installer (as root):
    `--target-host root@TR`.
 5. Steam: the library in `~/.local/share/Steam` is kept; reinstall Proton-GE
    versions with protonup-qt if games miss them. Start a few games.
-6. Hyprland via GDM: session works, `monitors.lua` matches.
-7. Port the "wip(TR)" changes worth keeping (nvim treesitter rewrite, DMS
+6. Hyprland via GDM: session works, `modules/hosts/TR/monitors.lua`
+   matches (`hyprctl monitors`; GNOME's `monitors.xml` has seen the
+   outputs as DP-2/DP-3 and HDMI-0/HDMI-1).
+7. OpenRGB detects the mainboard (`openrgb --list-devices`), Sunshine
+   starts (`systemctl --user start sunshine`), the controller pairs
+   (xpadneo).
+8. Port the "wip(TR)" changes worth keeping (nvim treesitter rewrite, DMS
    settings, opencode) into `configs/`, then abandon that commit.
-8. Tick TR off in `docs/todo.md` ("configs/ migration").
+9. Tick TR off in `docs/todo.md` ("configs/ migration").
 
 ## Phase 4: remove Arch
 

@@ -9,6 +9,7 @@ separate repo (`gitops`). Public remote: `https://github.com/LeiTi34/.dotfiles`
 |---|---|---|
 | LTNX-LeiAle1 | HP EliteBook laptop | Secure Boot, TPM2 + PIN unlock, hibernation |
 | PCNX-LeiAle1 | desktop, NVIDIA | |
+| TR | desktop, Threadripper, AMD GPU | still Arch, being migrated ([plan](docs/tr-nixos-migration.md)) |
 
 ## Layout
 
