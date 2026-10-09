@@ -41,11 +41,15 @@ file holds the rules for making changes.
   `nixos-rebuild switch --flake .#<host> --sudo` (or `boot` for kernel,
   initrd and bootloader changes). Use `--sudo`, not `sudo nixos-rebuild`:
   private inputs are fetched over SSH with the user's agent.
-- **The repo is public.** No secrets and no personal data: account emails,
-  usernames, work hostnames and URLs, device serials, MAC addresses, private
-  keys. Check the diff before every commit. Machine-local or private config
-  is set imperatively (e.g. `rbw config set`) or lives in untracked files
-  (e.g. `~/.ssh/config.d/*.conf`); the repo only references it.
+- **The repo is public: never commit or push secrets or personal data**
+  (passwords, tokens, private keys, account emails, usernames, work
+  hostnames and URLs, device serials, MAC addresses), not even in plain text
+  that is removed again later. Check the diff before every commit.
+  Machine-local or private config is set imperatively (e.g. `rbw config
+  set`) or lives in untracked files (e.g. `~/.ssh/config.d/*.conf`); the repo
+  only references it. If a secret has to be part of the config, stop and ask:
+  the way to do it is adding sops-nix with age, which the repo doesn't have
+  yet.
 - Never print secrets. Don't read vault entries (`rbw get`, `rbw code`) or
   private keys unless the task needs exactly that entry.
 - Files a program writes at runtime (caches, generated themes, state markers,
