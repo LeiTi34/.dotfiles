@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      pcmanfm
       remmina
       dig
       opentofu

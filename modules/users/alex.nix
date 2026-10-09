@@ -21,7 +21,6 @@
           nextcloud-client
           pulsemixer
 
-          pcmanfm
 
 
           bemenu
