@@ -16,11 +16,9 @@
           gnupg
           # feh
 
-          pulsemixer
 
 
 
-          pavucontrol
 
 
 
