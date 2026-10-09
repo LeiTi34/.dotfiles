@@ -17,9 +17,6 @@ local m = extras.m
 local l = extras.l
 local rep = extras.rep
 local postfix = require("luasnip.extras.postfix").postfix
-local vscode_loader = require("luasnip.loaders.from_vscode")
-
-local snippet_dir = vim.fn['stdpath']('config')..'/snippets/'
 
 -- Set config
 ls.config.set_config({
@@ -84,8 +81,3 @@ ls.add_snippets(nil, {
 --     ls.parser.parse_snippet("lf", "loacl$11 = function($2)\n    $0\nend"),
 --     s("req", fmt("local {} = require('{}')", { i(1), rep(1)})),
 -- })
-
--- Load predefined snippets
-
--- vscode_loader.load()
-vscode_loader.lazy_load({paths = snippet_dir .. 'vscode-angular-snippets'})
