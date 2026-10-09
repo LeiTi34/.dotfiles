@@ -9,7 +9,6 @@
       { config, pkgs, ... }:
       let
         defaultPkgs = with pkgs; [
-          libreoffice-stable
           jetbrains.datagrip
 
           dig

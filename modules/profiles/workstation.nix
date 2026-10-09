@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      libreoffice
       dev-toolchains
     ];
   };
