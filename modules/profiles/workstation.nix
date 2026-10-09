@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      zathura
       zed
       tmux
       zip
