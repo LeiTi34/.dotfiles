@@ -10,6 +10,9 @@
       pamixer
       wireplumber
       brightnessctl
+      # started and bound in hyprland.lua
+      networkmanagerapplet
+      bemenu
     ];
 
     xdg.configFile."hypr" = {

@@ -16,12 +16,10 @@
           gnupg
           # feh
 
-          networkmanagerapplet
           pulsemixer
 
 
 
-          bemenu
           pavucontrol
 
 
