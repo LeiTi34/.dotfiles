@@ -7,7 +7,7 @@
       imports = with config.flake.modules.nixos; [
         profile-default
         profile-development
-        workstation
+        profile-work
         avahi
         gvfs
         gnome-apps

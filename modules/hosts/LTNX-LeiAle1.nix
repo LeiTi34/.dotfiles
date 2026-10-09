@@ -8,7 +8,8 @@
         profile-default
         profile-development
         profile-gaming
-        workstation
+        profile-work
+        azure-functions
         laptop
         fwupd
         secure-boot
