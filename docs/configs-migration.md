@@ -53,9 +53,13 @@ can be deleted instead of copied.
    and the dangling links below for others).
 2. Delete the stow links that broke with the move:
    ```sh
-   find ~ -maxdepth 4 -xdev -path ~/.cache -prune -o -xtype l -lname '*.dotfiles/*' -print -delete
+   find ~ -maxdepth 4 -xdev -path ~/.cache -prune -o -xtype l -lname '*.dotfiles/*' -print -exec rm -- {} +
    ```
-3. Restow: `STOW_FOLDERS=<folders> ./arch`.
+   (`-exec rm`, not `-delete`: `-delete` implies `-depth`, which disables
+   `-prune`, and find refuses to run.)
+3. Restow: `STOW_FOLDERS=<folders> ./arch`. Stow refuses real files in the
+   way (e.g. an old empty `~/.config/kanshi/config`); move them aside and
+   restow.
 
 ## 3. Check (all machines)
 
