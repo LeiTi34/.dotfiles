@@ -6,6 +6,7 @@
     module = {
       imports = with config.flake.modules.nixos; [
         profile-default
+        profile-development
         workstation
         laptop
         fwupd
