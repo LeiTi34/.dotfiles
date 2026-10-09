@@ -7,7 +7,6 @@
       imports = with config.flake.modules.nixos; [
         profile-default
         profile-development
-        profile-gaming
         profile-work
         azure-functions
         laptop
