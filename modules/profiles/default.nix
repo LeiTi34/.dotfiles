@@ -15,6 +15,7 @@
       docker
       virtualbox
       btrfs-maintenance
+      fwupd
 
       hyprland
       gtk
