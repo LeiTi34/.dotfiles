@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      tmux
       zip
       nextcloud
       calc
