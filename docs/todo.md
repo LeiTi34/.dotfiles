@@ -1,19 +1,18 @@
 # Todo
 
-Open items for 840G6 (NixOS since 2026-10-07, Arch deleted).
+Open tasks.
 
 ## Hibernate mode (840G6)
 
-With BIOS 01.06.02 (01.05.02 was fine):
+With BIOS 01.06.02:
 
 - Every resume from hibernate logs `ACPI BIOS Error (bug): The DSDT has been
   corrupted or replaced` and `\_WAK` aborts; afterwards the lid, AC and dock
   state are unreadable (logind thinks it's docked with the lid closed and
   ignores the lid). Workaround: `acpi=copy_dsdt`.
-- Suspend-then-hibernate hung once entering S4 after the timer wake from a
-  clean boot (2026-10-09 01:18: screen off, keyboard backlight on, power
-  button unresponsive). With `acpi=copy_dsdt` it worked with a 2 min delay;
-  on trial with the default `platform` mode since 2026-10-09. If it hangs
+- Suspend-then-hibernate can hang entering S4 after the timer wake (screen
+  off, keyboard backlight on, power button unresponsive); seen once without
+  `acpi=copy_dsdt`. The default `platform` mode is on trial. If it hangs
   again, set `systemd.sleep.settings.Sleep.HibernateMode = "shutdown"`.
 - Lid wake from hibernate doesn't work in either mode: there is no ACPI wake
   device for the lid, so only the BIOS option "Power On When Lid is Opened"
@@ -23,22 +22,22 @@ With BIOS 01.06.02 (01.05.02 was fine):
 update, drop it and retest (`HibernateDelaySec=2min` in a temporary
 `/etc/systemd/sleep.conf.d/test.conf`; check `journalctl -k -b | grep DSDT`).
 
-## Plaintext secrets from Arch
+## Plaintext secrets
 
-Arch had an `OPENROUTER_API_KEY` in `/etc/environment` and the work CIFS
-password in an autofs map, a commented `/etc/fstab` line and
-`/etc/samba/credentials/share`. Neither was ported, but copies remain in
-`~/arch-migration/etc` and on both backup disks (see below). Rotate both;
-if the OpenRouter key is still needed, keep it in rbw.
+Plaintext copies of an `OPENROUTER_API_KEY` (`/etc/environment`) and the
+work CIFS password (an autofs map, a commented `/etc/fstab` line,
+`/etc/samba/credentials/share`) are in `~/arch-migration/etc` and on both
+backup disks (see below). Rotate both; if the OpenRouter key is still needed,
+keep it in rbw.
 
 ## Migration leftovers
 
 - `~/arch-migration`: database dumps, copies of `/etc` and the ESP, and the
   `nixos-system` link, a GC root that keeps the first NixOS system in the
   store. Delete once nothing in it is needed.
-- Backups made during the switch: `*.pre-hm` from Home Manager
+- Backups of replaced files: `*.pre-hm` from Home Manager
   (`find ~ -maxdepth 4 -name '*.pre-hm'`) and `*.pre-nixos`.
-- Arch-specific files in `/home`, kept as-is: `~/.scripts` (5 of 7 use
+- Files in `/home` that only work on Arch: `~/.scripts` (5 of 7 use
   `#!/bin/bash`), pip `--user` tools in `~/.local/bin` (shebangs point at
   Arch's Python), desktop files in `~/.local/share/applications` pointing at
   `/opt` or `/usr/bin`.
@@ -58,9 +57,8 @@ two other machines still run Arch. Remove it once they are migrated.
 
 ## TLP vs power-profiles-daemon (840G6)
 
-NixOS uses power-profiles-daemon, which DMS needs for its power profile
-switcher (on Arch `tlp.service` was enabled but never ran because of this
-conflict). Decide between
+840G6 uses power-profiles-daemon, which DMS needs for its power profile
+switcher. Decide between
 
 - power-profiles-daemon only (DMS integration, less tuning), or
 - TLP with [`attic/tlp/01-elitebook.conf`](attic/tlp/01-elitebook.conf)
@@ -76,17 +74,14 @@ decision above.
 
 Suspend-then-hibernate when AC is unplugged while docked with the lid closed
 (logind ignores the lid when docked and never re-evaluates on unplug).
-Was still in dry-run mode on Arch. Not ported. Original files:
-[`attic/sleep-on-unplug/`](attic/sleep-on-unplug/) (script, systemd unit,
-udev rule). On NixOS this would be a `systemd.services` unit plus
+Not ported. Files: [`attic/sleep-on-unplug/`](attic/sleep-on-unplug/)
+(script, systemd unit with `SLEEP_ON_UNPLUG_DRYRUN=1`, udev rule). On NixOS this would be a `systemd.services` unit plus
 `services.udev.extraRules`; the script optionally uses `evtest`.
 
 ## Speakers (840G6)
 
-On Arch the kernel failed to add the Cirrus CS35L54 amps (`failed to add SPI
-device CSC3554:00 from ACPI`). On NixOS (6.18) both amps bind, load their
-firmware and apply calibration. Check whether the internal speakers actually
-play.
+Both Cirrus CS35L54 amps bind, load their firmware and apply calibration
+(kernel 6.18). Check whether the internal speakers actually play.
 
 ## Sensor hub (840G6)
 
