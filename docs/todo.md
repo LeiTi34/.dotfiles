@@ -50,12 +50,15 @@ With BIOS 01.06.02 (01.05.02 was fine):
   ignores the lid). Workaround: `acpi=copy_dsdt`.
 - Suspend-then-hibernate hung once entering S4 after the timer wake from a
   clean boot (2026-10-09 01:18: screen off, keyboard backlight on, power
-  button unresponsive). Workaround: `HibernateMode = "shutdown"`, so opening
-  the lid no longer wakes it from hibernate. The retests that morning ran
-  with ACPI already broken, so it's unclear whether this is still needed.
+  button unresponsive). With `acpi=copy_dsdt` it worked with a 2 min delay;
+  on trial with the default `platform` mode since 2026-10-09. If it hangs
+  again, set `systemd.sleep.settings.Sleep.HibernateMode = "shutdown"`.
+- Lid wake from hibernate doesn't work in either mode: there is no ACPI wake
+  device for the lid, so only the BIOS option "Power On When Lid is Opened"
+  (if available) can do it.
 
-Both are in `system/840G6/configuration.nix`. After the next BIOS update,
-drop them and retest (`HibernateDelaySec=2min` in a temporary
+`acpi=copy_dsdt` is in `system/840G6/configuration.nix`. After the next BIOS
+update, drop it and retest (`HibernateDelaySec=2min` in a temporary
 `/etc/systemd/sleep.conf.d/test.conf`; check `journalctl -k -b | grep DSDT`).
 
 ## Battery runtime (840G6)

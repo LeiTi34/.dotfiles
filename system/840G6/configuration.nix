@@ -35,11 +35,6 @@ in
 
   swapDevices = lib.optional hibernation { device = "/swap/swapfile"; };
 
-  # Since BIOS 01.06.02, entering S4 right after the suspend-then-hibernate
-  # timer wake hangs (screen off, keyboard backlight on). Power off normally
-  # instead; resume still works, but only the power button wakes it.
-  systemd.sleep.settings.Sleep.HibernateMode = lib.mkIf hibernation "shutdown";
-
   # The LUKS passphrase and TPM PIN are typed with the German layout.
   console.earlySetup = true;
   # TPM2 + PIN (feature measured-boot); the passphrase keeps working.
