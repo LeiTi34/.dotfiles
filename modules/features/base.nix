@@ -22,6 +22,10 @@ in
       };
     };
 
+    # Boot straight into the default entry; holding space while booting
+    # still shows the systemd-boot menu (older generations).
+    boot.loader.timeout = 0;
+
     networking.networkmanager.enable = true;
 
     time.timeZone = "Europe/Vienna";
