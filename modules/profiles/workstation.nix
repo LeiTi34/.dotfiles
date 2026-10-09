@@ -31,7 +31,6 @@
       zen-browser
       helium-browser
       browser-control
-      steam
 
       # shell and tools
       shell
