@@ -18,7 +18,6 @@
           # feh
 
           networkmanagerapplet
-          nextcloud-client
           pulsemixer
 
 

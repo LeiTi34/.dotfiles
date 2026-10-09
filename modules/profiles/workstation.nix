@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      nextcloud
       calc
       pcmanfm
       remmina
