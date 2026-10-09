@@ -46,7 +46,7 @@ can be deleted instead of copied.
    in `modules/`.
 2. Rebuild: `nixos-rebuild switch --flake .#<host> --sudo`.
 
-## 2b. Arch (TR, X1C6)
+## 2b. Arch (X1C6)
 
 1. Note which folders were stowed (the `STOW_FOLDERS` default in `arch` is
    `alacritty,nvim,zsh,hyprland,opencode,ssh`; check the shell environment

@@ -11,21 +11,29 @@ Move every machine to the `configs/<app>/` layout with
 - [ ] PCNX-LeiAle1 (NixOS); before the rebuild also check that `id -u alex`
   is 1000 and `getent group 1000` is empty or `alex` (the account gets
   uid/gid 1000 and the primary group `alex`)
-- [x] TR (Arch)
+- [x] TR (NixOS)
 - [ ] X1C6 (Arch)
 
 Once all four are done, delete `docs/configs-migration.md`, its links in
 README.md and AGENTS.md, and this section.
 
-## TR to NixOS
+## TR first-boot checks
 
-Reinstall TR as NixOS with [tr-nixos-migration.md](tr-nixos-migration.md):
+TR was reinstalled from Arch as NixOS with `/home` kept. Still to check at
+the machine:
 
-- [x] Phase 0: free space, repo to `configs/`, nix on Arch
-- [x] Phase 1: host `TR` and its features in the repo
-- [x] Phase 2: install from Arch next to it
-- [ ] Phase 3: first boot, port the "wip(TR)" commit
-- [ ] Phase 4: remove Arch
+- [ ] rbw: both profiles (`rbw config set pinentry rbw-pinentry-keyring`),
+  then `ssh-add -l`
+- [ ] Steam games start (missing Proton-GE versions: protonup-qt)
+- [ ] Hyprland session via GDM with both monitors:
+  `modules/hosts/TR/monitors.lua` matches `hyprctl monitors`
+- [ ] Xbox controller pairs (xpadneo)
+- [ ] Sunshine: `output_name = 1` in `~/.config/sunshine/sunshine.conf` is
+  the second monitor; adjust it for one monitor
+- [ ] Zen: delete the empty profile `default` in `about:profiles`
+- [ ] Port what's worth keeping from the commit "wip(TR): uncommitted
+  changes from TR" (nvim treesitter rewrite, DMS settings, opencode) into
+  `configs/`, then abandon it
 
 ## TPM on TR
 
@@ -33,9 +41,8 @@ The firmware (MSI X399 SLI PLUS) announces a TPM2 (AMD fTPM) in ACPI, but
 `tpm_crb` can't claim it ("ACPI region does not cover the entire
 command/response buffer", `-EBUSY`), so `/dev/tpmrm0` never appears and
 `tpm2.target` waits 90 s on boot. Workaround: `systemd.tpm2_wait=0` in
-`modules/hosts/TR/configuration.nix` (on Arch: `dev-tpmrm0.device` and
-`tpm2.target` masked). Fix: BIOS update, or switch the fTPM off in the BIOS
-if nothing needs it; then drop the parameter.
+`modules/hosts/TR/configuration.nix`. Fix: BIOS update, or switch the fTPM
+off in the BIOS if nothing needs it; then drop the parameter.
 
 ## Hibernate mode (LTNX-LeiAle1)
 

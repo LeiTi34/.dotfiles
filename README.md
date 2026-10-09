@@ -1,15 +1,15 @@
 # .dotfiles
 
 Config for my workstations: a NixOS flake with Home Manager for the NixOS
-machines, and the dotfiles themselves in stow layout, which the Arch machines
-stow and the NixOS machines link through Home Manager. The servers live in a
+machines, and the dotfiles themselves in stow layout, which the Arch machine
+stows and the NixOS machines link through Home Manager. The servers live in a
 separate repo (`gitops`). Public remote: `https://github.com/LeiTi34/.dotfiles`
 
 | Host | Machine | Notes |
 |---|---|---|
 | LTNX-LeiAle1 | HP EliteBook laptop | Secure Boot, TPM2 + PIN unlock, hibernation |
 | PCNX-LeiAle1 | desktop, NVIDIA | |
-| TR | desktop, Threadripper, AMD GPU | Arch still bootable until the migration is done ([plan](docs/tr-nixos-migration.md)) |
+| TR | desktop, Threadripper, AMD GPU | GNOME with GDM, gaming |
 
 ## Layout
 
@@ -53,6 +53,5 @@ docs/                   # documentation
 |---|---|
 | [docs/secure-boot.md](docs/secure-boot.md) | Secure Boot with lanzaboote and sbctl, fwupd under Secure Boot |
 | [docs/configs-migration.md](docs/configs-migration.md) | migrating a machine to the `configs/` layout |
-| [docs/tr-nixos-migration.md](docs/tr-nixos-migration.md) | reinstalling TR (Arch) as NixOS, keeping `/home` |
 | [docs/todo.md](docs/todo.md) | open tasks |
 | [docs/attic/](docs/attic/) | configs from Arch that aren't ported (yet) |

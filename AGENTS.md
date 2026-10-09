@@ -105,9 +105,9 @@ file holds the rules for making changes.
   The NixOS hosts link it through the app's feature, either copied into the
   store (`source = ../../configs/<app>/...`, applied by a rebuild, read-only)
   or as an out-of-store symlink (`mkOutOfStoreSymlink`, e.g. `nvim`, DMS,
-  live; needed when the program writes there). Two Arch machines stow the
-  same folders with `./arch`, so a change reaches them too: keep the files
-  working there.
+  live; needed when the program writes there). An Arch machine (X1C6)
+  stows the same folders with `./arch`, so a change reaches it too: keep the
+  files working there.
 - Don't run stow on a NixOS host and don't create links into the repo by
   hand; Home Manager owns those links.
 - Machines that still link to the old `<app>/` paths are migrated with
