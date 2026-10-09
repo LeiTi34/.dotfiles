@@ -31,7 +31,6 @@
 
           calc
 
-          azure-functions-core-tools
 
 
           opentofu

@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      azure-functions
       datagrip
       libreoffice
       dev-toolchains
