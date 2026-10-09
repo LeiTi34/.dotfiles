@@ -26,9 +26,9 @@ modules/                # flake-parts modules, all imported via import-tree
   hosts/<host>.nix      # host = workstation profile + its own features
   hosts/<host>/*.nix    # only what belongs to this one machine (hardware, boot,
                         # printers, ...), added to configurations.nixos.<host>.module
-<app>/                  # dotfiles of one program, laid out like $HOME
-                        # (nvim, zsh, hyprland, alacritty, opencode, ...)
-arch, install, clean-env  # (un)stow the <app>/ folders on Arch ($STOW_FOLDERS)
+configs/<app>/          # dotfiles of one program, laid out like $HOME (a stow
+                        # package: nvim, zsh, hyprland, alacritty, opencode, ...)
+arch, install, clean-env  # (un)stow the configs/ packages on Arch ($STOW_FOLDERS)
 docs/                   # documentation
 ```
 
@@ -42,6 +42,7 @@ docs/                   # documentation
   `nix flake lock`. Update everything: `nix flake update`.
 - Validate: `nix flake check --no-build`.
 - Arch machine: `./arch` stows the folders in `$STOW_FOLDERS`.
+- Machine still linked to the old `<app>/` paths: [configs-migration](docs/configs-migration.md).
 - Commits: `<type>(<scope>): <subject>` ([AGENTS.md](AGENTS.md#commit-messages)).
 
 ## Documentation
@@ -49,5 +50,6 @@ docs/                   # documentation
 | Doc | Contents |
 |---|---|
 | [docs/secure-boot.md](docs/secure-boot.md) | Secure Boot with lanzaboote and sbctl, fwupd under Secure Boot |
+| [docs/configs-migration.md](docs/configs-migration.md) | migrating a machine to the `configs/` layout |
 | [docs/todo.md](docs/todo.md) | open tasks |
 | [docs/attic/](docs/attic/) | configs from Arch that aren't ported (yet) |

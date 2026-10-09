@@ -1,7 +1,7 @@
 # AGENTS.md
 
 Config repo for my workstations: a NixOS flake (`flake.nix`, `modules/`) with
-Home Manager, plus the dotfiles in stow layout (`<app>/`).
+Home Manager, plus the dotfiles in stow layout (`configs/<app>/`).
 [README.md](README.md) gives the overview; `docs/` explains the details. This
 file holds the rules for making changes.
 
@@ -95,15 +95,19 @@ file holds the rules for making changes.
   slots. For kernel, initrd and bootloader changes tell the user that the
   previous generation stays selectable in the boot menu.
 
-## Dotfiles (<app>/)
+## Dotfiles (configs/<app>/)
 
-- Each `<app>/` folder is laid out like `$HOME` (a stow package). The NixOS
-  hosts link it through the app's feature, either copied into the store
-  (`source = ../../<app>/...`, applied by a rebuild, read-only) or as an
-  out-of-store symlink (`mkOutOfStoreSymlink`, e.g. `nvim`, live). Two Arch
-  machines stow the same folders with `./arch`, so a change reaches them too:
-  keep the files working there.
-- Don't run stow on a NixOS host; Home Manager owns those links.
+- Each `configs/<app>/` folder is laid out like `$HOME` (a stow package).
+  The NixOS hosts link it through the app's feature, either copied into the
+  store (`source = ../../configs/<app>/...`, applied by a rebuild, read-only)
+  or as an out-of-store symlink (`mkOutOfStoreSymlink`, e.g. `nvim`, DMS,
+  live; needed when the program writes there). Two Arch machines stow the
+  same folders with `./arch`, so a change reaches them too: keep the files
+  working there.
+- Don't run stow on a NixOS host and don't create links into the repo by
+  hand; Home Manager owns those links.
+- Machines that still link to the old `<app>/` paths are migrated with
+  `docs/configs-migration.md`; track progress in `docs/todo.md`.
 
 ## Commit messages
 
@@ -111,6 +115,10 @@ Agents commit their work when a task is done, split into atomic commits, with
 jj (colocated repo): `jj commit -m '<message>' <paths>` commits only those
 paths and leaves the rest in the working copy. Never move bookmarks or push.
 Format: `<type>(<scope>): <subject>`, **always in English** (subject and body).
+A change that needs manual steps on the machines (moved paths, renamed hosts,
+anything a plain rebuild or restow doesn't handle) is breaking:
+`<type>(<scope>)!: <subject>`, with a `BREAKING CHANGE:` paragraph in the
+body that says what to do (or links the doc).
 
 | Type | Usage |
 |------|-------|
@@ -125,7 +133,7 @@ Format: `<type>(<scope>): <subject>`, **always in English** (subject and body).
 | `alex` | `modules/users/alex.nix` |
 | `<feature>` | `modules/features/<feature>.nix` (`docker`, `bitwarden`, `smart-bulb`) |
 | `workstation` | `modules/profiles/workstation.nix` |
-| `<app>` | the dotfiles folder (`nvim`, `zsh`, `hyprland`), or the program inside it when clearer (`dms`) |
+| `<app>` | `configs/<app>/` (`nvim`, `zsh`, `hyprland`), or the program inside it when clearer (`dms`) |
 | `flake` | `flake.nix`, `flake.lock`, `modules/flake-file.nix`, `modules/configurations/` |
 | `repo` | root-level files and `docs/` (`README.md`, `AGENTS.md`, `.gitignore`, `arch`, `install`) |
 
@@ -133,6 +141,7 @@ Format: `<type>(<scope>): <subject>`, **always in English** (subject and body).
 feat(colmena): add colmena
 fix(LTNX-LeiAle1): work around BIOS 01.06.02 hibernate bugs
 chore(flake): update inputs
+chore(repo)!: move the stow packages into configs/
 docs(repo): add README and AGENTS.md
 ```
 

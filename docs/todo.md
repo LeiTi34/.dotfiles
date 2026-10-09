@@ -2,6 +2,19 @@
 
 Open tasks.
 
+## configs/ migration
+
+Move every machine to the `configs/<app>/` layout with
+[configs-migration.md](configs-migration.md):
+
+- [x] LTNX-LeiAle1 (NixOS)
+- [ ] PCNX-LeiAle1 (NixOS)
+- [ ] TR (Arch)
+- [ ] X1C6 (Arch)
+
+Once all four are done, delete `docs/configs-migration.md`, its links in
+README.md and AGENTS.md, and this section.
+
 ## Hibernate mode (LTNX-LeiAle1)
 
 With BIOS 01.06.02:
