@@ -1,7 +1,7 @@
 # AGENTS.md
 
-Config repo for my workstations: a NixOS flake (`modules/`, `system/`,
-`users/`) with Home Manager, plus the dotfiles in stow layout (`<app>/`).
+Config repo for my workstations: a NixOS flake (`flake.nix`, `modules/`) with
+Home Manager, plus the dotfiles in stow layout (`<app>/`).
 [README.md](README.md) gives the overview; `docs/` explains the details. This
 file holds the rules for making changes.
 
@@ -51,12 +51,19 @@ file holds the rules for making changes.
 - Files a program writes at runtime (caches, generated themes, state markers,
   downloaded plugins) are gitignored, not committed.
 
-## NixOS (modules/, system/)
+## NixOS (modules/)
 
 - Follow the dendritic layout (flake-parts + import-tree + flake-file):
-  every `.nix` under `modules/` is a flake-parts module. Plain NixOS files of
-  one machine go into `system/<host>/`, the Home Manager config shared by all
-  hosts into `users/alex/home.nix`.
+  features in `modules/features/<name>.nix`, the shared feature set in
+  `modules/profiles/workstation.nix`, the user in `modules/users/alex.nix`,
+  hosts in `modules/hosts/<host>.nix` + `modules/hosts/<host>/`. All of the
+  flake's Nix code is in `modules/`; at the top level are only the generated
+  `flake.nix` and `flake.lock`.
+- No plain NixOS or Home Manager files under `modules/`: every `.nix` there
+  is a flake-parts module (import-tree imports all of them). Host settings
+  are wrapped in `configurations.nixos.<host>.module`, Home Manager settings
+  for all hosts go into `profiles.primaryUser.homeModule`. Other files a
+  module uses (e.g. `monitors.lua`) sit next to it.
 - One program or topic per feature, `modules/features/<name>.nix`, defining
   `flake.modules.nixos.<name>`; the Home Manager part is
   `flake.homeModules.<name>`, imported for `profiles.primaryUser` (pattern:
@@ -64,7 +71,8 @@ file holds the rules for making changes.
 - A feature every workstation should get goes into
   `modules/profiles/workstation.nix`; otherwise into the host's list in
   `modules/hosts/<host>.nix`. Settings that only make sense on one machine
-  (hardware, disks, boot, hostname) go into `system/<host>/`.
+  (hardware, disks, boot, hostname) go into `modules/hosts/<host>/`, which
+  stays small.
 - `flake.nix` is generated: an input belongs to the feature that uses it
   (`flake-file.inputs.<name>`), core inputs to `modules/flake-file.nix`. Then
   `nix run '.#write-flake'` and `nix flake lock` (or
@@ -109,7 +117,8 @@ Format: `<type>(<scope>): <subject>`, **always in English** (subject and body).
 
 | Scope | Path |
 |-------|------|
-| `<host>` | `modules/hosts/<host>.nix`, `system/<host>/` (`840G6`, `PCNX-LeiAle1`) |
+| `<host>` | `modules/hosts/<host>.nix`, `modules/hosts/<host>/` (`840G6`, `PCNX-LeiAle1`) |
+| `alex` | `modules/users/alex.nix` |
 | `<feature>` | `modules/features/<feature>.nix` (`docker`, `bitwarden`, `smart-bulb`) |
 | `workstation` | `modules/profiles/workstation.nix` |
 | `<app>` | the dotfiles folder (`nvim`, `zsh`, `hyprland`), or the program inside it when clearer (`dms`) |

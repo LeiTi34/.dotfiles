@@ -17,15 +17,15 @@ flake.nix               # generated from the flake-file.inputs in modules/
 flake.lock
 modules/                # flake-parts modules, all imported via import-tree
   flake-file.nix        # core inputs (nixpkgs, home-manager)
-  configurations/       # configurations.nixos.<host> → nixosConfigurations
+  configurations/nixos.nix  # configurations.nixos.<host> → nixosConfigurations
   features/<name>.nix   # one program or topic: flake.modules.nixos.<name>
                         # (+ flake.homeModules.<name> for the Home Manager part)
   profiles/workstation.nix  # the features every workstation gets
-  users/alex.nix        # the primary user (profiles.primaryUser)
-  hosts/<host>.nix      # host = system/<host>/ + workstation + its own features
-system/<host>/          # plain NixOS files of one machine (configuration.nix,
-                        # hardware-configuration.nix, ...)
-users/alex/home.nix     # Home Manager config shared by all hosts
+  users/alex.nix        # the primary user and the Home Manager config shared
+                        # by all hosts (profiles.primaryUser)
+  hosts/<host>.nix      # host = workstation profile + its own features
+  hosts/<host>/*.nix    # only what belongs to this one machine (hardware, boot,
+                        # printers, ...), added to configurations.nixos.<host>.module
 <app>/                  # dotfiles of one program, laid out like $HOME
                         # (nvim, zsh, hyprland, alacritty, opencode, ...)
 arch, install, clean-env  # (un)stow the <app>/ folders on Arch ($STOW_FOLDERS)

@@ -18,7 +18,7 @@ With BIOS 01.06.02:
   device for the lid, so only the BIOS option "Power On When Lid is Opened"
   (if available) can do it.
 
-`acpi=copy_dsdt` is in `system/840G6/configuration.nix`. After the next BIOS
+`acpi=copy_dsdt` is in `modules/hosts/840G6/configuration.nix`. After the next BIOS
 update, drop it and retest (`HibernateDelaySec=2min` in a temporary
 `/etc/systemd/sleep.conf.d/test.conf`; check `journalctl -k -b | grep DSDT`).
 
