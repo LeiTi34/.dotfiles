@@ -46,7 +46,6 @@
 
           azure-functions-core-tools
 
-          claude-code
 
           opentofu
           uv

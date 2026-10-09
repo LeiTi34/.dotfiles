@@ -115,6 +115,8 @@
     };
 
   flake.modules.nixos.opencode = {
+    imports = [ config.flake.modules.nixos.claude-code ];
+
     home-manager.users.${config.profiles.primaryUser.name}.imports = [
       config.flake.homeModules.opencode
     ];
