@@ -13,7 +13,6 @@
 
 
           fortune
-          gnupg
           # feh
 
 
@@ -59,13 +58,6 @@
         programs = {
           home-manager.enable = true;
           htop.enable = true;
-        };
-
-        services = {
-          gpg-agent = {
-            enable = true;
-            enableSshSupport = true;
-          };
         };
       };
   };
