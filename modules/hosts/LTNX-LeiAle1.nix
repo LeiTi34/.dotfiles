@@ -30,7 +30,6 @@
         azd
         colmena
         btdu
-        zip
         rsync
         net-tools
         traceroute

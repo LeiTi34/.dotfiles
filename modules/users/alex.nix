@@ -11,7 +11,6 @@
         defaultPkgs = with pkgs; [
 
 
-          unzip
 
           fortune
           gnupg

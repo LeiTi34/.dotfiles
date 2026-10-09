@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      zip
       nextcloud
       calc
       pcmanfm

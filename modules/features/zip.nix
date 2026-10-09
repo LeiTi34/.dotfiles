@@ -1,7 +1,10 @@
 { config, ... }:
 {
   flake.homeModules.zip = { pkgs, ... }: {
-    home.packages = [ pkgs.zip ];
+    home.packages = with pkgs; [
+      zip
+      unzip
+    ];
   };
 
   flake.modules.nixos.zip = {
