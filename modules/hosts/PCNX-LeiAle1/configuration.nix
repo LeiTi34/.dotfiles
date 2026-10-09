@@ -37,73 +37,14 @@
       #   extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       # };
 
-      # environment.variables.WLR_BACKENDS = "headless";
-      # environment.variables.WLR_RENDERER = "pixman";
-      # environment.variables.WLR_LIBINPUT_NO_DEVICES = "1";
-      #
-      # services.xserver.displayManager.sessionPackages = [
-      #   (pkgs.river.overrideAttrs
-      #     (prevAttrs: rec {
-      #       postInstall =
-      #         let
-      #           riverSession = ''
-      #             [Desktop Entry]
-      #             Name=River
-      #             Comment=Dynamic Wayland compositor
-      #             Exec=/home/alex/.config/river/init
-      #             Type=Application
-      #           '';
-      #         in
-      #         ''
-      #           mkdir -p $out/share/wayland-sessions
-      #           echo "${riverSession}" > $out/share/wayland-sessions/river.desktop
-      #         '';
-      #       passthru.providedSessions = [ "river" ];
-      #     })
-      #   )
-      # ];
-
-
-      # Enable the GNOME Desktop Environment.
-      # services.xserver.displayManager.gdm.enable = true;
-      #services.xserver.desktopManager.gnome.enable = true;
-      # services.xserver.displayManager.sddm.enable = true;
-      # services.xserver.desktopManager.plasma5.enable = true;
-
-      # RDP
-      # services.x2goserver.enable = true;
-      # services.xserver.desktopManager.xfce.enable = true;
-      # services.xrdp.enable = true
-      # services.xrdp.defaultWindowManager = "qtile";
-
-      services.xrdp = {
-        enable = true;
-        openFirewall = true;
-        # defaultWindowManager = "qtile start";
-      };
-
-      # environment.etc."xrdp/startwm.sh" = {
-      #   text = ''
-      #     ${pkgs.runtimeShell}
-      #     . /etc/profile
-      #     ${pkgs.qtile}/bin/qtile
-      #    '';
-      #   mode = "755";
-      # };
-
       # Configure keymap in X11
       # services.xserver.xkbOptions = "eurosign:e,caps:escape";
 
-      security.pam.services.waylock = {};
       # security.pam.services.login.enableGnomeKeyring = true;
 
       # Enable touchpad support (enabled default in most desktopManager).
       # services.xserver.libinput.enable = true;
-      programs = {
-          slock.enable = true;
-
-          xwayland.enable = true;
-      };
+      programs.xwayland.enable = true;
 
       users.users.alex.packages = with pkgs; [
         firefox
@@ -193,35 +134,8 @@
         # quickemu
         cifs-utils
 
-        foot #terminal
-        wayvnc
-        waybar
-        bemenu
-        swaybg
-        # wlroots #not really sure if this is required to prevent WLR rendererCreateError
         vulkan-tools
-        x11vnc
-        river
 
-        # (river.overrideAttrs (prevAttrs: rec {
-        #   postInstall =
-        #     let
-        #       riverSession = ''
-        #         [Desktop Entry]
-        #         Name=River
-        #         Comment=Dynamic Wayland compositor
-        #         Exec=/home/alex/.config/river/init
-        #         Type=Application
-        #       '';
-        #     in
-        #     ''
-        #       mkdir -p $out/share/wayland-sessions
-        #       echo "${riverSession}" > $out/share/wayland-sessions/river.desktop
-        #     '';
-        #   passthru.providedSessions = [ "river" ];
-        # }))
-
-        nautilus
         gvfs
         samba
         # Add these specific GVFS packages
@@ -233,11 +147,6 @@
       # started in user sessions.
       # programs.mtr.enable = true;
 
-      # security.pam.services.swaylock = {
-      #     text = ''
-      #         auth include login
-      #         '';
-      # };
       # Open ports in the firewall.
       # networking.firewall.allowedTCPPorts = [ ... ];
       # networking.firewall.allowedUDPPorts = [ ... ];
@@ -256,7 +165,6 @@
             3000
             3009
             3001
-            5900
             11434
           ];
         };
