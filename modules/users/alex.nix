@@ -10,7 +10,6 @@
       let
         defaultPkgs = with pkgs; [
 
-          dig
 
           unzip
 

@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      dig
       opentofu
       azure-functions
       datagrip
