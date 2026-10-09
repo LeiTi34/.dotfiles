@@ -9,7 +9,6 @@
       { config, pkgs, ... }:
       let
         defaultPkgs = with pkgs; [
-          jetbrains.datagrip
 
           dig
 

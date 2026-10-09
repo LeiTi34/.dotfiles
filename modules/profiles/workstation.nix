@@ -33,6 +33,7 @@
       openbao
       bitwarden
       steam
+      datagrip
       libreoffice
       dev-toolchains
     ];
