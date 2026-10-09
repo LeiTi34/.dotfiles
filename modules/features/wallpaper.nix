@@ -37,9 +37,11 @@
       uri = "file://${./wallpaper.jpg}";
     in
     {
-      # GNOME: system-wide default, a wallpaper set in the user's dconf wins.
+      # GNOME: locked system-wide, so GNOME can't replace it with a wallpaper
+      # in the user's dconf.
       programs.dconf.profiles.user.databases = [
         {
+          lockAll = true;
           settings = {
             "org/gnome/desktop/background" = {
               picture-uri = uri;
