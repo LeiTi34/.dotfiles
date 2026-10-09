@@ -35,17 +35,6 @@ the machine:
   changes from TR" (nvim treesitter rewrite, DMS settings, opencode) into
   `configs/`, then abandon it
 
-## TPM on TR
-
-The firmware (MSI X399 SLI PLUS) announces a TPM2 (AMD fTPM) in ACPI, but
-`tpm_crb` can't claim it ("ACPI region does not cover the entire
-command/response buffer", `-EBUSY`), so `/dev/tpmrm0` never appears and
-`tpm2.target` waits 90 s on boot. Workaround: `systemd.tpm2_wait=0` in
-`modules/hosts/TR/configuration.nix`. BIOS A.89 (2022-08-11) still has the
-bug and seems to be the last BIOS for this board (fwupd offers none). Fix:
-switch the fTPM off in the BIOS (Settings → Security → Trusted Computing →
-Security Device Support) if nothing needs it; then drop the parameter.
-
 ## Hibernate mode (LTNX-LeiAle1)
 
 With BIOS 01.06.02:

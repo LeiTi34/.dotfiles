@@ -5,15 +5,15 @@
 
     boot.loader = {
       systemd-boot.enable = true;
-      # The ESP is 1 GiB and also holds Arch's kernels.
+      # The ESP is 1 GiB.
       systemd-boot.configurationLimit = 10;
       efi.canTouchEfiVariables = true;
     };
 
-    # The firmware announces a TPM2 (AMD fTPM) that tpm_crb can't claim
-    # ("ACPI region does not cover the entire command/response buffer",
-    # -EBUSY), so /dev/tpmrm0 never shows up and tpm2.target waits 90 s.
-    boot.kernelParams = [ "systemd.tpm2_wait=0" ];
+    # The fTPM is off in the BIOS (Security Device Support): with BIOS A.89
+    # tpm_crb can't claim it ("ACPI region does not cover the entire
+    # command/response buffer", -EBUSY), and systemd then waits 90 s for
+    # /dev/tpmrm0 on every boot.
 
     # AX210 Wi-Fi/Bluetooth firmware
     hardware.enableRedistributableFirmware = true;
