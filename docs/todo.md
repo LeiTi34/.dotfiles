@@ -40,6 +40,24 @@ ignores; the `secure-boot` feature works around it with a bind mount (see
 [secure-boot.md](secure-boot.md)). Report upstream and drop the workaround
 once lanzaboote handles it.
 
+## Hibernate mode (840G6)
+
+With BIOS 01.06.02 (01.05.02 was fine):
+
+- Every resume from hibernate logs `ACPI BIOS Error (bug): The DSDT has been
+  corrupted or replaced` and `\_WAK` aborts; afterwards the lid, AC and dock
+  state are unreadable (logind thinks it's docked with the lid closed and
+  ignores the lid). Workaround: `acpi=copy_dsdt`.
+- Suspend-then-hibernate hung once entering S4 after the timer wake from a
+  clean boot (2026-10-09 01:18: screen off, keyboard backlight on, power
+  button unresponsive). Workaround: `HibernateMode = "shutdown"`, so opening
+  the lid no longer wakes it from hibernate. The retests that morning ran
+  with ACPI already broken, so it's unclear whether this is still needed.
+
+Both are in `system/840G6/configuration.nix`. After the next BIOS update,
+drop them and retest (`HibernateDelaySec=2min` in a temporary
+`/etc/systemd/sleep.conf.d/test.conf`; check `journalctl -k -b | grep DSDT`).
+
 ## Battery runtime (840G6)
 
 Not compared with Arch yet during phase 3. Check a full day on battery with

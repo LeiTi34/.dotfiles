@@ -23,11 +23,22 @@ in
     blacklistedKernelModules = [ "pcspkr" ];
 
     resumeDevice = lib.mkIf hibernation "/dev/mapper/cryptroot";
-    # btrfs inspect-internal map-swapfile -r /swap/swapfile
-    kernelParams = lib.optional hibernation "resume_offset=24751";
+    kernelParams = lib.optionals hibernation [
+      # btrfs inspect-internal map-swapfile -r /swap/swapfile
+      "resume_offset=24751"
+      # BIOS 01.06.02 overwrites the firmware copy of the DSDT across
+      # hibernation ("DSDT has been corrupted or replaced", \_WAK aborts,
+      # lid/AC/dock unreadable afterwards). Keep a copy in kernel memory.
+      "acpi=copy_dsdt"
+    ];
   };
 
   swapDevices = lib.optional hibernation { device = "/swap/swapfile"; };
+
+  # Since BIOS 01.06.02, entering S4 right after the suspend-then-hibernate
+  # timer wake hangs (screen off, keyboard backlight on). Power off normally
+  # instead; resume still works, but only the power button wakes it.
+  systemd.sleep.settings.Sleep.HibernateMode = lib.mkIf hibernation "shutdown";
 
   # The LUKS passphrase and TPM PIN are typed with the German layout.
   console.earlySetup = true;
