@@ -52,6 +52,7 @@ docs/                   # documentation
 | Doc | Contents |
 |---|---|
 | [docs/secure-boot.md](docs/secure-boot.md) | Secure Boot with lanzaboote and sbctl, fwupd under Secure Boot |
+| [docs/pangolin.md](docs/pangolin.md) | Pangolin client: login, boot service, DNS |
 | [docs/configs-migration.md](docs/configs-migration.md) | migrating a machine to the `configs/` layout |
 | [docs/todo.md](docs/todo.md) | open tasks |
 | [docs/attic/](docs/attic/) | configs from Arch that aren't ported (yet) |

@@ -17,6 +17,14 @@ Move every machine to the `configs/<app>/` layout with
 Once all four are done, delete `docs/configs-migration.md`, its links in
 README.md and AGENTS.md, and this section.
 
+## Pangolin login
+
+`pangolin login` on each development host ([pangolin.md](pangolin.md)):
+
+- [ ] LTNX-LeiAle1
+- [ ] PCNX-LeiAle1
+- [ ] TR
+
 ## TR first-boot checks
 
 TR was reinstalled from Arch as NixOS with `/home` kept. Still to check at
