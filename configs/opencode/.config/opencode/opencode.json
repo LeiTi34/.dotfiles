@@ -16,6 +16,17 @@
         { "action": "shell", "resource": "*rbw config *", "effect": "deny" },
         { "action": "shell", "resource": "bw *", "effect": "ask" }
     ],
+    "provider": {
+        "pangolin": {
+            "name": "Pangolin AI gateway",
+            "npm": "@ai-sdk/openai-compatible",
+            "options": {
+                "baseURL": "https://ai.leidwein.com/v1",
+                "apiKey": "none"
+            },
+            "models": {}
+        }
+    },
     "mcp": {
         "context7": {
             "type": "remote",
