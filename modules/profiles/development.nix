@@ -7,6 +7,7 @@
       dev-toolchains
       fnm
       opentofu
+      pangolin-client
 
       herdr
       opencode
