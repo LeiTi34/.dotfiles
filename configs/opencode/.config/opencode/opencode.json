@@ -24,7 +24,41 @@
                 "baseURL": "https://ai.leidwein.com/v1",
                 "apiKey": "none"
             },
-            "models": {}
+            "models": {
+                "cc/claude-opus-5-5": { "name": "Claude Opus 5.5" },
+                "cc/claude-opus-5": { "name": "Claude Opus 5" },
+                "cc/claude-fable-5-1": { "name": "Claude Fable 5.1" },
+                "cc/claude-fable-5": { "name": "Claude Fable 5" },
+                "cc/claude-sonnet-5-5": { "name": "Claude Sonnet 5.5" },
+                "cc/claude-sonnet-5": { "name": "Claude Sonnet 5" },
+                "cc/claude-haiku-4-5-20251001": { "name": "Claude 4.5 Haiku" },
+
+                "cx/gpt-6.1-sol": { "name": "GPT 6.1 Sol" },
+                "cx/gpt-6-astra": { "name": "GPT 6.0 Astra" },
+                "cx/gpt-6-astra[1m]": { "name": "GPT 6.0 Astra, extended context" },
+                "cx/gpt-6-sol": { "name": "GPT 6.0 Sol" },
+                "cx/gpt-6-sol[1m]": { "name": "GPT 6.0 Sol, extended context" },
+                "cx/gpt-6-luna": { "name": "GPT 6.0 Luna" },
+                "cx/gpt-6-luna[1m]": { "name": "GPT 6.0 Luna, extended context" },
+                "cx/gpt-5.6-sol": { "name": "GPT 5.6 Sol" },
+                "cx/gpt-5.6-sol[1m]": { "name": "GPT 5.6 Sol, extended context" },
+                "cx/gpt-5.6-sol-review": { "name": "GPT 5.6 Sol Review" },
+                "cx/gpt-5.6-terra": { "name": "GPT 5.6 Terra" },
+                "cx/gpt-5.6-terra[1m]": { "name": "GPT 5.6 Terra, extended context" },
+                "cx/gpt-5.6-terra-review": { "name": "GPT 5.6 Terra Review" },
+                "cx/gpt-5.6-luna": { "name": "GPT 5.6 Luna" },
+                "cx/gpt-5.6-luna[1m]": { "name": "GPT 5.6 Luna, extended context" },
+                "cx/gpt-5.6-luna-review": { "name": "GPT 5.6 Luna Review" },
+                "cx/gpt-5.5": { "name": "GPT 5.5" },
+                "cx/gpt-5.5-review": { "name": "GPT 5.5 Review" },
+                "cx/gpt-daybreak-blue-latest": { "name": "GPT Daybreak Blue" },
+                "cx/gpt-reserve": { "name": "GPT Reserve" },
+                "cx/codex-auto-review": { "name": "Codex Auto Review" },
+
+                "oc/muse-spark-1.2-contributor-free": { "name": "Muse Spark 1.2 Contributor Free" },
+                "oc/muse-spark-1.3-contributor-free": { "name": "Muse Spark 1.3 Contributor Free" },
+                "oc/union-alpha": { "name": "Union Alpha Free" }
+            }
         }
     },
     "mcp": {
