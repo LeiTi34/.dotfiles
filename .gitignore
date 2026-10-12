@@ -10,3 +10,6 @@ configs/opencode/.config/opencode/bun.lock
 configs/opencode/.config/opencode/cli.json
 configs/opencode/.config/opencode/service*.json
 configs/opencode/.config/opencode/plugins/
+
+# monitor layout hyprmoncfg writes per machine (linked out of store)
+configs/hyprland/.config/hypr/hyprmoncfg-monitors.lua
