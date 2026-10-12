@@ -51,25 +51,25 @@ With BIOS 01.06.02:
   corrupted or replaced` and `\_WAK` aborts; afterwards the lid, AC and dock
   state are unreadable (logind thinks it's docked with the lid closed and
   ignores the lid). Workaround: `acpi=copy_dsdt`.
-- Suspend-then-hibernate can hang entering S4 after the timer wake (screen
-  off, keyboard backlight on, power button unresponsive); seen once without
-  `acpi=copy_dsdt`. The default `platform` mode is on trial. If it hangs
-  again, set `systemd.sleep.settings.Sleep.HibernateMode = "shutdown"`.
+- With the `platform` hibernate mode (S4 through the firmware):
+  - suspend-then-hibernate could hang entering S4 after the timer wake
+    (screen off, keyboard backlight on, power button unresponsive);
+  - the internal audio driver oopsed once (kernel 6.18.55) the first time
+    PipeWire opened the internal card after a resume, with a page fault in
+    `intel_nhlt_get_endpoint_blob` (`sof_ipc4_prepare_dai_copier`). The
+    pipewire process is left a zombie and the card stays broken until a
+    reboot; restarting PipeWire only helps until the internal speakers or mic
+    are used again. Check with `journalctl -k -b | grep -A20 'BUG: unable'`.
+
+  Hence `HibernateMode = "shutdown"`. Watch whether the audio oops recurs in
+  this mode; if it does, try reloading the SOF driver after resume.
 - Lid wake from hibernate doesn't work in either mode: there is no ACPI wake
   device for the lid, so only the BIOS option "Power On When Lid is Opened"
   (if available) can do it.
-- The internal audio driver can oops after a resume from hibernate: seen
-  once (kernel 6.18.55), the first time PipeWire opened the internal card
-  after the resume, with a page fault in `intel_nhlt_get_endpoint_blob`
-  (`sof_ipc4_prepare_dai_copier`). NHLT is an ACPI table, and `acpi=copy_dsdt`
-  only covers the DSDT. The pipewire process is left a zombie and the card stays
-  broken until a reboot; restarting PipeWire only helps until the internal
-  speakers or mic are used again. If it recurs, check
-  `journalctl -k -b | grep -A20 'BUG: unable'` and try reloading the SOF
-  driver after resume, or set `HibernateMode = "shutdown"` (see above).
 
-`acpi=copy_dsdt` is in `modules/hosts/LTNX-LeiAle1/configuration.nix`. After the next BIOS
-update, drop it and retest (`HibernateDelaySec=2min` in a temporary
+`acpi=copy_dsdt` and `HibernateMode` are in
+`modules/hosts/LTNX-LeiAle1/configuration.nix`. After the next BIOS update,
+drop both and retest (`HibernateDelaySec=2min` in a temporary
 `/etc/systemd/sleep.conf.d/test.conf`; check `journalctl -k -b | grep DSDT`).
 
 ## Plaintext secrets
