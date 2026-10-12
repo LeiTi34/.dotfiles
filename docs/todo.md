@@ -45,27 +45,44 @@ the machine:
 
 ## Hibernate mode (LTNX-LeiAle1)
 
-With BIOS 01.06.02:
+With BIOS 01.06.02, a resume from hibernate can leave the ACPI tables
+unusable. Linux executes the firmware's tables in place, in ACPI reclaim
+memory that isn't part of the hibernation image. The resume is a cold boot,
+and the firmware doesn't always lay the tables out the same way: seen once,
+every table from `HP_XHC_P` (0x69F95000 at boot) downwards had moved down
+by one page, with a `BERT` (boot error record) present that the original
+boot didn't have. The kernel then runs garbage for those tables:
 
-- Every resume from hibernate logs `ACPI BIOS Error (bug): The DSDT has been
-  corrupted or replaced` and `\_WAK` aborts; afterwards the lid, AC and dock
-  state are unreadable (logind thinks it's docked with the lid closed and
-  ignores the lid). Workaround: `acpi=copy_dsdt`.
-- With the `platform` hibernate mode (S4 through the firmware):
-  - suspend-then-hibernate could hang entering S4 after the timer wake
-    (screen off, keyboard backlight on, power button unresponsive);
-  - the internal audio driver oopsed once (kernel 6.18.55) the first time
-    PipeWire opened the internal card after a resume, with a page fault in
-    `intel_nhlt_get_endpoint_blob` (`sof_ipc4_prepare_dai_copier`). The
-    pipewire process is left a zombie and the card stays broken until a
-    reboot; restarting PipeWire only helps until the internal speakers or mic
-    are used again. Check with `journalctl -k -b | grep -A20 'BUG: unable'`.
+- `\_WAK` aborts (`Could not resolve symbol [\_SB.ED21.QE]`); the embedded
+  controller's helpers call `\_SB.ED21`, so battery (`BAT0._STA`), AC
+  (`AC._PSR`) and lid/dock state are unreadable and ACPI errors repeat
+  every few seconds;
+- `DptfTabl`: the thermal zones TCPU, SEN1, SEN2 and SEN6 are disabled
+  ("Unable to get temperature, disabling!");
+- `NHLT`: the SOF audio driver oopses in `intel_nhlt_get_endpoint_blob` the
+  first time PipeWire opens the internal card. The pipewire process is left
+  a zombie and audio dies again whenever the internal speakers or mic are
+  used.
 
-  Hence `HibernateMode = "shutdown"`. Watch whether the audio oops recurs in
-  this mode; if it does, try reloading the SOF driver after resume.
-- Lid wake from hibernate doesn't work in either mode: there is no ACPI wake
-  device for the lid, so only the BIOS option "Power On When Lid is Opened"
-  (if available) can do it.
+Nothing recovers this at runtime; only a reboot does. `acpi=copy_dsdt`
+covers the DSDT alone (the kernel can copy no other table), which is why
+the DSDT-only failures ("The DSDT has been corrupted or replaced") are gone
+and these remain. Compare the table headers with the boot log to confirm:
+`journalctl -k -b -g 'ACPI: (SSDT|NHLT) 0x'` against
+`sudo head -c 4 /sys/firmware/acpi/tables/SSDT<n>` (should be `SSDT`).
+
+Suspend-then-hibernate also hung entering S4 after the timer wake once
+(screen off, keyboard backlight on, power button unresponsive), in the
+`platform` mode. `HibernateMode = "shutdown"` is on trial: after a few
+hibernations, check each resume with `journalctl -k -b -p 3 -g ACPI` and
+`upower -d`. The firmware rebuilds the tables in both modes, so if the
+breakage recurs, the options are `hibernation = false` until a BIOS update,
+or `acpi_sleep=s4_hwsig` (a fresh boot instead of the resume when the
+firmware reports a changed FACS hardware signature, if HP changes it).
+
+Lid wake from hibernate doesn't work in either mode: there is no ACPI wake
+device for the lid, so only the BIOS option "Power On When Lid is Opened"
+(if available) can do it.
 
 `acpi=copy_dsdt` and `HibernateMode` are in
 `modules/hosts/LTNX-LeiAle1/configuration.nix`. After the next BIOS update,
