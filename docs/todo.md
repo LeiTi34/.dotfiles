@@ -58,6 +58,15 @@ With BIOS 01.06.02:
 - Lid wake from hibernate doesn't work in either mode: there is no ACPI wake
   device for the lid, so only the BIOS option "Power On When Lid is Opened"
   (if available) can do it.
+- The internal audio driver can oops after a resume from hibernate: seen
+  once (kernel 6.18.55), the first time PipeWire opened the internal card
+  after the resume, with a page fault in `intel_nhlt_get_endpoint_blob`
+  (`sof_ipc4_prepare_dai_copier`). NHLT is an ACPI table, and `acpi=copy_dsdt`
+  only covers the DSDT. The pipewire process is left a zombie and the card stays
+  broken until a reboot; restarting PipeWire only helps until the internal
+  speakers or mic are used again. If it recurs, check
+  `journalctl -k -b | grep -A20 'BUG: unable'` and try reloading the SOF
+  driver after resume, or set `HibernateMode = "shutdown"` (see above).
 
 `acpi=copy_dsdt` is in `modules/hosts/LTNX-LeiAle1/configuration.nix`. After the next BIOS
 update, drop it and retest (`HibernateDelaySec=2min` in a temporary
