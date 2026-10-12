@@ -9,7 +9,7 @@
       btrfs = subvol: {
         device = "/dev/mapper/cryptroot";
         fsType = "btrfs";
-        options = [ "subvol=${subvol}" "noatime" "compress=zstd" ];
+        options = [ "subvol=${subvol}" "noatime" "compress=zstd" "space_cache=v2" ];
       };
     in
     {
