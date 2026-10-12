@@ -31,6 +31,10 @@
 
       swapDevices = lib.optional hibernation { device = "/swap/swapfile"; };
 
+      # S4 via the firmware ("platform") hangs entering hibernate and breaks
+      # devices after resume with BIOS 01.06.02: docs/todo.md (Hibernate mode).
+      systemd.sleep.settings.Sleep.HibernateMode = lib.mkIf hibernation "shutdown";
+
       # The LUKS passphrase and TPM PIN are typed with the German layout.
       console.earlySetup = true;
       # TPM2 + PIN (feature measured-boot); the passphrase keeps working.
