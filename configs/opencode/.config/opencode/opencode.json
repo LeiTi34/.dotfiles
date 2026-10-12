@@ -25,13 +25,13 @@
                 "apiKey": "none"
             },
             "models": {
-                "cc/claude-opus-5-5": { "name": "Claude Opus 5.5" },
-                "cc/claude-opus-5": { "name": "Claude Opus 5" },
-                "cc/claude-fable-5-1": { "name": "Claude Fable 5.1" },
-                "cc/claude-fable-5": { "name": "Claude Fable 5" },
-                "cc/claude-sonnet-5-5": { "name": "Claude Sonnet 5.5" },
-                "cc/claude-sonnet-5": { "name": "Claude Sonnet 5" },
-                "cc/claude-haiku-4-5-20251001": { "name": "Claude 4.5 Haiku" },
+                "cc/claude-opus-5-5": { "name": "Claude Opus 5.5", "limit": { "context": 1000000, "output": 128000 } },
+                "cc/claude-opus-5": { "name": "Claude Opus 5", "limit": { "context": 1000000, "output": 128000 } },
+                "cc/claude-fable-5-1": { "name": "Claude Fable 5.1", "limit": { "context": 1000000, "output": 128000 } },
+                "cc/claude-fable-5": { "name": "Claude Fable 5", "limit": { "context": 1000000, "output": 128000 } },
+                "cc/claude-sonnet-5-5": { "name": "Claude Sonnet 5.5", "limit": { "context": 1000000, "output": 128000 } },
+                "cc/claude-sonnet-5": { "name": "Claude Sonnet 5", "limit": { "context": 1000000, "output": 128000 } },
+                "cc/claude-haiku-4-5-20251001": { "name": "Claude 4.5 Haiku", "limit": { "context": 200000, "output": 64000 } },
 
                 "cx/gpt-6.1-sol": { "name": "GPT 6.1 Sol" },
                 "cx/gpt-6-astra": { "name": "GPT 6.0 Astra" },
