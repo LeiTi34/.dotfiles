@@ -7,7 +7,6 @@
       dev-toolchains
       fnm
       opentofu
-      pangolin-client
       netbird
 
       herdr
