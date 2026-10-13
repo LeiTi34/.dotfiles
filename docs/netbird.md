@@ -29,3 +29,12 @@ unit starts at every boot and reconnects with the stored login
 routes (`192.168.0.0/24`) and the nameserver group. Logs:
 `journalctl -u netbird-home`.
 
+## AI gateway
+
+`ai.leidwein.com` is a LAN-only router at home (9router's API), reached
+through NetBird. Clients send a 9router API key, one per client, created in
+the 9router dashboard (`https://9router.leidwein.com`). OpenCode's provider
+`9router` reads it from `~/.config/opencode/9router-key`, which isn't tracked;
+Home Manager creates it empty if it's missing, because OpenCode refuses to
+load its config when a `{file:...}` reference doesn't exist. On the Arch
+machine, create the file by hand.

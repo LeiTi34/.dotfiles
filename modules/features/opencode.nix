@@ -5,7 +5,7 @@
   };
 
   flake.homeModules.opencode =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     let
       upstream = inputs.opencode.packages.${pkgs.stdenv.hostPlatform.system};
 
@@ -112,6 +112,13 @@
         source = ../../configs/opencode/.config/opencode;
         recursive = true;
       };
+
+      # OpenCode refuses to load its config while a {file:...} reference is
+      # missing; the 9router key is set by hand (docs/netbird.md).
+      home.activation.opencode9routerKey = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        key="''${XDG_CONFIG_HOME:-$HOME/.config}/opencode/9router-key"
+        [ -e "$key" ] || run install -D -m 600 /dev/null "$key"
+      '';
     };
 
   flake.modules.nixos.opencode = {
