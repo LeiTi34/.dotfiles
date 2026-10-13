@@ -17,13 +17,32 @@ Move every machine to the `configs/<app>/` layout with
 Once all four are done, delete `docs/configs-migration.md`, its links in
 README.md and AGENTS.md, and this section.
 
-## Pangolin login
+## NetBird client (replaces the Pangolin client)
 
-`pangolin login` on each development host ([pangolin.md](pangolin.md)):
+The home network's VPN moves from Pangolin (and wg-easy) to a self-hosted
+NetBird, management `https://netbird.leidwein.com` (gitops repo,
+`docs/netbird.md`). Devices of the NetBird user land in the group that may
+reach the home LAN; LAN DNS (`leidwein.com`) comes through NetBird.
 
-- [ ] LTNX-LeiAle1
-- [ ] PCNX-LeiAle1
-- [ ] TR
+- [ ] Feature `netbird` (`modules/features/netbird.nix`, in
+  `profile-development`): `services.netbird.clients.<name>` with
+  `environment.NB_MANAGEMENT_URL` and `ui.enable = true` (tray), a port that
+  doesn't clash with other WireGuard on the host. Log in once per host with
+  `netbird-<name> up` (browser login).
+- [ ] nixpkgs has client 0.71.4, the server runs 0.80.0: check that it
+  connects and gets the LAN route and DNS (`netbird-<name> status -d`,
+  `dig +short vault.leidwein.com` → the LAN address, also away from home).
+  Use a newer package if not.
+- [ ] Work network: on the work cable, `netbird-<name> status -d` stays
+  connected (relay or P2P) and the LAN is reachable.
+- [ ] OpenCode: provider `pangolin` → `9router` (base URL stays
+  `https://ai.leidwein.com/v1`), `apiKey` from an untracked file
+  (`{file:~/.config/opencode/9router-key}`), a key created per client in the
+  9router dashboard. While the Pangolin client runs it answers
+  `ai.leidwein.com` itself (no key needed there), so switch both together.
+- [ ] Then remove the `pangolin-client` feature and `docs/pangolin.md` (and
+  its README link).
+- Hosts: [ ] LTNX-LeiAle1, [ ] PCNX-LeiAle1, [ ] TR
 
 ## TR first-boot checks
 
