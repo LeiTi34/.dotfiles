@@ -8,6 +8,7 @@
       fnm
       opentofu
       pangolin-client
+      netbird
 
       herdr
       opencode
