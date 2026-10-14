@@ -5,6 +5,7 @@
       neovim
       zed
       dev-toolchains
+      direnv
       fnm
       opentofu
       netbird
