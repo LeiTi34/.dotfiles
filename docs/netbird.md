@@ -9,9 +9,10 @@ devices land in the group `devices`, which reaches the home LAN
 client resolves `netbird.leidwein.com` itself through the network's own DNS,
 so on a NetBird device that name only serves the API and login, not the UI.
 
-- Client `home`: unit `netbird-home`, CLI `netbird-home`, tray app
-  "NetBird @ netbird-home" (`netbird-ui-home`), interface `nb-home`,
-  WireGuard on UDP 51821 (opened in the firewall for direct connections).
+- The module's default client: unit `netbird`, CLI `netbird`, tray app
+  "NetBird @ netbird" (`netbird-ui`, started by `hyprland.lua`), interface
+  `wt0`, WireGuard on UDP 51820 (opened in the firewall for direct
+  connections).
 - Package and NixOS module come from nixpkgs-unstable, so the client stays on
   the server's NetBird release.
 - Runs as root, not hardened: the hardened client only sets DNS through
@@ -29,14 +30,19 @@ so on a NetBird device that name only serves the API and login, not the UI.
 Once per host:
 
 ```sh
-netbird-home up
+netbird up
 ```
 
 It opens the login page in the browser (Keycloak or the local account). The
 unit starts at every boot and reconnects with the stored login
-(`/var/lib/netbird-home`). Check with `netbird-home status -d`: peers, relay,
+(`/var/lib/netbird`). Check with `netbird status -d`: peers, relay,
 routes (`192.168.0.0/24`) and the nameserver group. Logs:
-`journalctl -u netbird-home`.
+`journalctl -u netbird`.
+
+A host that ran the client under the name `home` (unit `netbird-home`)
+keeps its old login and peer in `/var/lib/netbird-home`: after the rebuild,
+log in again with `netbird up`, delete the old peer in the dashboard, then
+`sudo rm -r /var/lib/netbird-home /etc/netbird-home`.
 
 ## AI gateway
 

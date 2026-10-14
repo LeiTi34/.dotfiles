@@ -22,15 +22,17 @@ README.md and AGENTS.md, and this section.
 The `netbird` feature and OpenCode's `9router` provider are in place
 ([netbird.md](netbird.md)); per host, after the rebuild:
 
-- [ ] `netbird-home up` (browser login); `netbird-home status -d` shows the
+- [ ] `netbird up` (browser login); `netbird status -d` shows the
   peers, the route `192.168.0.0/24` and the nameserver group;
   `dig +short vault.leidwein.com` gives the LAN address, also away from home.
+  Hosts that already ran the `home` client: remove it as in
+  [netbird.md](netbird.md#login).
 - [ ] 9router key from the dashboard into `~/.config/opencode/9router-key`;
   `curl -s -o /dev/null -w '%{http_code}\n' -H "Authorization: Bearer $(cat ~/.config/opencode/9router-key)" https://ai.leidwein.com/v1/models`
   gives 200.
 - [ ] Delete the old Pangolin login `~/.config/pangolin`.
 - [ ] Work network (LTNX-LeiAle1 docked, PCNX-LeiAle1): on the work cable
-  `netbird-home status -d` stays connected (relay or P2P) and the LAN is
+  `netbird status -d` stays connected (relay or P2P) and the LAN is
   reachable. The cable firewall drops UDP flows that start with a WireGuard
   handshake; NetBird's start with ICE/STUN, and its relay runs on 443.
 - Hosts: [ ] LTNX-LeiAle1, [ ] PCNX-LeiAle1, [ ] TR, [ ] X1C6 (Arch: key
