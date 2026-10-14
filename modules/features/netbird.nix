@@ -26,6 +26,10 @@
           # The hardened client (own user, read-only /etc) only sets DNS
           # through systemd-resolved; these hosts use resolvconf.
           hardened = false;
+          # Off by default on Linux: the client then keeps the DNS servers of
+          # the network it started on, so after a network change every lookup
+          # (its own management name included) can fail: docs/netbird.md.
+          config.NetworkMonitor = true;
         };
       };
     };
