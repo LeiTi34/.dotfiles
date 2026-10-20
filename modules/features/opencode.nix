@@ -113,6 +113,14 @@
         recursive = true;
       };
 
+      # Not in configs/opencode: the Arch machine stows that folder too.
+      xdg.configFile."opencode/AGENTS.md".text = ''
+        # Environment
+
+        - The system runs NixOS. Programs that aren't installed can be run
+          without installing them: `nix run nixpkgs#<program> -- <args>`.
+      '';
+
       # OpenCode refuses to load its config while a {file:...} reference is
       # missing; the 9router key is set by hand (docs/netbird.md).
       home.activation.opencode9routerKey = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
