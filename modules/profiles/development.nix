@@ -9,6 +9,7 @@
       fnm
       opentofu
       netbird
+      jq
 
       herdr
       opencode
