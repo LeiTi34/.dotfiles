@@ -4,13 +4,19 @@
     let
       # Lid close falls back to plain suspend until the host configures a
       # resume device for hibernation.
-      lidAction =
-        if config.boot.resumeDevice != "" then "suspend-then-hibernate" else "suspend";
+      canHibernate = config.boot.resumeDevice != "";
+      lidAction = if canHibernate then "suspend-then-hibernate" else "suspend";
     in
     {
       services = {
         power-profiles-daemon.enable = true;
-        upower.enable = true;
+        upower = {
+          enable = true;
+          percentageAction = 2;
+          # The default HybridSleep stays suspended after writing the image
+          # and drains the rest of the battery.
+          criticalPowerAction = if canHibernate then "Hibernate" else "PowerOff";
+        };
 
         logind.settings.Login = {
           HandleLidSwitch = lidAction;
