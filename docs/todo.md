@@ -152,11 +152,12 @@ decision above.
 
 ## sleep-on-unplug (LTNX-LeiAle1)
 
-Suspend-then-hibernate when AC is unplugged while docked with the lid closed
-(logind ignores the lid when docked and never re-evaluates on unplug).
-Not ported. Files: [`attic/sleep-on-unplug/`](attic/sleep-on-unplug/)
-(script, systemd unit with `SLEEP_ON_UNPLUG_DRYRUN=1`, udev rule). On NixOS this would be a `systemd.services` unit plus
-`services.udev.extraRules`; the script optionally uses `evtest`.
+Undocking with the lid closed should suspend through logind's lid recheck
+([power.md](power.md)). Test: dock, close the lid, unplug the dock;
+`journalctl -u systemd-logind -b` shows "Suspending, then hibernating..."
+within ~30 s. If it does, delete
+[`attic/sleep-on-unplug/`](attic/sleep-on-unplug/) and this section; if
+not, port it (`systemd.services` unit plus `services.udev.extraRules`).
 
 ## Speakers (LTNX-LeiAle1)
 

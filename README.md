@@ -52,6 +52,7 @@ docs/                   # documentation
 | Doc | Contents |
 |---|---|
 | [docs/secure-boot.md](docs/secure-boot.md) | Secure Boot with lanzaboote and sbctl, fwupd under Secure Boot |
+| [docs/power.md](docs/power.md) | laptop sleep policy: lid, dock, low battery, hibernate |
 | [docs/netbird.md](docs/netbird.md) | NetBird client: login, home LAN and DNS, AI gateway key |
 | [docs/configs-migration.md](docs/configs-migration.md) | migrating a machine to the `configs/` layout |
 | [docs/todo.md](docs/todo.md) | open tasks |
