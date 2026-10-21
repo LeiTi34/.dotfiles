@@ -26,8 +26,6 @@
         feh
         rustdesk
         postman
-        gh
-        glab
         azure-cli
         azd
         colmena

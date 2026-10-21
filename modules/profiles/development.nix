@@ -15,6 +15,9 @@
       herdr
       opencode
       browser-control
+
+      gh
+      glab
     ];
   };
 }
