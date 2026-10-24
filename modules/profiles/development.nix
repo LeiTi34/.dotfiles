@@ -10,6 +10,7 @@
       opentofu
       netbird
       jq
+      forgejo-cli
 
       herdr
       opencode
