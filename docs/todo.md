@@ -177,6 +177,18 @@ needs them.
 for the manual LUKS enrollment (TPM2 + PIN), but that step isn't documented
 there yet.
 
+## azure-cli from nixos-26.05
+
+On nixpkgs-unstable, `python3Packages.fabric` is marked broken with invoke
+>= 3, so azure-cli doesn't evaluate
+([nixpkgs#575989](https://github.com/NixOS/nixpkgs/issues/575989)). The
+`azure-cli` feature takes the package from the system nixpkgs (nixos-26.05)
+until a fix such as
+[nixpkgs#576874](https://github.com/NixOS/nixpkgs/pull/576874) reaches
+nixos-unstable; check with
+`nix eval --raw github:NixOS/nixpkgs/nixos-unstable#azure-cli.drvPath`, then
+switch the feature back to `pkgs.azure-cli`.
+
 ## lanzaboote fwupd integration
 
 lanzaboote's `fwupd-efi` unit sets `FWUPD_EFIAPPDIR`, which fwupd 2.x
