@@ -119,6 +119,21 @@
 
         - The system runs NixOS. Programs that aren't installed can be run
           without installing them: `nix run nixpkgs#<program> -- <args>`.
+
+        # Subagents and parallel work
+
+        - As the primary agent (Plan and Build), use as many subagents as the
+          task needs: separate areas to explore, independent research
+          questions and independent changes each get their own subagent.
+        - Parallelize wherever it makes sense: launch independent subagents
+          and tool calls together, in one batch or as background subagents,
+          instead of one after another. Only serialize steps that need an
+          earlier result.
+        - A subagent starts with a fresh context: give it everything it needs
+          (goal, paths, constraints, the expected answer) in its prompt.
+        - In Plan mode, subagents only explore and research; they don't modify
+          files.
+        - Skip subagents for small tasks a single tool call answers.
       '';
     };
 
