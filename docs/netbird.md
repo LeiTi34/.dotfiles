@@ -46,10 +46,8 @@ log in again with `netbird up`, delete the old peer in the dashboard, then
 
 ## AI gateway
 
-`ai.leidwein.com` is a LAN-only router at home (9router's API), reached
-through NetBird. Clients send a 9router API key, one per client, created in
-the 9router dashboard (`https://9router.leidwein.com`). OpenCode's provider
-`9router` reads it from `~/.config/opencode/9router-key`, which isn't tracked;
-Home Manager creates it empty if it's missing, because OpenCode refuses to
-load its config when a `{file:...}` reference doesn't exist. On the Arch
-machine, create the file by hand.
+`ai.leidwein.com` is 9router's API through NetBird's Agent Network (gitops
+`docs/ingress.md`). It's only reachable with NetBird connected and needs no
+key: OpenCode's `9router` provider sends a placeholder, which NetBird
+replaces. 9router sets the Claude prompt-cache markers itself, so the `cc/`
+models need no `cacheFormat`.
