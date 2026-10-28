@@ -122,18 +122,27 @@
 
         # Subagents and parallel work
 
-        - As the primary agent (Plan and Build), use as many subagents as the
-          task needs: separate areas to explore, independent research
-          questions and independent changes each get their own subagent.
-        - Parallelize wherever it makes sense: launch independent subagents
-          and tool calls together, in one batch or as background subagents,
-          instead of one after another. Only serialize steps that need an
-          earlier result.
-        - A subagent starts with a fresh context: give it everything it needs
-          (goal, paths, constraints, the expected answer) in its prompt.
-        - In Plan mode, subagents only explore and research; they don't modify
-          files.
-        - Skip subagents for small tasks a single tool call answers.
+        Delegate by default. Keep the main session's context for decisions, edits
+        and talking to the user; reading, searching and researching go to subagents.
+
+        - Investigation that takes more than two or three reads, greps or shell
+          lookups goes to an `explore` subagent: where something is defined, how a
+          code path works, what an API, config, log or diff contains. Ask it for
+          the answer (files, lines, a short summary), not raw output.
+        - Research and multi-step work that isn't plain reading goes to `general`:
+          reading upstream source or docs, comparing versions, trying commands in
+          /tmp/opencode, drafting an isolated change.
+        - Split the task before starting. Independent parts (several issues,
+          repos, components, questions) each get their own subagent, launched in
+          one message so they run in parallel. Use `background` for results you
+          don't need right away, and keep working in the meantime.
+        - In Plan mode, explore with subagents first and plan from their results.
+          There, subagents only read and research; they don't modify files.
+        - A subagent sees nothing of this session: give it the goal, absolute
+          paths, what is already known, constraints and the shape of the answer.
+        - Batch independent tool calls into one message instead of one per turn.
+        - Work directly only when the answer is one or two tool calls away or the
+          step depends on the previous result.
       '';
     };
 
