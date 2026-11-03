@@ -51,6 +51,7 @@ docs/                   # documentation
 
 | Doc | Contents |
 |---|---|
+| [docs/desktop.md](docs/desktop.md) | Hyprland and mango, starting them from the TTY, DMS |
 | [docs/secure-boot.md](docs/secure-boot.md) | Secure Boot with lanzaboote and sbctl, fwupd under Secure Boot |
 | [docs/power.md](docs/power.md) | laptop sleep policy: lid, dock, low battery, hibernate |
 | [docs/netbird.md](docs/netbird.md) | NetBird client: login, home LAN and DNS, AI gateway key |

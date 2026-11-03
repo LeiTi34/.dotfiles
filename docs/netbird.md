@@ -10,7 +10,7 @@ client resolves `netbird.leidwein.com` itself through the network's own DNS,
 so on a NetBird device that name only serves the API and login, not the UI.
 
 - The module's default client: unit `netbird`, CLI `netbird`, tray app
-  "NetBird @ netbird" (`netbird-ui`, started by `hyprland.lua`), interface
+  "NetBird @ netbird" (`netbird-ui`, started by the compositor config), interface
   `wt0`, WireGuard on UDP 51820 (opened in the firewall for direct
   connections).
 - Package and NixOS module come from nixpkgs-unstable, so the client stays on
