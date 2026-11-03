@@ -219,6 +219,7 @@ hl.layer_rule({
     ignore_alpha = 0.5,   -- don't blur the fully-transparent rounded corners (avoids a square halo)
 })
 
+-- Keybindings and autostart are mirrored in configs/mango/.config/mango/config.conf.
 local mainMod = "SUPER"
 
 hl.bind(mainMod .. " + " .. "SHIFT" .. " + " .. "c", hl.dsp.window.close())
