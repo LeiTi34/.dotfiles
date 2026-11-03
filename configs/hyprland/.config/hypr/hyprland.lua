@@ -1,6 +1,6 @@
 ---@module 'hl'
 
--- managed by hyprmoncfg (Arch) / modules/features/hyprland.nix (NixOS)
+-- managed by hyprmoncfg (Arch) / modules/hosts/<host>/hyprland.nix (NixOS)
 pcall(require, "monitors")
 
 -- hl.monitor({
