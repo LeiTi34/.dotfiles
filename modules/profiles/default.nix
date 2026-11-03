@@ -18,6 +18,8 @@
       fwupd
 
       hyprland
+      mango
+      dms
       gtk
       wallpaper
       alacritty

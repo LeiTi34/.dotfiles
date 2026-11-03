@@ -26,8 +26,6 @@
   };
 
   flake.modules.nixos.hyprland = { lib, pkgs, ... }: {
-    imports = [ config.flake.modules.nixos.dms ];
-
     programs = {
       hyprland.enable = true;
       hyprlock.enable = true;

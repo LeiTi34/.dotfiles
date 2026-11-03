@@ -18,7 +18,7 @@
     programs.dank-material-shell = {
       enable = true;
 
-      # hyprland.lua already runs `dms run` on hyprland.start.
+      # hyprland.lua and mango's config.conf run `dms run` on start.
       systemd.enable = false;
     };
 
