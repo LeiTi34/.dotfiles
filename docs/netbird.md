@@ -38,6 +38,13 @@ a network change without a restart every lookup can fail.
 Check with `resolvectl status` (per link: DNS servers and domains) and
 `resolvectl query <name>` (which link answered).
 
+A VPN's DNS only gets the domains the VPN pushes. Other internal domains
+behind it go on the NetworkManager connection as routing domains (`~`),
+machine-local, not in the repo:
+`sudo nmcli connection modify <vpn> ipv4.dns-search '<pushed-domain>,~<other-domain>'`
+(applies on the next connect; `sudo resolvectl domain <tun> ...` sets it
+right away).
+
 ## Login
 
 Once per host:
