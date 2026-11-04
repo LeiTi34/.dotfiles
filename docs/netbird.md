@@ -15,15 +15,28 @@ so on a NetBird device that name only serves the API and login, not the UI.
   connections).
 - Package and NixOS module come from nixpkgs-unstable, so the client stays on
   the server's NetBird release.
-- Runs as root, not hardened: the hardened client only sets DNS through
-  systemd-resolved, and these hosts use resolvconf.
+- Runs as root, not hardened.
 - Network monitor on (`config.NetworkMonitor`, off by default on Linux): the
-  client becomes the system resolver and forwards names outside
-  `leidwein.com` to the DNS servers of the network it started on. Without the
-  monitor it keeps those after a network change (e.g. home's `192.168.0.11`,
-  only reachable through the tunnel, at work), every lookup fails, and it
-  can't reach its own management either. With it, the client restarts its
-  engine on network changes.
+  client restarts its engine when the default route changes (another
+  network).
+
+## DNS
+
+The feature enables systemd-resolved; NetworkManager then hands its DNS to
+resolved too, per link. NetBird's resolver listens on its `wt0` address and
+sets on `wt0` only the match domain `~leidwein.com` with `DefaultRoute=no`.
+Everything else goes to the DNS of the other links: the network's DNS, and a
+VPN's DNS for its own domains (e.g. the work OpenVPN on `tun0`), also when
+the VPN connects after NetBird.
+
+Without resolved (resolvconf), NetBird registers itself as the only
+nameserver in `/etc/resolv.conf` and forwards all other names to the servers
+it read from that file at its start. It never re-reads them, so a VPN that
+connects later doesn't get its DNS (internal names give NXDOMAIN), and after
+a network change without a restart every lookup can fail.
+
+Check with `resolvectl status` (per link: DNS servers and domains) and
+`resolvectl query <name>` (which link answered).
 
 ## Login
 

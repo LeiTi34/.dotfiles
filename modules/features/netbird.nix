@@ -13,9 +13,13 @@
       disabledModules = [ "services/networking/netbird.nix" ];
       imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/networking/netbird.nix" ];
 
-      # The default client: unit and CLI `netbird`, interface wt0, UDP 51820,
-      # not hardened (the hardened client only sets DNS through
-      # systemd-resolved; these hosts use resolvconf).
+      # With resolvconf the client takes over all DNS and keeps the
+      # upstreams it saw at its start, so a VPN's DNS that comes up later is
+      # ignored. With resolved it only answers its match domains on wt0:
+      # docs/netbird.md (DNS).
+      services.resolved.enable = true;
+
+      # The default client: unit and CLI `netbird`, interface wt0, UDP 51820.
       services.netbird = {
         enable = true;
         package = unstable.netbird;
@@ -26,9 +30,8 @@
 
         clients.default = {
           environment.NB_MANAGEMENT_URL = "https://netbird.leidwein.com";
-          # Off by default on Linux: the client then keeps the DNS servers of
-          # the network it started on, so after a network change every lookup
-          # (its own management name included) can fail: docs/netbird.md.
+          # Off by default on Linux: restarts the engine when the default
+          # route changes (another network), docs/netbird.md.
           config.NetworkMonitor = true;
         };
       };
