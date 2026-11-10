@@ -3,7 +3,7 @@
   # Joins the home NetBird (home LAN, its DNS) with the login from
   # `netbird up`: docs/netbird.md.
   flake.modules.nixos.netbird =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     let
       unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
     in
@@ -25,8 +25,8 @@
         package = unstable.netbird;
         ui.package = unstable.netbird-ui;
         ui.enable = true;
-        # The home LAN is a network route.
-        useRoutingFeatures = "client";
+        # The home LAN is a network route; routing peers set "both".
+        useRoutingFeatures = lib.mkDefault "client";
 
         clients.default = {
           environment.NB_MANAGEMENT_URL = "https://netbird.leidwein.com";

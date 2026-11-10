@@ -39,6 +39,9 @@
         ];
       };
 
+      # Routing peer for the work network: docs/netbird.md.
+      services.netbird.useRoutingFeatures = "both";
+
       networking.firewall.allowedTCPPorts = [
         3000
         3001

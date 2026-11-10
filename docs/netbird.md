@@ -64,6 +64,25 @@ keeps its old login and peer in `/var/lib/netbird-home`: after the rebuild,
 log in again with `netbird up`, delete the old peer in the dashboard, then
 `sudo rm -r /var/lib/netbird-home /etc/netbird-home`.
 
+## Routing peer for the work network
+
+PCNX-LeiAle1 sits in the office LAN and is the routing peer of the NetBird
+network `work` (split tunnel, not an exit node): alex's devices reach the work
+networks and the work DNS through it. Routes, policy and nameserver group are
+in the gitops repo (`stacks/server/netbird/netbird.toml`). On PCNX
+`useRoutingFeatures = "both"` turns on IP forwarding and the loose reverse
+path filter; the other hosts stay `"client"`.
+
+The `work` network leaves out the work subnets that overlap Docker's default
+address pools on PCNX (`172.17.0.0/16` and up): PCNX would route them into its
+own Docker bridges. Before adding such a subnet, move Docker on PCNX to
+another range (`bip`, `default-address-pools`) and the `host.docker.internal`
+address in the `docker` feature with it.
+
+Check from a device outside the office: `netbird status -d` lists the routes
+of `work` via PCNX-LeiAle1. Don't run the work OpenVPN at the same time, it
+installs the same routes.
+
 ## AI gateway
 
 `ai.leidwein.com` is 9router's API through NetBird's Agent Network (gitops
