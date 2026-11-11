@@ -1,8 +1,11 @@
 { config, inputs, lib, ... }:
 {
   flake-file.inputs.opencode = {
-    # No nixpkgs follows: the node_modules hash depends on the bun version.
     url = lib.mkDefault "github:anomalyco/opencode/v2.2.7";
+    # The input's own nixpkgs has bun 1.4.2; v2.2.7 needs ^1.4.4, otherwise the
+    # compiled CLI fails at start ("Export named 'extension' not found in
+    # module 'ws'").
+    inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   flake.homeModules.opencode =
@@ -11,11 +14,11 @@
       upstream = inputs.opencode.packages.${pkgs.stdenv.hostPlatform.system};
 
       # Upstream's nix/hashes.json lags behind its releases (v2.2.7 still has the
-      # hash from 2026-10-31). The hash depends on the bun version, hence on the
-      # input's own nixpkgs.
+      # hash from 2026-10-31). The hash also depends on the bun version, so it
+      # changes with nixpkgs-unstable.
       opencode = upstream.opencode.override {
         node_modules = upstream.opencode.node_modules.override {
-          hash = "sha256-1mAAHaGwJ1sqxRe0YUsPEXJpXzEsZVX0VOmxRbY75n4=";
+          hash = "sha256-N/VSSutmwwP1S7P0miONCyIXGKBpv9lrIIW9u+4dqnk=";
         };
       };
 
