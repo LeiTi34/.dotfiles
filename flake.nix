@@ -34,7 +34,7 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/f9a75f41be3a74eab55d3a7679d34ad6cc0da977";
-    opencode.url = "github:anomalyco/opencode/v2.0.15";
+    opencode.url = "github:anomalyco/opencode/v2.2.7";
     smartbulb = {
       url = "git+ssh://git@git.agrarforschung.at/andreas.mattes/smart-bulb.git";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
