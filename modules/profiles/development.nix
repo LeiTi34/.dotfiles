@@ -14,7 +14,7 @@
 
       herdr
       opencode
-      browser-control
+      browse
 
       gh
       glab

@@ -67,9 +67,9 @@
                 "type": "remote",
                 "url": "https://mcp.context7.com/mcp"
             },
-            "browser-control": {
+            "browse": {
                 "type": "local",
-                "command": ["browser-control-mcp"]
+                "command": ["browse", "mcp"]
             }
         }
     }
