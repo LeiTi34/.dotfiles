@@ -187,6 +187,17 @@ nixos-unstable; check with
 `nix eval --raw github:NixOS/nixpkgs/nixos-unstable#azure-cli.drvPath`, then
 switch the feature back to `pkgs.azure-cli`.
 
+## nixpkgs-unstable pin
+
+`nixpkgs-unstable` is pinned in `modules/flake-file.nix` to nixos-unstable of
+2026-11-03. The next channel commits break two packages: `neovide` 0.17.1
+(wrong source hash, fixed in 2cc8df2) and `fnm` (the Rust builds link zstd
+through pkg-config; fix
+[nixpkgs#585850](https://github.com/NixOS/nixpkgs/pull/585850),
+[tracker](https://nixpk.gs/pr-tracker.html?pr=585850)). Once #585850 is in
+nixos-unstable, set the URL back to `github:NixOS/nixpkgs/nixos-unstable`,
+run `nix run '.#write-flake'` and `nix flake update nixpkgs-unstable`.
+
 ## lanzaboote fwupd integration
 
 lanzaboote's `fwupd-efi` unit sets `FWUPD_EFIAPPDIR`, which fwupd 2.x
