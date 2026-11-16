@@ -55,7 +55,7 @@
             local -a args=()
             local port
             for port in "$@"; do
-              args+=("-L" "''${port}:localhost:''${port}")
+              args+=("-N" "-L" "''${port}:localhost:''${port}")
             done
 
             ssh "$host" "''${args[@]}"
