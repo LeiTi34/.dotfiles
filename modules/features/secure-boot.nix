@@ -1,7 +1,7 @@
 { inputs, lib, ... }:
 {
   flake-file.inputs.lanzaboote = {
-    url = lib.mkDefault "github:nix-community/lanzaboote/v1.1.0";
+    url = lib.mkDefault "github:nix-community/lanzaboote/v1.2.0";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 

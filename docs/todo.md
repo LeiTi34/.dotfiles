@@ -187,16 +187,6 @@ nixos-unstable; check with
 `nix eval --raw github:NixOS/nixpkgs/nixos-unstable#azure-cli.drvPath`, then
 switch the feature back to `pkgs.azure-cli`.
 
-## nixpkgs-unstable pin
-
-`nixpkgs-unstable` is pinned in `modules/flake-file.nix` to the last
-nixos-unstable (2026-11-05) before the Rust builds link zstd through
-pkg-config, which breaks `fnm`. The fix
-([nixpkgs#585850](https://github.com/NixOS/nixpkgs/pull/585850)) is on its way
-to nixos-unstable ([tracker](https://nixpk.gs/pr-tracker.html?pr=585850)).
-Once it's there, set the URL back to `github:NixOS/nixpkgs/nixos-unstable`,
-run `nix run '.#write-flake'` and `nix flake update nixpkgs-unstable`.
-
 ## lanzaboote fwupd integration
 
 lanzaboote's `fwupd-efi` unit sets `FWUPD_EFIAPPDIR`, which fwupd 2.x

@@ -29,11 +29,11 @@
     };
     import-tree.url = "github:denful/import-tree";
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v1.1.0";
+      url = "github:nix-community/lanzaboote/v1.2.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/f9a75f41be3a74eab55d3a7679d34ad6cc0da977";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     opencode = {
       url = "github:anomalyco/opencode/v2.3.0";
       inputs.nixpkgs.follows = "nixpkgs-unstable";

@@ -9,9 +9,7 @@
 
     inputs = {
       nixpkgs.url = lib.mkForce "github:NixOS/nixpkgs/nixos-26.05";
-      # Pinned until fnm builds on nixos-unstable: docs/todo.md
-      # (nixpkgs-unstable pin).
-      nixpkgs-unstable.url = "github:NixOS/nixpkgs/f9a75f41be3a74eab55d3a7679d34ad6cc0da977";
+      nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
       flake-parts.inputs.nixpkgs-lib.follows = lib.mkForce "nixpkgs-unstable";
 
