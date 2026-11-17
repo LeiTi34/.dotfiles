@@ -11,8 +11,8 @@
       boot = {
         loader.efi.canTouchEfiVariables = true;
         # Secure Boot via lanzaboote (feature secure-boot) replaces systemd-boot.
-        # Each generation with a new kernel takes ~55 MB of the 1 GiB ESP.
-        lanzaboote.configurationLimit = 8;
+        # Measured Boot (feature measured-boot) allows at most 4 generations.
+        lanzaboote.configurationLimit = 4;
 
         initrd.systemd.enable = true;
 
