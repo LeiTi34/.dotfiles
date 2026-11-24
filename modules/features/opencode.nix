@@ -1,7 +1,7 @@
 { config, inputs, lib, ... }:
 {
   flake-file.inputs.opencode = {
-    url = lib.mkDefault "github:anomalyco/opencode/v2.3.0";
+    url = lib.mkDefault "github:anomalyco/opencode/v2.4.1";
     # The input's own nixpkgs has bun 1.4.2; opencode needs ^1.4.4, otherwise the
     # compiled CLI fails at start ("Export named 'extension' not found in
     # module 'ws'").
@@ -17,7 +17,7 @@
       # depends on the bun version, so it changes with nixpkgs-unstable.
       opencode = upstream.opencode.override {
         node_modules = upstream.opencode.node_modules.override {
-          hash = "sha256-PYcpyYP/i0e6ZIt27u1tFYbjU4Cl848w77dU1NiIEls=";
+          hash = "sha256-sdMjb/l8SIthDbBJO3VzpyoOL9auoFGjVb6HdlxkQGg=";
         };
       };
 

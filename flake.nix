@@ -35,7 +35,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     opencode = {
-      url = "github:anomalyco/opencode/v2.3.0";
+      url = "github:anomalyco/opencode/v2.4.1";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     smartbulb = {
