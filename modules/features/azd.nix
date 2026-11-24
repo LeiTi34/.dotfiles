@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  version = "1.35.0";
+  version = "1.39.1";
 in
 {
   # azd (Azure Developer CLI) is not in nixpkgs; this wraps the release binary.
@@ -13,7 +13,7 @@ in
 
         src = pkgs.fetchurl {
           url = "https://github.com/Azure/azure-dev/releases/download/azure-dev-cli_${version}/azd-linux-amd64.tar.gz";
-          hash = "sha256-lnxY3qaT1CJW+++u5IrC+BLxNFKJmPf6n09ULL9/7aE=";
+          hash = "sha256-OThBVK+v8SyGFWdTENPLR32PIpM/CGwIMdpsH+J3ms8=";
         };
         sourceRoot = ".";
 
