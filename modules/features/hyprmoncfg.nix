@@ -1,9 +1,9 @@
 { config, lib, ... }:
 let
-  version = "1.22.1";
+  version = "1.30.0";
 in
 {
-  # nixpkgs only carries 1.9.1. Adapted from upstream's packaging/nix/default.nix.in.
+  # nixpkgs lags behind upstream's releases. Adapted from upstream's packaging/nix/default.nix.in.
   # Not wrapped with hyprland: hyprctl must come from the system Hyprland so its
   # IPC version matches the running compositor.
   flake.homeModules.hyprmoncfg =
@@ -17,10 +17,10 @@ in
           owner = "crmne";
           repo = "hyprmoncfg";
           tag = "v${version}";
-          hash = "sha256-G7H/xPfmAcrvyHID95UM9hTBAw5UHSFh3NEJjpsb+sQ=";
+          hash = "sha256-xAUwx9lTvNXoeYztCV+eI4YYwUHyeWcSCW5iZ5bJ8A8=";
         };
 
-        vendorHash = "sha256-gQbjvdKtO0hCXrs9RnWo1s0YeHf5W9t+8AgS2ELXlPo=";
+        vendorHash = "sha256-+dwqyH7JDrXoKu3j3gdFPWa834gFv66gFSf57qxCzkI=";
 
         subPackages = [
           "cmd/hyprmoncfg"
